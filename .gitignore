@@ -24,3 +24,26 @@ htmlcov/
 build/
 dist/
 .tmp/
+
+# Credentials, private keys, and local auth files
+.envrc
+.envrc.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+credentials.*
+secrets.*
+*credentials*
+*secret*
+*.kubeconfig
+.netrc
+.npmrc
+.pypirc
+.docker/config.json
+.git-credentials
