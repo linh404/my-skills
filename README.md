@@ -2,23 +2,23 @@
 
 A personal collection of reusable skills for Codex and related coding workflows.
 
-## Repository layout
+## Current repository layout
 
 ```text
 my-skills/
 ├── skills/
-│   ├── odoo/
-│   │   ├── task/
-│   │   └── technical/
-│   ├── productivity/
-│   ├── code-quality/
-│   ├── integrations/
-│   └── codex/
+│   └── integrations/
+│       ├── configure-weblate-gitlab-v2/
+│       └── odoo-wlc/
 ├── scripts/
 ├── tests/
 ├── docs/
 └── .github/workflows/
 ```
+
+Only reviewed, imported skills are kept in the repository. New skills should be
+added under the category that best matches their scope; empty placeholder
+categories are intentionally not committed.
 
 ## Adding a skill
 
@@ -28,7 +28,3 @@ my-skills/
 4. Run `scripts/validate-skills.sh` before committing.
 
 This repository is intentionally organized as a monorepo so related skills can be versioned and maintained together.
-
-## Status
-
-The repository structure is ready. Skills will be added selectively as they are reviewed and approved.
