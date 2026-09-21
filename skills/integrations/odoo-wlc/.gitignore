@@ -1,0 +1,45 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+
+# Local translation/work files (project-specific, not part of the skill)
+.translation_current/
+.translation_candidates/
+/tmp/
+work/
+
+# Local credentials and environment configuration
+.weblate
+.gitlab
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs and command output
+*.log
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,14 @@
+interface:
+  display_name: Configure Weblate GitLab v2
+  short_description: Operate the Odoo Weblate translation workflow
+  default_prompt: Use $configure-weblate-gitlab-v2 to configure and troubleshoot my
+    Odoo self-hosted Weblate, GitLab, and CI translation workflow.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
