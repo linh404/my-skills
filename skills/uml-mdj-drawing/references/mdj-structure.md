@@ -34,6 +34,28 @@ Common semantic elements under `UMLModel.ownedElements`:
 
 All objects need unique `_id` values. Parentage is represented by `_parent: {$ref: parentId}`. Cross-object links use `{$ref: targetId}`.
 
+For a class/table diagram, `UMLClass` objects are owned by the model, but their attributes use StarUML's native inline shape:
+
+```json
+{
+  "_type": "UMLClass",
+  "_id": "table-model-id",
+  "_parent": {"$ref": "model-id"},
+  "name": "nhanvien",
+  "attributes": [
+    {
+      "_type": "UMLAttribute",
+      "_id": "attribute-model-id",
+      "_parent": {"$ref": "table-model-id"},
+      "name": "MaNhanVien",
+      "type": "VARCHAR"
+    }
+  ]
+}
+```
+
+Do not serialize `UMLClass.attributes` as an array of `$ref` objects or keep the attributes only in `UMLClass.ownedElements`. Attribute views may reference the inline attribute IDs, but StarUML uses the inline `attributes` collection to render the fields.
+
 ## 2. Node views
 
 A diagram stores view objects in `UMLUseCaseDiagram.ownedViews`:
@@ -68,6 +90,35 @@ In real StarUML files, `subViews` normally contains:
 - for use cases, hidden `UMLExtensionPointCompartmentView`.
 
 Actors use `UMLActorView`; boundaries use `UMLUseCaseSubjectView`. A subject view has `containedViews` referencing the child node views. A child node view should also set `containerView` to the subject view.
+
+For a visible class field compartment, preserve the standard absolute geometry:
+
+```json
+{
+  "_type": "UMLAttributeCompartmentView",
+  "model": {"$ref": "table-model-id"},
+  "left": 100,
+  "top": 125,
+  "width": 300,
+  "height": 70,
+  "parentStyle": true,
+  "subViews": [
+    {
+      "_type": "UMLAttributeView",
+      "model": {"$ref": "attribute-model-id"},
+      "left": 105,
+      "top": 130,
+      "width": 290,
+      "height": 13,
+      "parentStyle": true,
+      "horizontalAlignment": 0,
+      "text": "MaNhanVien: VARCHAR"
+    }
+  ]
+}
+```
+
+The compartment and every attribute subview must lie inside the class view. Missing geometry can produce a valid-looking `.mdj` whose table names render but whose fields are blank.
 
 Coordinates are absolute. The label's `text` is in its `LabelView` (usually the bold name label), while the semantic object's `name` remains the source of truth.
 
@@ -146,4 +197,6 @@ Use a small parser/validator before opening StarUML:
 - every view's `model` points to the expected semantic type;
 - every `containerView` has a matching subject `containedViews` entry;
 - every association view's `head` and `tail` point to views in the same diagram;
+- every `UMLClass.attributes` item is an inline `UMLAttribute` object, every class attribute has a matching `UMLAttributeView`, and field compartment geometry is inside the class bounds;
+- each intended semantic association has its own association view; connector views are not merged by visual routing shortcuts;
 - all JSON strings are UTF-8 and the file parses cleanly.
