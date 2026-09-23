@@ -8,7 +8,8 @@ A personal collection of reusable skills for Codex and related coding workflows.
 my-skills/
 ├── skills/
 │   ├── configure-weblate-gitlab-v2/
-│   └── odoo-wlc/
+│   ├── odoo-wlc/
+│   └── uml-mdj-drawing/
 ├── scripts/
 ├── tests/
 ├── docs/
