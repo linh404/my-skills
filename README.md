@@ -7,9 +7,8 @@ A personal collection of reusable skills for Codex and related coding workflows.
 ```text
 my-skills/
 ├── skills/
-│   └── integrations/
-│       ├── configure-weblate-gitlab-v2/
-│       └── odoo-wlc/
+│   ├── configure-weblate-gitlab-v2/
+│   └── odoo-wlc/
 ├── scripts/
 ├── tests/
 ├── docs/
@@ -17,12 +16,12 @@ my-skills/
 ```
 
 Only reviewed, imported skills are kept in the repository. New skills should be
-added under the category that best matches their scope; empty placeholder
-categories are intentionally not committed.
+added as directories directly under `skills/`; each skill directory must contain
+a `SKILL.md` entrypoint.
 
 ## Adding a skill
 
-1. Create a directory under the appropriate category in `skills/`.
+1. Create a directory directly under `skills/`.
 2. Add a `SKILL.md` file as the skill entrypoint.
 3. Keep supporting references, scripts, assets, and tests next to the skill entrypoint.
 4. Run `scripts/validate-skills.sh` before committing.
