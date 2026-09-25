@@ -115,7 +115,7 @@ on — re-run `dump` and rebuild `filled.json` for those keys.
 `check` exit 1 → fix reported entries (placeholder and msgid mismatches are blockers), rerun.
 Never upload with failing check.
 
-### 5. Review gate 1 — local pre-upload (agent-operated)
+### 5. Local pre-upload validation (agent-operated)
 
 For every selected component, the agent must inspect the translated file and
 `needs_review.json`, then report a table:
@@ -127,13 +127,13 @@ The agent must verify:
 - local untranslated counts match the API report;
 - only intended component/language files are in `$WORK`.
 
-The agent performs this gate without waiting for user confirmation. Ambiguous,
+The agent performs this validation without waiting for user confirmation. Ambiguous,
 business-critical, glossary-miss, and deferred entries are reported, but are not
 silently ignored. A failed check, count mismatch, or unknown key stops the flow.
 
-### 6. Review gate 2 — post-upload verification (agent-operated)
+### 6. Post-upload verification (agent-operated)
 
-After gate 1 passes, upload each selected component:
+After local validation passes, upload each selected component:
 
 ```bash
 "$WLC" upload <project>/<component>/<lang> --input "$WORK/<lang>.po"
@@ -147,46 +147,20 @@ expected counts and component/language scope, and report the upload response,
 post-upload stats, and any content difference. Formatting-only normalization by
 Weblate may be noted; content, msgid, or placeholder differences are blockers.
 
-The agent performs this gate and reports the result. Do not run `commit` yet.
+The agent performs this verification and reports the result.
 If post-upload verification fails, stop and fix/re-upload before continuing.
 
-### 7. Review gate 3 — pre-commit/push (read-only agent check)
+### 7. Commit + push via Weblate UI (user-operated)
 
-Before any commit or push, the agent must run and report:
+The agent must not execute `wlc commit` or `wlc push`. After post-upload
+verification succeeds, the user performs Commit and Push using the Weblate web
+interface. The agent may continue only with read-only verification after the
+user reports that the UI operation is complete.
 
-```bash
-"$WLC" changes <project>
-"$WLC" repo <project>
-python3 $SKILL_DIR/scripts/weblate_api.py push-branch <project> <component>
-```
+### 8. Deliver MR URL
 
-For multiple components, run `push-branch` for each component. Confirm that:
-- only intended components/files are pending;
-- no unrelated project-wide changes will be included;
-- repository, source branch, and target branch are correct;
-- the expected MR scope is clear.
-
-This gate is read-only. Do **not** run `commit`, `push`, `pull`, or `unlock` here.
-Report `READY` or `BLOCKED` with the reason, then wait for explicit user
-confirmation before performing any commit or push.
-
-### 8. Commit + push (only after explicit gate-3 confirmation)
-
-After explicit user confirmation following gate 3:
-
-```bash
-"$WLC" commit <project>/<component>
-"$WLC" push <project>
-```
-
-Commit every selected component, then push once at project scope as documented.
-Capture the complete push output for MR discovery and reporting.
-
-### 9. Deliver MR URL
-
-1. Scan push output for a URL on a line mentioning `merge request` (case-insensitive) —
-   Weblate's GitLab MR backend prints the MR it created/updated. That URL is the deliverable.
-2. No URL found (e.g. MR already open, output terse) →
+1. Use the MR URL shown by the Weblate/GitLab interface if available.
+2. If the UI does not show a URL, or the MR is already open →
    `python3 $SKILL_DIR/scripts/weblate_api.py find-mr <project> <first-component>`.
    This queries the GitLab API directly for the real open MR (source = component's
    `push_branch`, target = component's `branch` — always the Weblate branch merging to
@@ -199,9 +173,10 @@ Capture the complete push output for MR discovery and reporting.
 
 - `wlc upload` fails "locked" → `"$WLC" unlock <project>/<component>` (unlock is a
   component-level operation — do not pass the `/lang` suffix), retry once.
-- `wlc push` fails (non-fast-forward / upstream moved) → `"$WLC" pull <project>`, then re-run
-  step 2 (re-download, re-apply via `apply` against fresh orig — msgstrs from filled.json are reused),
-  re-check, re-upload only if diffs changed, then `commit` + `push` again.
+- Commit or Push fails in the Weblate UI (for example, non-fast-forward or an upstream change) →
+  inspect the Weblate UI error, resolve the reported issue there, and retry the UI operation.
+  Do not fall back to terminal `wlc commit` or `wlc push`; if the source changed, re-run step 2
+  and the local/post-upload validation before asking the user to retry in the UI.
 - Any Weblate API `Object not found` → wrong slug; list with
   `python3 $SKILL_DIR/scripts/weblate_api.py components <project>`.
 - Weblate API HTTP 403 → the request lost its `User-Agent` header (server WAF rejects
@@ -209,14 +184,15 @@ Capture the complete push output for MR discovery and reporting.
 - `find-mr` errors "no ~/.gitlab" or "no GitLab token for `<host>`" → add/edit `~/.gitlab`
   with a `[gitlab]` section, `<host-url> = <token>` (Personal Access Token, `api` scope, for
   that GitLab host). "no open MR `<src>` -> `<target>`" → the MR may already be merged/closed,
-  or `wlc push` hasn't actually run yet — check Weblate directly for that component.
+  or the Weblate UI Push has not actually completed yet — check Weblate directly for that component.
 
 ## Rules (from reference/translation-flow.md)
 
-- Never edit `.po`/`.pot` in the source repo. Changes go: upload → Weblate commit → push → MR.
+- Never edit `.po`/`.pot` in the source repo. Changes go: upload → Weblate UI Commit → Weblate UI Push → MR.
 - msgid text is never modified by us; `check` enforces it.
 - Fuzzy entries are out of scope; obsolete (`#~`) entries are copied through untouched.
-- Review gates 1 and 2 are agent-operated: execute, validate, and report results.
-- Review gate 3 is read-only: check and report scope/branches, then stop before
-  `commit`/`push` until the user explicitly confirms.
+- Local validation and post-upload verification are agent-operated: execute, validate,
+  and report results.
+- Never run terminal `wlc commit` or `wlc push`; the user performs both operations
+  in the Weblate UI.
 - Cleanup: leave `/tmp/odoo-wlc/` (user may want diffs); mention path in final answer.

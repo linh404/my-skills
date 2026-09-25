@@ -16,7 +16,7 @@ flowchart LR
     B -->|pull| C[Weblate project]
     C -->|wlc download| D[Local machine]
     D -->|translate + wlc upload| C
-    C -->|wlc commit + push| E[GitLab branch]
+    C -->|Weblate UI: Commit + Push| E[GitLab branch]
     E -->|MR| A
 ```
 
@@ -78,12 +78,11 @@ Open the downloaded `.po` file locally and translate:
 wlc upload <project>/<component>/vi --input /tmp/weblate/vi.po
 ```
 
-### 5. Commit and push from Weblate to GitLab
+### 5. Commit and push from the Weblate web interface
 
-```bash
-wlc commit <project>/<component>
-wlc push <project>/<component>
-```
+Do **not** run `wlc commit` or `wlc push` from the terminal. After local
+validation and post-upload verification pass, use the Weblate web interface to
+Commit the selected component changes and Push them to GitLab.
 
 ### 6. Create the GitLab MR
 
@@ -101,9 +100,9 @@ Weblate pushes the committed `.po` changes to its GitLab branch. Open a merge re
   API, don't assume values from a prior project.
 - `wlc show` does NOT print `push_branch` (verified on wlc 2.1.1). Use `scripts/weblate_api.py
   push-branch` instead.
-- With a GitLab-backed component (`vcs: gitlab`, i.e. the GitLab merge request backend), `wlc push`
-  makes the Weblate server open the MR itself; its output contains the MR URL.
-- If that output is missing/terse, don't guess a URL — query the GitLab API for the real open
+- With a GitLab-backed component (`vcs: gitlab`, i.e. the GitLab merge request backend), the
+  Weblate UI Push operation sends the changes to GitLab and may open or update the MR.
+- If the UI does not show the MR URL, don't guess a URL — query the GitLab API for the real open
   MR (`scripts/weblate_api.py find-mr`, source = `push_branch`, target = `branch`). This needs
   `~/.gitlab` (`[gitlab]` section, `<host-url> = <token>`), matched by the host in the
   component's `repo` — never assume a single fixed GitLab host either.
