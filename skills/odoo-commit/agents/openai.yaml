@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Commit"
+  short_description: "Create focused Odoo commits and branches"
+  default_prompt: "Use $odoo-commit for SCA branch, commit, rebase, and push workflows; target upstream/dev and push branches to origin."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Code"
+  short_description: "Implement scoped Odoo changes from source"
+  default_prompt: "Use $odoo-code to inspect source first and implement, test, or review a focused Odoo change in /home/linh/vdx/sca."
