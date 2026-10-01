@@ -1,0 +1,21 @@
+meta {
+  name: get_org_chart
+  type: http
+  seq: 34
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_org_chart
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}

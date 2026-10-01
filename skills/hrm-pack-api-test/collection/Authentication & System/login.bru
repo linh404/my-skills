@@ -1,0 +1,30 @@
+meta {
+  name: login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/json/2/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "{{user}}",
+    "password": "{{password}}",
+    "db": "{{db_name}}"
+  }
+}
+
+script:post-response {
+  const json = res.getBody();
+  if (!json || !json.access_token) {
+    throw new Error("Login response did not contain access_token");
+  }
+  bru.setEnvVar("token", json.access_token);
+  if (json.uid !== undefined && json.uid !== null) {
+    bru.setVar("uid", String(json.uid));
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: app_approval_set_to_cancel
+  type: http
+  seq: 82
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-leave/execute/app_approval_set_to_cancel
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "id": {{leave_id}}
+  }
+}

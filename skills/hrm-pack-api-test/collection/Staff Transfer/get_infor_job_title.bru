@@ -1,0 +1,27 @@
+meta {
+  name: get_infor_job_title
+  type: http
+  seq: 121
+}
+
+post {
+  url: {{base_url}}/json/2/hr.job.title/get_infor_job_title
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = Array.isArray(body) ? body : (body?.records ?? body?.data?.records ?? []);
+  if (Array.isArray(records) && records[0]?.id) {
+    bru.setVar("job_title_id", String(records[0].id));
+  }
+}

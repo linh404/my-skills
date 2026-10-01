@@ -1,0 +1,56 @@
+meta {
+  name: create_or_update_resignation_letter
+  type: http
+  seq: 105
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/create_or_update_resignation_letter
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "departure_reason_id": {{departure_reason_id}},
+      "resignation_date": "{{resignation_request_date}}",
+      "day_off": "{{resignation_day_off}}",
+      "content": "ly do nghi viec",
+      "receiver": 2,
+      "information": "thông tin bàn giao",
+      "note": "ghi chú"
+      
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("departure_reason_id")) {
+    throw new Error("fixture_unavailable: departure reason lookup returned no usable ID");
+  }
+
+  // Keep the approved resignation in the future. If day_off is today/past,
+  // the backend immediately marks the employee as quit and deactivates the
+  // linked user during approval. Use a fresh future weekday on each run so a
+  // retry cannot collide with a stale resignation submitted on the same date.
+  const date = new Date();
+  date.setHours(12, 0, 0, 0);
+  date.setDate(date.getDate() + 365 + Math.floor(Math.random() * 365));
+  while (date.getDay() === 0 || date.getDay() === 6) {
+    date.setDate(date.getDate() + 1);
+  }
+  const pad = (value) => String(value).padStart(2, "0");
+  const dateString = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  bru.setVar("resignation_request_date", dateString);
+  bru.setVar("resignation_day_off", dateString);
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Resignation response did not contain id");
+  bru.setVar("resignation_id", String(data.id));
+}

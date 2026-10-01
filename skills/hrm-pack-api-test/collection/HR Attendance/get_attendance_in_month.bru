@@ -1,0 +1,22 @@
+meta {
+  name: get_attendance_in_month
+  type: http
+  seq: 59
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/get_attendance_in_month
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "month": 5,
+      "year": 2026
+    }
+}

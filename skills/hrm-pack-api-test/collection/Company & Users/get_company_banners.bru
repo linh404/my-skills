@@ -1,0 +1,21 @@
+meta {
+  name: get_company_banners
+  type: http
+  seq: 146
+}
+
+post {
+  url: {{base_url}}/json/2/res.company/get_company_banners
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}

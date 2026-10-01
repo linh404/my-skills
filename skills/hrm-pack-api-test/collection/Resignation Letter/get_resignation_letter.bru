@@ -1,0 +1,27 @@
+meta {
+  name: get_resignation_letter
+  type: http
+  seq: 107
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/get_resignation_letter
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 15,
+      
+      "date_from": "2025-04-01",
+      "date_to": "2026-04-30",
+      "approve_resignation_letter": false,
+      "employee_id": 26
+  }
+}

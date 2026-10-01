@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_explanation_reason
+  type: http
+  seq: 42
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_infor_explanation_reason
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

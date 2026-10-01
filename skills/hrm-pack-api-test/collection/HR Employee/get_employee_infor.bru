@@ -1,0 +1,28 @@
+meta {
+  name: get_employee_infor
+  type: http
+  seq: 32
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_employee_infor
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const employeeId = body?.employee_id ?? body?.data?.employee_id ?? body?.data?.id;
+  if (!employeeId) throw new Error("Employee context response did not contain employee_id");
+  bru.setVar("employee_id", String(employeeId));
+}

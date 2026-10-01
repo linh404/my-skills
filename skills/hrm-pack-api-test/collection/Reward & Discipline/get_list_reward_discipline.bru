@@ -1,0 +1,31 @@
+meta {
+  name: get_list_reward_discipline
+  type: http
+  seq: 135
+}
+
+post {
+  url: {{base_url}}/json/2/reward.discipline/get_list_reward_discipline
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 50,
+      "type": "reward"
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = body?.records ?? body?.data?.records ?? [];
+  if (Array.isArray(records) && records[0]?.id) {
+    bru.setVar("reward_id", String(records[0].id));
+  }
+}

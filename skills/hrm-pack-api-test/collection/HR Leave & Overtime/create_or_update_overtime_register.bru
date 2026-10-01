@@ -1,0 +1,55 @@
+meta {
+  name: create_or_update_overtime_register
+  type: http
+  seq: 78
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/create_or_update_overtime_register
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "employee_id": {{employee_id}},
+      "type": "overtime",
+      "holiday_status_id": {{overtime_holiday_status_id}},
+      "overtime_type": "overtime",
+      "coefficient": 2,
+      "request_date_from": "{{overtime_request_date}}",
+      "request_date_to": "{{overtime_request_date}}",
+      "name": "de xuat tang ca"
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("employee_id") || !bru.getVar("overtime_holiday_status_id")) {
+    throw new Error("fixture_unavailable: employee or overtime type lookup returned no usable ID");
+  }
+  // Use a fresh future weekday so repeated business runs do not collide with
+  // an already approved overtime/leave record on the current date.
+  const now = new Date();
+  now.setHours(12, 0, 0, 0);
+  // Keep the fixture outside the current year's existing leave fixtures;
+  // repeated runs on a reused DB otherwise collide with prior test records.
+  now.setDate(now.getDate() + 365 + Math.floor(Math.random() * 365));
+  while (now.getDay() === 0 || now.getDay() === 6) {
+    now.setDate(now.getDate() + 1);
+  }
+  const pad = (value) => String(value).padStart(2, "0");
+  const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  bru.setVar("overtime_request_date", date);
+  console.log(`Generated overtime test date: ${date}`);
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Overtime create response did not contain id");
+  bru.setVar("overtime_id", String(data.id));
+}

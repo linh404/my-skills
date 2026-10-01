@@ -1,0 +1,21 @@
+meta {
+  name: app_draft
+  type: http
+  seq: 128
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/app_draft
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{staff_transfer_id}}
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: app_delete_resignation_letter
+  type: http
+  seq: 117
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/app_delete_resignation_letter
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{resignation_id}}
+  }
+}

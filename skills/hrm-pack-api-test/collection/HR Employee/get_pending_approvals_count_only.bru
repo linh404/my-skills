@@ -1,0 +1,19 @@
+meta {
+  name: get_pending_approvals_count_only
+  type: http
+  seq: 37
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_pending_approvals_count_only
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

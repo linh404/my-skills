@@ -1,0 +1,21 @@
+meta {
+  name: app_approval_accept
+  type: http
+  seq: 85
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-leave/execute/app_approval_accept
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "id": {{leave_id}}
+  }
+}

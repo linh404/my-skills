@@ -1,0 +1,21 @@
+meta {
+  name: get_contract_infor
+  type: http
+  seq: 71
+}
+
+post {
+  url: {{base_url}}/json/2/hr.version/get_contract_infor
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "context": {}
+  }
+}

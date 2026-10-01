@@ -1,0 +1,38 @@
+meta {
+  name: search_read
+  type: http
+  seq: 58
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/search_read
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "domain": [],
+      "fields": [
+          "employee_id", 
+          "attendance_date",
+          "check_in",
+          "check_out",
+          "check_in_time",
+          "check_out_time",
+          "late_minutes",
+          "early_leave_minutes",
+          "work_normal",
+          "actual_resource_calendar_id"
+      ],
+      "offset": 0,
+      "limit": 50,
+      "order": "",
+      "context": {
+      }
+  }
+}

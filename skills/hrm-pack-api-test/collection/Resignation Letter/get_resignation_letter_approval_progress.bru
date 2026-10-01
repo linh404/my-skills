@@ -1,0 +1,21 @@
+meta {
+  name: get_resignation_letter_approval_progress
+  type: http
+  seq: 113
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/get_resignation_letter_approval_progress
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{resignation_id}}
+  }
+}

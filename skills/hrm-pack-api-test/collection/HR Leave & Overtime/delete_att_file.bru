@@ -1,0 +1,28 @@
+meta {
+  name: delete_att_file
+  type: http
+  seq: 90
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/delete_att_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{leave_id}},
+      "attachment_id": {{leave_attachment_id}}
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (data?.success !== true) throw new Error("Leave attachment deletion did not return success=true");
+}

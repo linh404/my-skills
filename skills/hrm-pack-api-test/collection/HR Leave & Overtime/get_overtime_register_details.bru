@@ -1,0 +1,21 @@
+meta {
+  name: get_overtime_register_details
+  type: http
+  seq: 81
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_overtime_register_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{overtime_id}}
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: delete_curriculum_vitae_file
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_curriculum_vitae_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_curriculum_vitae_attachment_id}}
+  }
+}

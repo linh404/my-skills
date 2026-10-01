@@ -1,0 +1,22 @@
+meta {
+  name: delete_att_file
+  type: http
+  seq: 140
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/helpdesk-ticket/execute/delete_att_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{ticket_id}},
+      "attachment_id": {{ticket_attachment_id}}
+  }
+}

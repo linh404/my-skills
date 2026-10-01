@@ -1,0 +1,22 @@
+meta {
+  name: get_list_helpdesk_ticket
+  type: http
+  seq: 136
+}
+
+post {
+  url: {{base_url}}/json/2/helpdesk.ticket/get_list_helpdesk_ticket
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 50
+  }
+}

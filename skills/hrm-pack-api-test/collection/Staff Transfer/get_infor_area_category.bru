@@ -1,0 +1,27 @@
+meta {
+  name: get_infor_area_category
+  type: http
+  seq: 122
+}
+
+post {
+  url: {{base_url}}/json/2/area.category/get_infor_area_category
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = Array.isArray(body) ? body : (body?.records ?? body?.data?.records ?? []);
+  if (Array.isArray(records) && records[0]?.id) {
+    bru.setVar("area_category_id", String(records[0].id));
+  }
+}

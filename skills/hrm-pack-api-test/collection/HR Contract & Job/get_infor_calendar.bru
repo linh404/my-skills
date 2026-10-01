@@ -1,0 +1,27 @@
+meta {
+  name: get_infor_calendar
+  type: http
+  seq: 72
+}
+
+post {
+  url: {{base_url}}/json/2/resource.calendar/get_infor_calendar
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = Array.isArray(body) ? body : (body?.records ?? body?.data?.records ?? []);
+  if (Array.isArray(records) && records[0]?.id) {
+    bru.setVar("explanation_calendar_id", String(records[0].id));
+  }
+}

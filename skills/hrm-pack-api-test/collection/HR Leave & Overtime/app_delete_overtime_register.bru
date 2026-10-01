@@ -1,0 +1,21 @@
+meta {
+  name: app_delete_overtime_register
+  type: http
+  seq: 77
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/app_delete_overtime_register
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{overtime_id}}
+  }
+}

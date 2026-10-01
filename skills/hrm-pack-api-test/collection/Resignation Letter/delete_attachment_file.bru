@@ -1,0 +1,22 @@
+meta {
+  name: delete_attachment_file
+  type: http
+  seq: 116
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/resignation-letter/execute/delete_attachment_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "attachment_id": {{resignation_attachment_id}},
+    "letter_id": {{resignation_id}}
+  }
+}

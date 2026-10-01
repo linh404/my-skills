@@ -1,0 +1,22 @@
+meta {
+  name: get_attendance_today
+  type: http
+  seq: 60
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/get_attendance_today
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+   
+    
+  }
+}

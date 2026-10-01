@@ -1,0 +1,40 @@
+meta {
+  name: create_or_update_hr_leave
+  type: http
+  seq: 93
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/create_or_update_hr_leave
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "holiday_status_id": {{leave_holiday_status_id}},
+      "request_date_from": "{{leave_request_date_from}}",
+      "request_date_to": "{{leave_request_date_to}}",
+      "request_date_from_period": "{{leave_request_date_from_period}}",
+      "request_unit_half": {{leave_request_unit_half}},
+      
+      "name": "Xin nghỉ ốm test"
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("leave_holiday_status_id")) {
+    throw new Error("fixture_unavailable: leave type lookup returned no usable ID");
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Leave create response did not contain id");
+  bru.setVar("leave_id", String(data.id));
+}

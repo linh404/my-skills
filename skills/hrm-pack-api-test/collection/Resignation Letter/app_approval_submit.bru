@@ -1,0 +1,21 @@
+meta {
+  name: app_approval_submit
+  type: http
+  seq: 109
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/app_approval_submit
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{resignation_id}}
+  }
+}

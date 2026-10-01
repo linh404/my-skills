@@ -1,0 +1,33 @@
+meta {
+  name: create_or_update_staff_transfer_2
+  type: http
+  seq: 130
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/staff-transfer/execute/create_or_update_staff_transfer
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "type": "appoint",
+    "employee_id": 3273,
+    "content": "Chủ tịch",
+    "is_challenge": true,
+    "area_category_id": 7,
+    "division": 10,
+    "department_id": 131,
+    "group_id": 110,
+    "job_id": 110,
+    "job_title_id": 9,
+    "suggested_allowance": 0,
+    "concurrent_allowance": 0,
+    "salary": 500000000
+  }
+}

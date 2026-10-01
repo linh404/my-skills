@@ -1,0 +1,21 @@
+meta {
+  name: app_delete_account
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/json/2/res.users/app_delete_account
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+     "pass_wd": "1"
+  }
+}

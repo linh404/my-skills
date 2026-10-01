@@ -1,0 +1,54 @@
+meta {
+  name: get_holiday_status_id_and_days
+  type: http
+  seq: 94
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_holiday_status_id_and_days
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  { 
+      "request_date_from": "{{leave_request_date_from}}"
+  }
+}
+
+script:pre-request {
+  // Generate a fresh weekday in the future for every leave business run.
+  // Runtime variables remain process-scoped and are reused by the create API.
+  const start = new Date();
+  start.setHours(12, 0, 0, 0);
+  // Keep repeated runs outside the current year's existing fixtures. A short
+  // random window collides on a reused DB after a few business runs.
+  start.setDate(start.getDate() + 365 + Math.floor(Math.random() * 365));
+  while (start.getDay() === 0 || start.getDay() === 6) {
+    start.setDate(start.getDate() + 1);
+  }
+
+  const pad = (value) => String(value).padStart(2, "0");
+  const date = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
+  bru.setVar("leave_request_date_from", date);
+  bru.setVar("leave_request_date_to", date);
+  bru.setVar("leave_request_date_from_period", "am");
+  bru.setVar("leave_request_unit_half", false);
+  console.log(`Generated leave test date: ${date}`);
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = body?.records ?? body?.data?.records ?? [];
+  const selected = Array.isArray(records)
+    ? (records.find((item) => Number(item?.days_remaining) > 0) ?? records[0])
+    : null;
+  if (!selected?.holiday_status_id) {
+    throw new Error("Leave type lookup did not return a usable holiday_status_id");
+  }
+  bru.setVar("leave_holiday_status_id", String(selected.holiday_status_id));
+}

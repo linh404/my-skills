@@ -1,0 +1,23 @@
+meta {
+  name: get_attendance_for_one_employee
+  type: http
+  seq: 62
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/get_attendance_for_one_employee
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": 1,
+      "month": 5,
+      "year": 2026
+    }
+}

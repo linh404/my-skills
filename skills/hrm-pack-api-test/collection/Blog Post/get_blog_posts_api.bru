@@ -1,0 +1,21 @@
+meta {
+  name: get_blog_posts_api
+  type: http
+  seq: 147
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/blog-post/execute/get_blog_posts_api
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+   
+  }
+}

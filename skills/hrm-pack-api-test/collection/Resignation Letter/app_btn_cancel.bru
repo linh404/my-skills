@@ -1,0 +1,21 @@
+meta {
+  name: app_btn_cancel
+  type: http
+  seq: 112
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/resignation-letter/execute/app_btn_cancel
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "id": {{resignation_id}}
+  }
+}

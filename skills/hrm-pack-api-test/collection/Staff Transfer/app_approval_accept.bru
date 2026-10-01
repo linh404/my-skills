@@ -1,0 +1,21 @@
+meta {
+  name: app_approval_accept
+  type: http
+  seq: 126
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/app_approval_accept
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{staff_transfer_id}}
+  }
+}

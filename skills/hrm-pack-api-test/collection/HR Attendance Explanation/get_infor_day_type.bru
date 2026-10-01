@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_day_type
+  type: http
+  seq: 43
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_infor_day_type
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

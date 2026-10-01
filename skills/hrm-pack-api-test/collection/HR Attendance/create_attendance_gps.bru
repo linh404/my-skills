@@ -1,0 +1,33 @@
+meta {
+  name: create_attendance_gps
+  type: http
+  seq: 65
+}
+
+post {
+  url: {{base_url}}/json/2/driver.attendance/create_attendance_gps
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "latitude": 21.0282029,
+      "longitude": 105.7882584,
+      "address": "18 pho nhon"
+    }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("GPS attendance response did not contain log id");
+  bru.setVar("attendance_log_id", String(data.id));
+  if (data.res_id !== undefined && data.res_id !== null) {
+    bru.setVar("attendance_record_id", String(data.res_id));
+  }
+}

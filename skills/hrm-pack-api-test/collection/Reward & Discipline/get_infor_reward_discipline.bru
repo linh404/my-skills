@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_reward_discipline
+  type: http
+  seq: 132
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/type-reward-discipline/execute/get_infor_reward_discipline
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

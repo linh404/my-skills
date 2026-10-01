@@ -1,0 +1,21 @@
+meta {
+  name: app_btn_to_draft
+  type: http
+  seq: 111
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/resignation-letter/execute/app_btn_to_draft
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "id": {{resignation_id}}
+  }
+}

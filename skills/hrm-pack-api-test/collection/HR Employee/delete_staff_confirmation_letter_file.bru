@@ -1,0 +1,22 @@
+meta {
+  name: delete_staff_confirmation_letter_file
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_staff_confirmation_letter_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_staff_confirmation_letter_attachment_id}}
+
+  }
+}

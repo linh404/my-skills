@@ -1,0 +1,20 @@
+meta {
+  name: get_holiday_details_by_type
+  type: http
+  seq: 100
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_holiday_details_by_type
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+  }
+}

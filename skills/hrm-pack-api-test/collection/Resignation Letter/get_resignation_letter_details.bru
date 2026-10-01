@@ -1,0 +1,21 @@
+meta {
+  name: get_resignation_letter_details
+  type: http
+  seq: 108
+}
+
+post {
+  url: {{base_url}}/json/2/resignation.letter/get_resignation_letter_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{resignation_id}}
+  }
+}

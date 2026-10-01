@@ -1,0 +1,21 @@
+meta {
+  name: delete_citizen_id_card_file
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_citizen_id_card_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_citizen_id_attachment_id}}
+  }
+}

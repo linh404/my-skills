@@ -1,0 +1,23 @@
+meta {
+  name: get_attendance_explanation
+  type: http
+  seq: 40
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_attendance_explanation
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 7000,
+      "approve_hr_attendance_explanation": false
+    }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: sign_up
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/json/2/app/signup/user
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "{{signup_name}}",
+    "email": "{{signup_email}}",
+    "login": "{{signup_login}}",
+    "pass_wd": "{{signup_password}}",
+    "phone": "{{signup_phone}}"
+  }
+}

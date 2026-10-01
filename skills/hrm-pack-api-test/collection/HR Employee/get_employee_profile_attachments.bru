@@ -1,0 +1,21 @@
+meta {
+  name: get_employee_profile_attachments
+  type: http
+  seq: 27
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_employee_profile_attachments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}

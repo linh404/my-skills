@@ -1,0 +1,44 @@
+meta {
+  name: create_or_update_staff_transfer
+  type: http
+  seq: 124
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/create_or_update_staff_transfer
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "type": "appoint", 
+      "content": "test update api bằng postman ",
+      "area_category_id": {{area_category_id}},
+      "effective_date": "{{staff_transfer_effective_date}}"
+      
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("area_category_id")) {
+    throw new Error("fixture_unavailable: area category lookup returned no usable ID");
+  }
+  const date = new Date();
+  date.setHours(12, 0, 0, 0);
+  date.setDate(date.getDate() + 365 + Math.floor(Math.random() * 365));
+  while (date.getDay() === 0 || date.getDay() === 6) date.setDate(date.getDate() + 1);
+  const pad = (value) => String(value).padStart(2, "0");
+  bru.setVar("staff_transfer_effective_date", `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`);
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Staff transfer response did not contain id");
+  bru.setVar("staff_transfer_id", String(data.id));
+}

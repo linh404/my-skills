@@ -1,0 +1,21 @@
+meta {
+  name: app_cancel
+  type: http
+  seq: 127
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/app_cancel
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{staff_transfer_id}}
+  }
+}

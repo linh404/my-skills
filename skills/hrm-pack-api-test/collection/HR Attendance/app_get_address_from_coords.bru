@@ -1,0 +1,22 @@
+meta {
+  name: app_get_address_from_coords
+  type: http
+  seq: 64
+}
+
+post {
+  url: {{base_url}}/json/2/driver.attendance.log/app_get_address_from_coords
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "latitude": 21.0066089,
+      "longitude": 105.7751289
+  }
+}

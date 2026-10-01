@@ -1,0 +1,21 @@
+meta {
+  name: app_approval_set_to_draft_2
+  type: http
+  seq: 96
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/app_approval_set_to_draft
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": 31
+  }
+}

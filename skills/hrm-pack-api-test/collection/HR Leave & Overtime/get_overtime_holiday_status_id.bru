@@ -1,0 +1,32 @@
+meta {
+  name: get_overtime_holiday_status_id
+  type: http
+  seq: 79
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_overtime_holiday_status_id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = body?.records ?? body?.data?.records ?? [];
+  const selected = Array.isArray(records)
+    ? (records.find((item) => item?.holiday_status_id) ?? records[0])
+    : null;
+  if (!selected?.holiday_status_id) {
+    throw new Error("Overtime type lookup did not return a usable holiday_status_id");
+  }
+  bru.setVar("overtime_holiday_status_id", String(selected.holiday_status_id));
+}

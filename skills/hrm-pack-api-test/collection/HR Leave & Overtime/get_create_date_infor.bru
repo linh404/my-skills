@@ -1,0 +1,21 @@
+meta {
+  name: get_create_date_infor
+  type: http
+  seq: 104
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_create_date_infor
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+          "rec_id": 31
+  }
+}

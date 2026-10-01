@@ -1,0 +1,30 @@
+meta {
+  name: create_or_update_helpdesk_ticket
+  type: http
+  seq: 138
+}
+
+post {
+  url: {{base_url}}/json/2/helpdesk.ticket/create_or_update_helpdesk_ticket
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "type": "feedback",
+      "name": "Chủ đề  2",
+      "description": "Nội dung"
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Helpdesk ticket response did not contain id");
+  bru.setVar("ticket_id", String(data.id));
+}

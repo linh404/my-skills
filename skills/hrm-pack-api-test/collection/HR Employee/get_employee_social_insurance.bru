@@ -1,0 +1,21 @@
+meta {
+  name: get_employee_social_insurance
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_employee_social_insurance
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}

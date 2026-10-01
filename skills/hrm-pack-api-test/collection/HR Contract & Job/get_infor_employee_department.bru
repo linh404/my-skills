@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_employee_department
+  type: http
+  seq: 75
+}
+
+post {
+  url: {{base_url}}/json/2/hr.department/get_infor_employee_department
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

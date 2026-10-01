@@ -1,0 +1,21 @@
+meta {
+  name: get_staff_transfer_approval_progress
+  type: http
+  seq: 123
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/get_staff_transfer_approval_progress
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{staff_transfer_id}}
+  }
+}

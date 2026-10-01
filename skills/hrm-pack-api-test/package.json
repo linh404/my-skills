@@ -1,0 +1,18 @@
+{
+  "name": "hrm-pack-api-test-runtime",
+  "private": true,
+  "description": "Pinned Bruno CLI runtime for the HRM Pack API test skill",
+  "devDependencies": {
+    "@usebruno/cli": "4.2.0"
+  },
+  "scripts": {
+    "check:bruno": "python3 scripts/check_bruno_cli.py",
+    "test:api": "python3 scripts/test_bruno_cli.py",
+    "test:business": "python3 scripts/test_business_flows.py",
+    "configure:approval": "python3 scripts/configure_approval.py",
+    "configure:calendar": "python3 scripts/configure_calendar.py",
+    "configure:leave-allocation": "python3 scripts/configure_leave_allocation.py",
+    "configure:group-a": "python3 scripts/configure_group_a_fixtures.py",
+    "configure:language": "python3 scripts/configure_language.py"
+  }
+}

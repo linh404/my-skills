@@ -1,0 +1,27 @@
+meta {
+  name: upload_citizen_id
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}/api/models/hr-employee/upload_files/upload_citizen_id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: 1000
+  files: @file(test-upload/placeholder.txt) @contentType(image/jpeg)
+}
+
+script:post-response {
+  const body = res.getBody();
+  const ids = body?.data;
+  if (!Array.isArray(ids) || !ids[0]) throw new Error("citizen_id upload response did not contain attachment id");
+  bru.setVar("employee_citizen_id_attachment_id", String(ids[0]));
+}

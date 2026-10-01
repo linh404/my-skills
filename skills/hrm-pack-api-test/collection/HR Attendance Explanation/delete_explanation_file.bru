@@ -1,0 +1,22 @@
+meta {
+  name: delete_explanation_file
+  type: http
+  seq: 53
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/delete_explanation_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "explanation_id": {{explanation_id}},
+      "attachment_id": {{explanation_attachment_id}}
+    }
+}

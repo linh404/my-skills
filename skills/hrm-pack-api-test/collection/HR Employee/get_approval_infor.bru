@@ -1,0 +1,21 @@
+meta {
+  name: get_approval_infor
+  type: http
+  seq: 39
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_approval_infor
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      
+  }
+}

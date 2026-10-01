@@ -1,0 +1,27 @@
+meta {
+  name: get_infor_departure_reason
+  type: http
+  seq: 106
+}
+
+post {
+  url: {{base_url}}/json/2/hr.departure.reason/get_infor_departure_reason
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+script:post-response {
+  const body = res.getBody();
+  const records = Array.isArray(body) ? body : (body?.records ?? body?.data?.records ?? []);
+  if (Array.isArray(records) && records[0]?.id) {
+    bru.setVar("departure_reason_id", String(records[0].id));
+  }
+}

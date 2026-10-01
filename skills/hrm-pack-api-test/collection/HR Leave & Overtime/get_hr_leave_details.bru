@@ -1,0 +1,21 @@
+meta {
+  name: get_hr_leave_details
+  type: http
+  seq: 92
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_hr_leave_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{leave_id}}
+  }
+}

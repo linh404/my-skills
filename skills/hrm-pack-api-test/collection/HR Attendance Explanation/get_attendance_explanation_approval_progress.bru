@@ -1,0 +1,21 @@
+meta {
+  name: get_attendance_explanation_approval_progress
+  type: http
+  seq: 54
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_attendance_explanation_approval_progress
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{explanation_id}}
+  }
+}

@@ -1,0 +1,26 @@
+meta {
+  name: get_list_leaves
+  type: http
+  seq: 91
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_list_leaves
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 50,
+      
+      "date_from": "2025-12-04"
+      
+
+  }
+}

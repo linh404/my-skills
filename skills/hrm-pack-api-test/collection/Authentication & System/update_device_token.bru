@@ -1,0 +1,22 @@
+meta {
+  name: update_device_token
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/json/2/api/update-device-token
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "fcm_token": "{{fcm_token}}",
+      "employee_id": 2
+  }
+}

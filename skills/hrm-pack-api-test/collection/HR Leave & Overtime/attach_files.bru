@@ -1,0 +1,27 @@
+meta {
+  name: attach_files
+  type: http
+  seq: 89
+}
+
+post {
+  url: {{base_url}}/api/models/hr-leave/upload_files/attach_files
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: {{leave_id}}
+  files: @file(test-upload/placeholder.txt) @contentType(application/octet-stream)
+}
+
+script:post-response {
+  const body = res.getBody();
+  const ids = body?.data;
+  if (!Array.isArray(ids) || !ids[0]) throw new Error("Leave upload response did not contain attachment id");
+  bru.setVar("leave_attachment_id", String(ids[0]));
+}

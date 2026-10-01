@@ -1,0 +1,26 @@
+meta {
+  name: get_attendance_violation_report
+  type: http
+  seq: 68
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/get_attendance_violation_report
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "month": 5,
+      "year": 2026,
+      "group_ids": [138, 139, 140],
+      "offset": 0,
+      "limit": 20
+
+    }
+}

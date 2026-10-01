@@ -1,0 +1,37 @@
+meta {
+  name: create_or_update_explanation
+  type: http
+  seq: 46
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/create_or_update_explanation
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "explanation_reason": "late",
+      "explanation_date": "2026-06-05",
+      "explained_resource_calendar_id": {{explanation_calendar_id}}
+
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("explanation_calendar_id")) {
+    throw new Error("fixture_unavailable: calendar lookup returned no usable ID");
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body?.data ?? body;
+  if (!data?.id) throw new Error("Attendance explanation response did not contain id");
+  bru.setVar("explanation_id", String(data.id));
+}

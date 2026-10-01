@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_reward_discipline_divide
+  type: http
+  seq: 134
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/reward-discipline-divide/execute/get_infor_reward_discipline_divide
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

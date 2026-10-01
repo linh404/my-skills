@@ -1,0 +1,21 @@
+meta {
+  name: app_delete_staff_transfer
+  type: http
+  seq: 131
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/app_delete_staff_transfer
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{staff_transfer_id}}
+  }
+}

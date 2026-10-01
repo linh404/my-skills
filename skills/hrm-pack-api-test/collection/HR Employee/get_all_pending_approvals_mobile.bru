@@ -1,0 +1,19 @@
+meta {
+  name: get_all_pending_approvals_mobile
+  type: http
+  seq: 38
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/get_all_pending_approvals_mobile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

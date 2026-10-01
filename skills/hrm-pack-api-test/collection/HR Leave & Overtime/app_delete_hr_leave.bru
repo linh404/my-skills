@@ -1,0 +1,21 @@
+meta {
+  name: app_delete_hr_leave
+  type: http
+  seq: 103
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/app_delete_hr_leave
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{leave_id}}
+  }
+}

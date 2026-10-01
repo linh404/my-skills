@@ -1,0 +1,21 @@
+meta {
+  name: delete_residence_certificate_file
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_residence_certificate_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_residence_certificate_attachment_id}}
+  }
+}

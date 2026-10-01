@@ -1,0 +1,23 @@
+meta {
+  name: get_attendance_violation_details
+  type: http
+  seq: 69
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance/get_attendance_violation_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "month": 5,
+      "year": 2026,
+      "employee_id": 1
+    }
+}

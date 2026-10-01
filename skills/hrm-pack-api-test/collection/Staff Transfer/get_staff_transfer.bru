@@ -1,0 +1,23 @@
+meta {
+  name: get_staff_transfer
+  type: http
+  seq: 119
+}
+
+post {
+  url: {{base_url}}/json/2/staff.transfer/get_staff_transfer
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "offset": 0,
+      "limit": 15,
+      "approve_staff_transfer": false
+  }
+}

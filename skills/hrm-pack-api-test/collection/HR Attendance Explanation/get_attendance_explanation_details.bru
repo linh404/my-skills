@@ -1,0 +1,21 @@
+meta {
+  name: get_attendance_explanation_details
+  type: http
+  seq: 41
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_attendance_explanation_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "explanation_id": {{explanation_id}}
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: get_helpdesk_ticket_details
+  type: http
+  seq: 137
+}
+
+post {
+  url: {{base_url}}/json/2/helpdesk.ticket/get_helpdesk_ticket_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{ticket_id}}
+  }
+}

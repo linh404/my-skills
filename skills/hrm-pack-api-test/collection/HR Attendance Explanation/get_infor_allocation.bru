@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_allocation
+  type: http
+  seq: 44
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/get_infor_allocation
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

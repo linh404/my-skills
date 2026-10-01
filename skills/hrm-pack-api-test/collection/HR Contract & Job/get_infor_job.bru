@@ -1,0 +1,19 @@
+meta {
+  name: get_infor_job
+  type: http
+  seq: 76
+}
+
+post {
+  url: {{base_url}}/json/2/hr.job/get_infor_job
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

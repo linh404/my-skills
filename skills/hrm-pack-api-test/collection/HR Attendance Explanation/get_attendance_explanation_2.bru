@@ -1,0 +1,34 @@
+meta {
+  name: get_attendance_explanation_2
+  type: http
+  seq: 45
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation.wizard/get_attendance_explanation
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "explanation_reason": "overtime",
+      "explanation_date": "2025-12-11",
+      "hours_of_break": 0,
+      "explained_resource_calendar_id": 1,
+      
+      "leave_start_time": false,
+      "leave_end_time": false,
+      "explained_check_in": "2025-12-11 01:25:00",
+      "explained_check_out": "2025-12-11 16:22:00",
+      "overtime_first_start": "2025-12-11 11:00:00",
+      "overtime_first_end": "2025-12-11 15:00:00",
+      "overtime_second_start": false,
+      "overtime_second_end": false
+      
+    }
+}

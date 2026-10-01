@@ -1,0 +1,21 @@
+meta {
+  name: delete_employee_other_document_file
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_employee_other_document_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_employee_other_document_attachment_id}}
+  }
+}

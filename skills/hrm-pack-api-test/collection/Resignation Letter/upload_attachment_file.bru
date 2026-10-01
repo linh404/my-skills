@@ -1,0 +1,27 @@
+meta {
+  name: upload_attachment_file
+  type: http
+  seq: 115
+}
+
+post {
+  url: {{base_url}}/api/models/resignation-letter/upload_files/upload_attachment_file
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: {{resignation_id}}
+  files: @file(test-upload/placeholder.txt) @contentType(image/png)
+}
+
+script:post-response {
+  const body = res.getBody();
+  const ids = body?.data;
+  if (!Array.isArray(ids) || !ids[0]) throw new Error("Resignation upload response did not contain attachment id");
+  bru.setVar("resignation_attachment_id", String(ids[0]));
+}

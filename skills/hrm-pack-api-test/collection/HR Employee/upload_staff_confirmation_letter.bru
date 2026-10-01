@@ -1,0 +1,27 @@
+meta {
+  name: upload_staff_confirmation_letter
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{base_url}}/api/models/hr-employee/upload_files/upload_staff_confirmation_letter
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: {{employee_id}}
+  files: @file(test-upload/placeholder.txt) @contentType(application/octet-stream)
+}
+
+script:post-response {
+  const body = res.getBody();
+  const ids = body?.data;
+  if (!Array.isArray(ids) || !ids[0]) throw new Error("staff_confirmation_letter upload response did not contain attachment id");
+  bru.setVar("employee_staff_confirmation_letter_attachment_id", String(ids[0]));
+}

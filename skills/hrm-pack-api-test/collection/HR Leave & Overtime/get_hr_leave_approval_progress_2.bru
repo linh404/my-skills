@@ -1,0 +1,21 @@
+meta {
+  name: get_hr_leave_approval_progress_2
+  type: http
+  seq: 101
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave/get_hr_leave_approval_progress
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": 31
+  }
+}

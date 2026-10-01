@@ -1,0 +1,547 @@
+schema_version: 1
+name: hrm-pack-api-business-tests
+description: >-
+  Source-backed, dependency-ordered business checks for the KG Odoo HRM Bruno
+  collection. Each business is executed in its own Bruno process/session.
+collection: /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection
+execution_defaults:
+  auth_step: Authentication & System/login.bru
+  stop_on_failure: true
+  include_optional: false
+  mutation_policy: explicit_opt_in
+  fixture_policy: explicit_confirmation
+  full_collection_policy: references/full-collection-lifecycle-rules.md
+  success_requires:
+    - bruno_status_pass
+    - expected_http_status
+    - declared_business_checks_reviewed
+  report_fields:
+    - business
+    - step
+    - status
+    - http_status
+    - checks
+    - checkpoint
+
+# A step is a collection-relative .bru path. `required` steps are the normal
+# happy path. `optional` steps need explicit opt-in. `manual` steps remain
+# operator-managed only when no runtime producer mapping exists; a canonical
+# manual step with a mapped producer chain is executed by the runner. Alias
+# paths remain deferred regardless of the flags passed to the runner.
+lifecycle_rules:
+  fresh_resource_for_destructive:
+    - create the record in the same run
+    - capture its ID with bru.setVar
+    - execute delete/cancel/reset/reject against that ID
+    - verify the final state and cleanup result
+  account_delete:
+    - sign_up with unique generated credentials
+    - verify/login the newly created account
+    - delete only that new account
+    - never delete the configured operator/admin account
+  employee_documents:
+    - upload a non-sensitive placeholder for the designated test employee
+    - capture the returned attachment ID
+    - verify then delete that exact attachment
+  runtime_dependencies:
+    rule: producer_before_consumer
+    requirements:
+      - every detail/workflow/attachment/delete step must have a producer step
+      - call the producer before the consumer in the same Bruno process
+      - capture the producer ID with bru.setVar and pass that runtime variable forward
+      - unresolved variables and hardcoded historical IDs are mapping defects
+      - if the producer cannot return a valid ID, classify the consumer as fixture_unavailable
+  aliases:
+    status: deferred
+    action:
+      - leave aliases in place
+      - do not rename or rewrite aliases in this phase
+      - do not execute aliases in this phase
+      - do not count aliases as tested business coverage
+
+# The runner uses this map at execution time.  A consumer is never sent by
+# itself: every producer listed here is inserted immediately before it (and
+# its own producers are inserted recursively).  The Bruno response scripts in
+# the canonical producer requests populate the runtime variables consumed by
+# the following requests.  Alias files are deliberately absent from this map.
+runtime_producers:
+  "HR Leave & Overtime/create_or_update_hr_leave.bru":
+    - "HR Leave & Overtime/get_holiday_status_id_and_days.bru"
+  "HR Leave & Overtime/get_hr_leave_details.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/get_create_date_infor.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/attach_files.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/app_approval_submit.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/app_approval_accept.bru":
+    - "HR Leave & Overtime/app_approval_submit.bru"
+  "HR Leave & Overtime/app_approval_reject.bru":
+    - "HR Leave & Overtime/app_approval_submit.bru"
+  "HR Leave & Overtime/app_approval_set_to_cancel.bru":
+    - "HR Leave & Overtime/app_approval_submit.bru"
+  "HR Leave & Overtime/app_approval_set_to_draft.bru":
+    - "HR Leave & Overtime/app_approval_submit.bru"
+  "HR Leave & Overtime/get_hr_leave_approval_progress.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/app_delete_hr_leave.bru":
+    - "HR Leave & Overtime/create_or_update_hr_leave.bru"
+  "HR Leave & Overtime/delete_att_file.bru":
+    - "HR Leave & Overtime/attach_files.bru"
+    - "HR Leave & Overtime/app_approval_submit.bru"
+  "HR Leave & Overtime/create_or_update_overtime_register.bru":
+    - "HR Leave & Overtime/get_overtime_holiday_status_id.bru"
+    - "HR Employee/get_employee_infor.bru"
+  "HR Leave & Overtime/get_overtime_register_details.bru":
+    - "HR Leave & Overtime/create_or_update_overtime_register.bru"
+  "HR Leave & Overtime/app_delete_overtime_register.bru":
+    - "HR Leave & Overtime/create_or_update_overtime_register.bru"
+  "HR Attendance Explanation/create_or_update_explanation.bru":
+    - "HR Attendance Explanation/get_infor_explanation_reason.bru"
+    - "HR Attendance Explanation/get_infor_day_type.bru"
+    - "HR Attendance Explanation/get_infor_allocation.bru"
+    - "HR Contract & Job/get_infor_calendar.bru"
+  "HR Attendance Explanation/get_attendance_explanation_details.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/attach_files.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/app_approval_submit.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/app_approval_accept.bru":
+    - "HR Attendance Explanation/app_approval_submit.bru"
+  "HR Attendance Explanation/app_approval_reject.bru":
+    - "HR Attendance Explanation/app_approval_submit.bru"
+  "HR Attendance Explanation/app_cancel.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/app_draft.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/get_attendance_explanation_approval_progress.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/app_delete_hr_attendance_explanation.bru":
+    - "HR Attendance Explanation/create_or_update_explanation.bru"
+  "HR Attendance Explanation/delete_explanation_file.bru":
+    - "HR Attendance Explanation/attach_files.bru"
+  "HR Attendance/upload_attendance_image.bru":
+    - "HR Attendance/create_attendance_gps.bru"
+  "Helpdesk Ticket/get_helpdesk_ticket_details.bru":
+    - "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru"
+  "Helpdesk Ticket/attach_files.bru":
+    - "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru"
+  "Helpdesk Ticket/delete_att_file.bru":
+    - "Helpdesk Ticket/attach_files.bru"
+  "Resignation Letter/create_or_update_resignation_letter.bru":
+    - "Resignation Letter/get_infor_departure_reason.bru"
+    - "HR Employee/update_employee_onboard_time.bru"
+  "Resignation Letter/get_resignation_letter_details.bru":
+    - "Resignation Letter/create_or_update_resignation_letter.bru"
+  "Resignation Letter/app_approval_submit.bru":
+    - "Resignation Letter/create_or_update_resignation_letter.bru"
+  "Resignation Letter/app_approval_accept.bru":
+    - "Resignation Letter/app_approval_submit.bru"
+  "Resignation Letter/app_btn_to_draft.bru":
+    - "Resignation Letter/app_approval_accept.bru"
+  "Resignation Letter/app_approval_reject.bru":
+    - "Resignation Letter/app_approval_submit.bru"
+  "Resignation Letter/get_resignation_letter_approval_progress.bru":
+    - "Resignation Letter/create_or_update_resignation_letter.bru"
+  "Resignation Letter/upload_attachment_file.bru":
+    - "Resignation Letter/create_or_update_resignation_letter.bru"
+  "Resignation Letter/delete_attachment_file.bru":
+    - "Resignation Letter/upload_attachment_file.bru"
+  "Resignation Letter/app_delete_resignation_letter.bru":
+    - "Resignation Letter/create_or_update_resignation_letter.bru"
+  "Staff Transfer/create_or_update_staff_transfer.bru":
+    - "Staff Transfer/get_infor_area_category.bru"
+    - "Staff Transfer/get_infor_job_title.bru"
+  "Staff Transfer/get_staff_transfer_details.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Staff Transfer/app_approval_submit.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Staff Transfer/app_approval_accept.bru":
+    - "Staff Transfer/app_approval_submit.bru"
+  "Staff Transfer/app_approval_reject.bru":
+    - "Staff Transfer/app_approval_submit.bru"
+  "Staff Transfer/get_staff_transfer_approval_progress.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Staff Transfer/app_cancel.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Staff Transfer/app_draft.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Staff Transfer/app_delete_staff_transfer.bru":
+    - "Staff Transfer/create_or_update_staff_transfer.bru"
+  "Reward & Discipline/get_reward_discipline_details.bru":
+    - "Reward & Discipline/get_list_reward_discipline.bru"
+  "HR Employee/update_employee_onboard_time.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/change_avatar.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/upload_birth_certificate.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_birth_certificate_file.bru":
+    - "HR Employee/upload_birth_certificate.bru"
+  "HR Employee/upload_citizen_id.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_citizen_id_card_file.bru":
+    - "HR Employee/upload_citizen_id.bru"
+  "HR Employee/upload_curriculum_vitae.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_curriculum_vitae_file.bru":
+    - "HR Employee/upload_curriculum_vitae.bru"
+  "HR Employee/upload_cv_file.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_cv_file_file.bru":
+    - "HR Employee/upload_cv_file.bru"
+  "HR Employee/upload_diploma.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_diploma_file.bru":
+    - "HR Employee/upload_diploma.bru"
+  "HR Employee/upload_employee_other_document.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_employee_other_document_file.bru":
+    - "HR Employee/upload_employee_other_document.bru"
+  "HR Employee/upload_health_check.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_health_check_file.bru":
+    - "HR Employee/upload_health_check.bru"
+  "HR Employee/upload_personnel_guarantee_letter.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_personnel_guarantee_letter_file.bru":
+    - "HR Employee/upload_personnel_guarantee_letter.bru"
+  "HR Employee/upload_residence_certificate.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_residence_certificate_file.bru":
+    - "HR Employee/upload_residence_certificate.bru"
+  "HR Employee/upload_staff_confirmation_letter.bru":
+    - "HR Employee/get_employee_infor.bru"
+  "HR Employee/delete_staff_confirmation_letter_file.bru":
+    - "HR Employee/upload_staff_confirmation_letter.bru"
+
+businesses:
+  - id: authentication
+    title: Authentication and session
+    flow: authentication
+    purpose: Verify login, bearer token capture, and Odoo session cookie setup.
+    safety: session_only
+    preconditions:
+      - Environment contains valid user, password, and database values.
+    steps:
+      - id: login
+        path: Authentication & System/login.bru
+        mode: required
+        expected:
+          http_status: [200]
+          body_fields_any: [token, access_token, data.token]
+          captures: [token]
+      - id: update_device_token
+        path: Authentication & System/update_device_token.bru
+        mode: optional
+        safety: update
+        fixture_required: true
+        fixture_fields: [employee_id]
+        expected:
+          http_status: [200]
+    excluded:
+      - path: Authentication & System/app_change_password.bru
+        reason: destructive account mutation; never part of a smoke test
+      - path: Authentication & System/app_delete_account.bru
+        reason: destructive account deletion
+      - path: Authentication & System/forgot_password.bru
+        reason: sends an external recovery side effect
+      - path: Authentication & System/sign_up.bru
+        reason: creates a user and requires unique operator data
+
+  - id: reference_data
+    title: Reference and master data
+    flow: reference_data
+    purpose: Verify read-only values needed to populate HR transactions.
+    safety: read_only
+    preconditions:
+      - Login succeeds.
+      - Target database contains the relevant company and HR master data.
+    steps:
+      - {id: company_banners, path: Company & Users/get_company_banners.bru, mode: required, expected: {http_status: [200]}}
+      - {id: login_logo, path: Company & Users/login_logo.bru, mode: required, expected: {http_status: [200]}}
+      - {id: contract_info, path: HR Contract & Job/get_contract_infor.bru, mode: required, expected: {http_status: [200]}}
+      - {id: calendar, path: HR Contract & Job/get_infor_calendar.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: departments, path: HR Contract & Job/get_infor_employee_department.bru, mode: required, expected: {http_status: [200]}}
+      - {id: divisions, path: HR Contract & Job/get_infor_employee_division.bru, mode: required, expected: {http_status: [200]}}
+      - {id: groups, path: HR Contract & Job/get_infor_employee_group.bru, mode: required, expected: {http_status: [200]}}
+      - {id: jobs, path: HR Contract & Job/get_infor_job.bru, mode: required, expected: {http_status: [200]}}
+
+  - id: employee_context
+    title: Current employee context
+    flow: employee_context
+    purpose: Verify the authenticated user's employee, profile, organization, and approval context.
+    safety: read_only
+    preconditions:
+      - Login succeeds.
+      - Authenticated user is linked to an hr.employee record.
+    steps:
+      - {id: current_employee, path: HR Employee/1.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: employee_info, path: HR Employee/get_employee_infor.bru, mode: required, expected: {http_status: [200]}}
+      - {id: employee_list, path: HR Employee/get_list_employee_infor.bru, mode: required, expected: {http_status: [200]}}
+      - {id: org_chart, path: HR Employee/get_org_chart.bru, mode: required, expected: {http_status: [200]}}
+      - {id: pending_count, path: HR Employee/get_pending_approvals_count_only.bru, mode: required, expected: {http_status: [200]}}
+      - {id: pending_approvals, path: HR Employee/get_all_pending_approvals_mobile.bru, mode: required, expected: {http_status: [200]}}
+      - {id: approval_info, path: HR Employee/get_approval_infor.bru, mode: optional, fixture_required: true, expected: {http_status: [200]}}
+      - {id: health_insurance, path: HR Employee/get_employee_health_insurance.bru, mode: required, expected: {http_status: [200]}}
+      - {id: social_insurance, path: HR Employee/get_employee_social_insurance.bru, mode: required, expected: {http_status: [200]}}
+      - {id: taxes, path: HR Employee/get_employee_taxes.bru, mode: required, expected: {http_status: [200]}}
+      - {id: profile_attachments, path: HR Employee/get_employee_profile_attachments.bru, mode: required, expected: {http_status: [200]}}
+      - {id: company_attachments, path: HR Employee/get_company_profile_attachments.bru, mode: required, expected: {http_status: [200]}}
+
+  - id: employee_documents
+    title: Employee document upload and deletion
+    flow: employee_context
+    purpose: Upload each employee document and delete the exact attachment returned by that upload.
+    safety: destructive_cleanup
+    preconditions:
+      - Login succeeds and current employee context returns employee_id.
+      - The collection placeholder file exists.
+    steps:
+      - {id: upload_birth_certificate, path: HR Employee/upload_birth_certificate.bru, mode: required, expected: {http_status: [200], captures: [employee_birth_certificate_attachment_id]}}
+      - {id: delete_birth_certificate, path: HR Employee/delete_birth_certificate_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_citizen_id, path: HR Employee/upload_citizen_id.bru, mode: required, expected: {http_status: [200], captures: [employee_citizen_id_attachment_id]}}
+      - {id: delete_citizen_id, path: HR Employee/delete_citizen_id_card_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_curriculum_vitae, path: HR Employee/upload_curriculum_vitae.bru, mode: required, expected: {http_status: [200], captures: [employee_curriculum_vitae_attachment_id]}}
+      - {id: delete_curriculum_vitae, path: HR Employee/delete_curriculum_vitae_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_cv_file, path: HR Employee/upload_cv_file.bru, mode: required, expected: {http_status: [200], captures: [employee_cv_file_attachment_id]}}
+      - {id: delete_cv_file, path: HR Employee/delete_cv_file_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_diploma, path: HR Employee/upload_diploma.bru, mode: required, expected: {http_status: [200], captures: [employee_diploma_attachment_id]}}
+      - {id: delete_diploma, path: HR Employee/delete_diploma_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_employee_other_document, path: HR Employee/upload_employee_other_document.bru, mode: required, expected: {http_status: [200], captures: [employee_employee_other_document_attachment_id]}}
+      - {id: delete_employee_other_document, path: HR Employee/delete_employee_other_document_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_health_check, path: HR Employee/upload_health_check.bru, mode: required, expected: {http_status: [200], captures: [employee_health_check_attachment_id]}}
+      - {id: delete_health_check, path: HR Employee/delete_health_check_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_personnel_guarantee_letter, path: HR Employee/upload_personnel_guarantee_letter.bru, mode: required, expected: {http_status: [200], captures: [employee_personnel_guarantee_letter_attachment_id]}}
+      - {id: delete_personnel_guarantee_letter, path: HR Employee/delete_personnel_guarantee_letter_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_residence_certificate, path: HR Employee/upload_residence_certificate.bru, mode: required, expected: {http_status: [200], captures: [employee_residence_certificate_attachment_id]}}
+      - {id: delete_residence_certificate, path: HR Employee/delete_residence_certificate_file.bru, mode: required, expected: {http_status: [200]}}
+      - {id: upload_staff_confirmation_letter, path: HR Employee/upload_staff_confirmation_letter.bru, mode: required, expected: {http_status: [200], captures: [employee_staff_confirmation_letter_attachment_id]}}
+      - {id: delete_staff_confirmation_letter, path: HR Employee/delete_staff_confirmation_letter_file.bru, mode: required, expected: {http_status: [200]}}
+
+  - id: leave
+    title: Leave request lifecycle
+    flow: leave
+    purpose: Resolve leave type, create a leave, inspect it, and verify one approval outcome.
+    safety: stateful
+    preconditions:
+      - Login and employee context succeed.
+      - A valid leave type, quota, date range, and approval configuration exist.
+      - User has permission to submit and the selected approver can act.
+    fixture_policy: generated_future_weekday_then_capture_leave_id
+    date_policy: The leave pre-request script generates one random weekday 3-45 days in the future and reuses it for the availability lookup and create request.
+    steps:
+      - {id: leave_type, path: HR Leave & Overtime/get_holiday_status_id_and_days.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: create_leave, path: HR Leave & Overtime/create_or_update_hr_leave.bru, mode: required, expected: {http_status: [200], captures: [leave_id], body_fields_any: [id, data.id]}}
+      - {id: leave_details, path: HR Leave & Overtime/get_hr_leave_details.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: leave_list, path: HR Leave & Overtime/get_list_leaves.bru, mode: required, expected: {http_status: [200]}}
+      - {id: leave_attachment, path: HR Leave & Overtime/attach_files.bru, mode: optional, safety: upload, expected: {http_status: [200]}}
+      - {id: submit, path: HR Leave & Overtime/app_approval_submit.bru, mode: required, expected: {http_status: [200], state_change: true}}
+    alternatives:
+      - id: approve
+        steps:
+          - {id: accept, path: HR Leave & Overtime/app_approval_accept.bru, expected: {http_status: [200], state_in: [approved, validate, validated]}}
+      - id: reject
+        steps:
+          - {id: reject, path: HR Leave & Overtime/app_approval_reject.bru, expected: {http_status: [200], state_in: [refused, rejected]}}
+    final_checks:
+      - {id: approval_progress, path: HR Leave & Overtime/get_hr_leave_approval_progress.bru, mode: required, expected: {http_status: [200], response_present: true}}
+    excluded:
+      - {path: HR Leave & Overtime/app_delete_hr_leave.bru, reason: destructive cleanup; run only with explicit approval}
+      - {path: HR Leave & Overtime/app_approval_set_to_cancel.bru, reason: alternate destructive workflow}
+      - {path: HR Leave & Overtime/app_approval_set_to_draft.bru, reason: alternate state reset}
+
+  - id: overtime
+    title: Overtime request lifecycle
+    flow: leave
+    purpose: Resolve overtime type, create an overtime request, and verify its workflow outcome.
+    safety: stateful
+    preconditions:
+      - Login and employee context succeed.
+      - Overtime type exists and request dates are on the same day.
+      - Approval template and authorized approver exist.
+    fixture_policy: create_then_capture_overtime_id
+    steps:
+      - {id: overtime_type, path: HR Leave & Overtime/get_overtime_holiday_status_id.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: create_overtime, path: HR Leave & Overtime/create_or_update_overtime_register.bru, mode: required, fixture_required: true, expected: {http_status: [200], captures: [overtime_id], body_fields_any: [id, data.id]}}
+      - {id: overtime_details, path: HR Leave & Overtime/get_overtime_register_details.bru, mode: manual, fixture_required: true, expected: {http_status: [200], response_present: true}}
+      - {id: overtime_list, path: HR Leave & Overtime/get_list_overtime_register.bru, mode: required, expected: {http_status: [200]}}
+      - {id: submit, path: HR Leave & Overtime/app_approval_submit_2.bru, mode: manual, fixture_required: true, expected: {http_status: [200], state_change: true}}
+    alternatives:
+      - id: approve
+        steps:
+          - {id: accept, path: HR Leave & Overtime/app_approval_accept_2.bru, mode: manual, fixture_required: true, expected: {http_status: [200], state_change: true}}
+      - id: reject
+        steps:
+          - {id: reject, path: HR Leave & Overtime/app_approval_reject_2.bru, mode: manual, fixture_required: true, expected: {http_status: [200], state_change: true}}
+    excluded:
+      - {path: HR Leave & Overtime/app_delete_overtime_register.bru, reason: destructive cleanup}
+    notes:
+      - The overtime detail and JSON-2 approval aliases still contain literal IDs (8150/31) instead of overtime_id. They remain manual until the collection is corrected; the create step's captured overtime_id is not used by those aliases.
+
+  - id: attendance_explanation
+    title: Attendance explanation lifecycle
+    flow: attendance_explanation
+    purpose: Create an attendance explanation, optionally attach evidence, and verify approval.
+    safety: stateful
+    preconditions:
+      - Login succeeds and user maps to an employee.
+      - Explanation reason, day type, allocation, and calendar are configured.
+      - No existing explanation conflicts with the employee/date unique constraint.
+    fixture_policy: create_then_capture_explanation_id
+    steps:
+      - {id: reasons, path: HR Attendance Explanation/get_infor_explanation_reason.bru, mode: required, expected: {http_status: [200]}}
+      - {id: day_types, path: HR Attendance Explanation/get_infor_day_type.bru, mode: required, expected: {http_status: [200]}}
+      - {id: allocations, path: HR Attendance Explanation/get_infor_allocation.bru, mode: required, expected: {http_status: [200]}}
+      - {id: create_explanation, path: HR Attendance Explanation/create_or_update_explanation.bru, mode: required, fixture_required: true, expected: {http_status: [200], captures: [explanation_id], body_fields_any: [id, data.id]}}
+      - {id: explanation_details, path: HR Attendance Explanation/get_attendance_explanation_details.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: explanation_attachment, path: HR Attendance Explanation/attach_files.bru, mode: optional, safety: upload, expected: {http_status: [200]}}
+      - {id: submit, path: HR Attendance Explanation/app_approval_submit.bru, mode: required, expected: {http_status: [200], state_change: true}}
+    alternatives:
+      - id: approve
+        steps:
+          - {id: accept, path: HR Attendance Explanation/app_approval_accept.bru, expected: {http_status: [200], state_change: true}}
+      - id: reject
+        steps:
+          - {id: reject, path: HR Attendance Explanation/app_approval_reject.bru, expected: {http_status: [200], state_change: true}}
+    final_checks:
+      - {id: approval_progress, path: HR Attendance Explanation/get_attendance_explanation_approval_progress.bru, mode: required, expected: {http_status: [200], response_present: true}}
+    excluded:
+      - {path: HR Attendance Explanation/app_delete_hr_attendance_explanation.bru, reason: destructive cleanup}
+      - {path: HR Attendance Explanation/get_attendance_explanation_2.bru, reason: transient preview; run only as an explicitly reviewed helper}
+
+  - id: gps_attendance
+    title: GPS attendance
+    flow: gps_attendance
+    purpose: Check address lookup, one attendance event, and reporting reads.
+    safety: stateful
+    preconditions:
+      - Login succeeds.
+      - Employee's job has allow_gps_attendance enabled.
+      - Operator understands that a second create call toggles check-in/check-out.
+    steps:
+      - {id: address, path: HR Attendance/app_get_address_from_coords.bru, mode: optional, expected: {http_status: [200]}}
+      - {id: create_attendance, path: HR Attendance/create_attendance_gps.bru, mode: required, expected: {http_status: [200], captures: [attendance_log_id], body_fields_any: [id, data.id]}}
+      - {id: today, path: HR Attendance/get_attendance_today.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: month, path: HR Attendance/get_attendance_in_month.bru, mode: required, expected: {http_status: [200]}}
+      - {id: totals, path: HR Attendance/get_total_work_in_month.bru, mode: required, expected: {http_status: [200]}}
+      - {id: top_violations, path: HR Attendance/get_top_violations.bru, mode: required, expected: {http_status: [200]}}
+      - {id: search, path: HR Attendance/search_read.bru, mode: required, expected: {http_status: [200]}}
+      - {id: attendance_image, path: HR Attendance/upload_attendance_image.bru, mode: optional, safety: upload, expected: {http_status: [200]}}
+    excluded:
+      - {path: HR Attendance/get_attendance_for_one_employee.bru, reason: arbitrary employee fixture and privacy-sensitive report}
+      - {path: HR Attendance/get_attendance_violation_details.bru, reason: arbitrary employee fixture and privacy-sensitive report}
+
+  - id: resignation
+    title: Resignation lifecycle
+    flow: resignation
+    purpose: Create a resignation letter and verify one approval outcome.
+    safety: stateful
+    preconditions:
+      - Departure reason exists.
+      - The current employee has an onboard date; the helper request updates it before resignation creation.
+      - Employee/date/day-off data satisfy duplicate and date constraints.
+      - Approval template and authorized approver exist.
+    fixture_policy: create_then_capture_resignation_id
+    steps:
+      - {id: employee_onboard_date, path: HR Employee/update_employee_onboard_time.bru, mode: required, expected: {http_status: [200]}}
+      - {id: departure_reasons, path: Resignation Letter/get_infor_departure_reason.bru, mode: required, expected: {http_status: [200]}}
+      - {id: create_resignation, path: Resignation Letter/create_or_update_resignation_letter.bru, mode: required, fixture_required: true, expected: {http_status: [200], captures: [resignation_id], body_fields_any: [id, data.id]}}
+      - {id: details, path: Resignation Letter/get_resignation_letter_details.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: list, path: Resignation Letter/get_resignation_letter.bru, mode: optional, fixture_required: true, expected: {http_status: [200]}}
+      - {id: attachment, path: Resignation Letter/upload_attachment_file.bru, mode: optional, safety: upload, expected: {http_status: [200]}}
+      - {id: submit, path: Resignation Letter/app_approval_submit.bru, mode: required, expected: {http_status: [200], state_change: true}}
+    alternatives:
+      - id: approve
+        steps:
+          - {id: accept, path: Resignation Letter/app_approval_accept.bru, expected: {http_status: [200], state_change: true}}
+          # Approval changes the employee state only when day_off is today or
+          # in the past. The collection generates a future day_off, then this
+          # cleanup returns the approved test record to draft so it can be
+          # deleted without relying on system-user unlink privileges.
+          - {id: cleanup_to_draft, path: Resignation Letter/app_btn_to_draft.bru, expected: {http_status: [200], state_change: true}}
+          - {id: cleanup_delete, path: Resignation Letter/app_delete_resignation_letter.bru, expected: {http_status: [200], state_change: true}}
+      - id: reject
+        steps:
+          - {id: reject, path: Resignation Letter/app_approval_reject.bru, expected: {http_status: [200], state_change: true}}
+    excluded:
+      - {path: Resignation Letter/app_btn_cancel.bru, reason: alternate destructive workflow}
+
+  - id: staff_transfer
+    title: Staff transfer lifecycle
+    flow: staff_transfer
+    purpose: Create a transfer request, inspect it, and verify one approval outcome.
+    safety: stateful
+    preconditions:
+      - Area category and job title reference data exist.
+      - Transfer type and effective date are valid and not duplicated.
+      - Approval template and authorized approver exist.
+    fixture_policy: create_then_capture_staff_transfer_id
+    steps:
+      - {id: area_categories, path: Staff Transfer/get_infor_area_category.bru, mode: required, expected: {http_status: [200]}}
+      - {id: job_titles, path: Staff Transfer/get_infor_job_title.bru, mode: required, expected: {http_status: [200]}}
+      - {id: create_transfer, path: Staff Transfer/create_or_update_staff_transfer.bru, mode: required, fixture_required: true, expected: {http_status: [200], captures: [staff_transfer_id], body_fields_any: [id, data.id]}}
+      - {id: list, path: Staff Transfer/get_staff_transfer.bru, mode: required, expected: {http_status: [200]}}
+      - {id: details, path: Staff Transfer/get_staff_transfer_details.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: submit, path: Staff Transfer/app_approval_submit.bru, mode: required, expected: {http_status: [200], state_change: true}}
+    alternatives:
+      - id: approve
+        steps:
+          - {id: accept, path: Staff Transfer/app_approval_accept.bru, expected: {http_status: [200], state_change: true}}
+      - id: reject
+        steps:
+          - {id: reject, path: Staff Transfer/app_approval_reject.bru, expected: {http_status: [200], state_change: true}}
+    final_checks:
+      - {id: approval_progress, path: Staff Transfer/get_staff_transfer_approval_progress.bru, mode: required, expected: {http_status: [200], response_present: true}}
+    excluded:
+      - {path: Staff Transfer/create_or_update_staff_transfer_2.bru, reason: duplicate alias with hardcoded fixture IDs}
+      - {path: Staff Transfer/app_delete_staff_transfer.bru, reason: destructive cleanup}
+
+  - id: helpdesk
+    title: Helpdesk ticket lifecycle
+    flow: helpdesk
+    purpose: Create a ticket, read it, and optionally upload evidence.
+    safety: stateful
+    preconditions:
+      - Authenticated user is linked to an employee.
+      - Ticket type is feedback or propose.
+    fixture_policy: create_then_capture_ticket_id
+    steps:
+      - {id: create_ticket, path: Helpdesk Ticket/create_or_update_helpdesk_ticket.bru, mode: required, expected: {http_status: [200], captures: [ticket_id], body_fields_any: [id, data.id]}}
+      - {id: details, path: Helpdesk Ticket/get_helpdesk_ticket_details.bru, mode: required, expected: {http_status: [200], response_present: true}}
+      - {id: list, path: Helpdesk Ticket/get_list_helpdesk_ticket.bru, mode: required, expected: {http_status: [200]}}
+      - {id: attachment, path: Helpdesk Ticket/attach_files.bru, mode: optional, safety: upload, expected: {http_status: [200], captures: [ticket_attachment_id]}}
+    excluded:
+      - {path: Helpdesk Ticket/delete_att_file.bru, reason: destructive attachment cleanup; run only after explicit fixture confirmation}
+
+  - id: read_only_reports
+    title: Read-only HR reports
+    flow: read_only_reports
+    purpose: Verify report/query APIs without creating or changing records.
+    safety: read_only
+    preconditions:
+      - Login succeeds.
+      - Reward/discipline data may be absent on a blank DB; empty data is not an API failure.
+    steps:
+      - {id: blog_posts, path: Blog Post/get_blog_posts_api.bru, mode: required, expected: {http_status: [200]}}
+      - {id: reward_reasons, path: Reward & Discipline/get_infor_reward_discipline.bru, mode: required, expected: {http_status: [200]}}
+      - {id: reward_divisions, path: Reward & Discipline/get_infor_reward_discipline_divide.bru, mode: required, expected: {http_status: [200]}}
+      - {id: reward_list, path: Reward & Discipline/get_list_reward_discipline.bru, mode: required, expected: {http_status: [200]}}
+      - {id: reward_details, path: Reward & Discipline/get_reward_discipline_details.bru, mode: optional, fixture_required: true, expected: {http_status: [200]}}
+
+  - id: external_services
+    title: External service integrations
+    flow: external_services
+    purpose: Verify externally backed endpoints independently from HR stateful workflows.
+    safety: external_call
+    preconditions:
+      - External service credentials, network access, and non-sensitive test coordinates are configured.
+    steps:
+      - {id: maps_geocode, path: External Services/https_maps_googleapis_com_maps_api_geocode_json.bru, mode: optional, expected: {http_status: [200]}}
+      - {id: driver_matrix, path: Driver Attendance/matrix.bru, mode: optional, expected: {http_status: [200]}}
+      - {id: driver_v4, path: Driver Attendance/v4.bru, mode: optional, expected: {http_status: [200]}}
+    notes:
+      - External failures must be reported separately from backend business failures.
+      - Never include production coordinates, tokens, or personal data in a smoke run.

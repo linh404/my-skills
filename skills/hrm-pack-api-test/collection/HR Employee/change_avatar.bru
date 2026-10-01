@@ -1,0 +1,20 @@
+meta {
+  name: change_avatar
+  type: http
+  seq: 36
+}
+
+post {
+  url: {{base_url}}/api/models/hr-employee/upload_files/change_avatar
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: 1
+  files: @file(test-upload/placeholder.txt) @contentType(application/octet-stream)
+}

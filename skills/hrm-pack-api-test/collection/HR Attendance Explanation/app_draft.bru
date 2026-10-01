@@ -1,0 +1,21 @@
+meta {
+  name: app_draft
+  type: http
+  seq: 56
+}
+
+post {
+  url: {{base_url}}/json/2/hr.attendance.explanation/app_draft
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{explanation_id}}
+  }
+}

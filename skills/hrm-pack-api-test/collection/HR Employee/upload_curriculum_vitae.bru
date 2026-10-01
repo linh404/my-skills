@@ -1,0 +1,26 @@
+meta {
+  name: upload_curriculum_vitae
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{base_url}}/api/models/hr-employee/upload_files/upload_curriculum_vitae
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  files: @file(test-upload/placeholder.txt) @contentType(image/jpeg)
+}
+
+script:post-response {
+  const body = res.getBody();
+  const ids = body?.data;
+  if (!Array.isArray(ids) || !ids[0]) throw new Error("curriculum_vitae upload response did not contain attachment id");
+  bru.setVar("employee_curriculum_vitae_attachment_id", String(ids[0]));
+}

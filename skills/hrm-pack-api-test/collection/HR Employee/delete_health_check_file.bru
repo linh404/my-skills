@@ -1,0 +1,21 @@
+meta {
+  name: delete_health_check_file
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_health_check_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_health_check_attachment_id}}
+  }
+}

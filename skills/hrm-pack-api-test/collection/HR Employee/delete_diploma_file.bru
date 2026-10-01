@@ -1,0 +1,21 @@
+meta {
+  name: delete_diploma_file
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_diploma_file
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "attachment_id": {{employee_diploma_attachment_id}}
+  }
+}

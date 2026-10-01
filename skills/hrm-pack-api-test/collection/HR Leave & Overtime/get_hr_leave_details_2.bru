@@ -1,0 +1,27 @@
+meta {
+  name: get_hr_leave_details_2
+  type: http
+  seq: 102
+}
+
+post {
+  url: {{base_url}}/json/2/hr.leave.wizard/get_hr_leave_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "holiday_status_id": 1,
+      "request_date_from": "2025-12-08",
+      "request_date_to": "2025-12-08",
+      "request_date_from_period": "pm",
+      "request_unit_half": true,
+      
+      "name": "Xin nghỉ ốm test"
+  }
+}

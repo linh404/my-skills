@@ -1,0 +1,27 @@
+meta {
+  name: get_reward_discipline_details
+  type: http
+  seq: 133
+}
+
+post {
+  url: {{base_url}}/json/2/reward.discipline/get_reward_discipline_details
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "id": {{reward_id}}
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("reward_id")) {
+    throw new Error("fixture_unavailable: reward list returned no runtime record id");
+  }
+}

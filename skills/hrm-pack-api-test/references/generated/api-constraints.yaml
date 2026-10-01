@@ -1,0 +1,1605 @@
+{
+  "constraints": [
+    {
+      "request": "Authentication & System/app_change_password.bru",
+      "flow": "authentication",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Authentication & System/app_delete_account.bru",
+      "flow": "authentication",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Authentication & System/forgot_password.bru",
+      "flow": "authentication",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Authentication & System/sign_up.bru",
+      "flow": "authentication",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Authentication & System/update_device_token.bru",
+      "flow": "authentication",
+      "constraints": [],
+      "hardcoded_ids": [
+        {
+          "field": "employee_id",
+          "value": "2"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/change_avatar.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/update_employee_onboard_time.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_birth_certificate.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_birth_certificate_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_citizen_id.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_citizen_id_card_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_curriculum_vitae.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_curriculum_vitae_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_cv_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_cv_file_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_diploma.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_diploma_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_employee_other_document.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_employee_other_document_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_health_check.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_health_check_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_personnel_guarantee_letter.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_personnel_guarantee_letter_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_residence_certificate.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_residence_certificate_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Employee/upload_staff_confirmation_letter.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Employee/delete_staff_confirmation_letter_file.bru",
+      "flow": "employee_context",
+      "constraints": [],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_attendance_explanation_2.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "explained_resource_calendar_id",
+          "value": "1"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_hr_leave_details_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "holiday_status_id",
+          "value": "1"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_overtime_register_details_2.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "holiday_status_id",
+          "value": "1"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru",
+      "flow": "helpdesk",
+      "constraints": [
+        "authenticated user must link to employee",
+        "type is feedback or propose",
+        "upload requires ticket res_id"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/create_or_update_staff_transfer_2.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "employee_id",
+          "value": "3273"
+        },
+        {
+          "field": "area_category_id",
+          "value": "7"
+        },
+        {
+          "field": "department_id",
+          "value": "131"
+        },
+        {
+          "field": "group_id",
+          "value": "110"
+        },
+        {
+          "field": "job_id",
+          "value": "110"
+        },
+        {
+          "field": "job_title_id",
+          "value": "9"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Helpdesk Ticket/attach_files.bru",
+      "flow": "helpdesk",
+      "constraints": [
+        "authenticated user must link to employee",
+        "type is feedback or propose",
+        "upload requires ticket res_id"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_accept_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_reject_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_set_to_cancel_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_set_to_draft_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_submit_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/69445.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_attendance_explanation.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_create_date_infor.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "rec_id",
+          "value": "14"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_infor_explanation_reason.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_infor_day_type.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_infor_allocation.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/create_or_update_explanation.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/attach_files.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_cancel.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_attendance_explanation_details.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_approval_submit.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_approval_accept.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_approval_reject.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_draft.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/get_attendance_explanation_approval_progress.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/app_get_address_from_coords.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/create_attendance_gps.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_attendance_today.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_attendance_in_month.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_attendance_for_one_employee.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_attendance_violation_details.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "employee_id",
+          "value": "1"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_attendance_violation_report.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/upload_attendance_image.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_employee_total_work_in_month.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_list_driver_attendance_log.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_top_violations.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/get_total_work_in_month.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance/search_read.bru",
+      "flow": "gps_attendance",
+      "constraints": [
+        "job.allow_gps_attendance must be true",
+        "second create can toggle check-in/check-out"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_create_date_infor.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "rec_id",
+          "value": "31"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_holiday_details_by_type.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_holiday_status_id_and_days.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/create_or_update_hr_leave.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/attach_files.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_hr_leave_approval_progress_2.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_hr_leave_details.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_list_leaves.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_submit.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_accept.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_reject.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_approval_set_to_draft.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_list_overtime_register.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_overtime_holiday_status_id.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/create_or_update_overtime_register.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/get_overtime_register_details.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Helpdesk Ticket/get_helpdesk_ticket_details.bru",
+      "flow": "helpdesk",
+      "constraints": [
+        "authenticated user must link to employee",
+        "type is feedback or propose",
+        "upload requires ticket res_id"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Helpdesk Ticket/get_list_helpdesk_ticket.bru",
+      "flow": "helpdesk",
+      "constraints": [
+        "authenticated user must link to employee",
+        "type is feedback or propose",
+        "upload requires ticket res_id"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/get_infor_departure_reason.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/create_or_update_resignation_letter.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/upload_attachment_file.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/get_resignation_letter.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "employee_id",
+          "value": "26"
+        }
+      ],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/get_resignation_letter_details.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/get_resignation_letter_approval_progress.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_approval_submit.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_approval_accept.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_approval_reject.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_btn_cancel.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_btn_to_draft.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/get_infor_area_category.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/get_infor_job_title.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/create_or_update_staff_transfer.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/get_staff_transfer.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/get_staff_transfer_details.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/get_staff_transfer_approval_progress.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_approval_submit.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_approval_accept.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_approval_reject.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_cancel.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_draft.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/app_delete_hr_attendance_explanation.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Attendance Explanation/delete_explanation_file.bru",
+      "flow": "attendance_explanation",
+      "constraints": [
+        "employee/date/reason/calendar required",
+        "unique employee/date",
+        "time interval validation"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_delete_hr_leave.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/app_delete_overtime_register.bru",
+      "flow": "overtime",
+      "constraints": [
+        "overtime dates must satisfy same-day source constraint"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "HR Leave & Overtime/delete_att_file.bru",
+      "flow": "leave",
+      "constraints": [
+        "employee context required",
+        "holiday_status_id must exist",
+        "quota/date validity enforced"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Helpdesk Ticket/delete_att_file.bru",
+      "flow": "helpdesk",
+      "constraints": [
+        "authenticated user must link to employee",
+        "type is feedback or propose",
+        "upload requires ticket res_id"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/app_delete_resignation_letter.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "request": "Resignation Letter/delete_attachment_file.bru",
+      "flow": "resignation",
+      "constraints": [
+        "employee/resignation date/day-off/departure reason required",
+        "employee.onboard_time must be configured before create",
+        "duplicate active records rejected"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "COLLECTION_VERIFIED"
+    },
+    {
+      "request": "Staff Transfer/app_delete_staff_transfer.bru",
+      "flow": "staff_transfer",
+      "constraints": [
+        "type/employee/effective date required",
+        "duplicate employee/type/date rejected unless cancelled"
+      ],
+      "hardcoded_ids": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED"
+    },
+    {
+      "id": "ACCEPTED-DB-BINDING",
+      "severity": "info",
+      "scope": "all DB-bound requests",
+      "finding": "The login request selects the target database and establishes the Odoo session used by subsequent requests; this deployment does not require an X-Odoo-Database header.",
+      "evidence": "vdx_hr/controllers/user.py:19-42; Odoo HTTP session DB resolution; environments/KG - local.bru",
+      "action": "Keep --allow-db-binding as an operator confirmation; verify db_name and the persisted session target the intended database."
+    },
+    {
+      "id": "ACCEPTED-GENERIC-AUTH",
+      "severity": "info",
+      "scope": "/api/models/*",
+      "finding": "Generic and upload routes intentionally use auth=\"user\"; they require the persisted Odoo session established by login, while the bearer token remains the API credential.",
+      "evidence": "vdx_hr/controllers/main.py:87-92,134-139",
+      "action": "Keep --allow-generic-session as an operator confirmation and verify the current session cookie before generic/upload requests."
+    },
+    {
+      "id": "ACCEPTED-MANUAL-FIXTURES",
+      "severity": "medium",
+      "scope": "create/update/upload/workflow/detail/delete flows",
+      "finding": "The collection keeps operator-supplied numeric fixture IDs for requests outside the canonical create-to-detail chains; response scripts now chain IDs for the canonical HRM flows.",
+      "evidence": "collection-wide static body scan; canonical create/upload response scripts",
+      "action": "Verify every remaining fixture ID against the selected database and pass --allow-hardcoded-fixtures; do not treat standalone fixture requests as automatically chained."
+    },
+    {
+      "id": "RESOLVED-STALE-CREDENTIAL",
+      "severity": "info",
+      "scope": "Staff Transfer/create_or_update_staff_transfer_2.bru",
+      "finding": "The non-default alias previously contained literal Authorization and Cookie headers; those overrides were removed and the request now uses Bruno's dynamic bearer/session handling.",
+      "evidence": "Staff Transfer/create_or_update_staff_transfer_2.bru:7-20",
+      "action": "Keep this alias excluded from default execution and use the canonical JSON-2 request; re-scan if the file changes."
+    },
+    {
+      "id": "RESOLVED-HELPDESK-DELETE-MISMATCH",
+      "severity": "info",
+      "scope": "Helpdesk Ticket/delete_att_file.bru",
+      "finding": "Delete now checks ticket_attachment, matching the model field and the upload/detail paths.",
+      "evidence": "vdx_hr_custom/models/helpdesk_ticket.py:39,131,252,278",
+      "action": "No execution block; keep the targeted create-upload-delete verification in the validation record."
+    },
+    {
+      "id": "WARNING-FORGOT-PASSWORD-JSONRPC",
+      "severity": "medium",
+      "scope": "Authentication & System/forgot_password.bru",
+      "finding": "Backend route is type=jsonrpc but collection body is not a JSON-RPC params wrapper.",
+      "evidence": "vdx_hr/controllers/main.py:371; Authentication & System/forgot_password.bru:13",
+      "action": "Do not include in normal smoke flow; fix payload/route contract separately."
+    },
+    {
+      "id": "WARNING-PUBLIC-ATTACHMENT",
+      "severity": "high",
+      "scope": "/recheck/image/<attachment_id>",
+      "finding": "Public auth=none download uses sudo and comments out the public check.",
+      "evidence": "vdx_hr/controllers/main.py:270-290",
+      "action": "Do not use personal attachment IDs in tests."
+    }
+  ],
+  "known_findings": [
+    {
+      "id": "ACCEPTED-DB-BINDING",
+      "severity": "info",
+      "scope": "all DB-bound requests",
+      "finding": "The login request selects the target database and establishes the Odoo session used by subsequent requests; this deployment does not require an X-Odoo-Database header.",
+      "evidence": "vdx_hr/controllers/user.py:19-42; Odoo HTTP session DB resolution; environments/KG - local.bru",
+      "action": "Keep --allow-db-binding as an operator confirmation; verify db_name and the persisted session target the intended database."
+    },
+    {
+      "id": "ACCEPTED-GENERIC-AUTH",
+      "severity": "info",
+      "scope": "/api/models/*",
+      "finding": "Generic and upload routes intentionally use auth=\"user\"; they require the persisted Odoo session established by login, while the bearer token remains the API credential.",
+      "evidence": "vdx_hr/controllers/main.py:87-92,134-139",
+      "action": "Keep --allow-generic-session as an operator confirmation and verify the current session cookie before generic/upload requests."
+    },
+    {
+      "id": "ACCEPTED-MANUAL-FIXTURES",
+      "severity": "medium",
+      "scope": "create/update/upload/workflow/detail/delete flows",
+      "finding": "The collection keeps operator-supplied numeric fixture IDs for requests outside the canonical create-to-detail chains; response scripts now chain IDs for the canonical HRM flows.",
+      "evidence": "collection-wide static body scan; canonical create/upload response scripts",
+      "action": "Verify every remaining fixture ID against the selected database and pass --allow-hardcoded-fixtures; do not treat standalone fixture requests as automatically chained."
+    },
+    {
+      "id": "RESOLVED-STALE-CREDENTIAL",
+      "severity": "info",
+      "scope": "Staff Transfer/create_or_update_staff_transfer_2.bru",
+      "finding": "The non-default alias previously contained literal Authorization and Cookie headers; those overrides were removed and the request now uses Bruno's dynamic bearer/session handling.",
+      "evidence": "Staff Transfer/create_or_update_staff_transfer_2.bru:7-20",
+      "action": "Keep this alias excluded from default execution and use the canonical JSON-2 request; re-scan if the file changes."
+    },
+    {
+      "id": "RESOLVED-HELPDESK-DELETE-MISMATCH",
+      "severity": "info",
+      "scope": "Helpdesk Ticket/delete_att_file.bru",
+      "finding": "Delete now checks ticket_attachment, matching the model field and the upload/detail paths.",
+      "evidence": "vdx_hr_custom/models/helpdesk_ticket.py:39,131,252,278",
+      "action": "No execution block; keep the targeted create-upload-delete verification in the validation record."
+    },
+    {
+      "id": "WARNING-FORGOT-PASSWORD-JSONRPC",
+      "severity": "medium",
+      "scope": "Authentication & System/forgot_password.bru",
+      "finding": "Backend route is type=jsonrpc but collection body is not a JSON-RPC params wrapper.",
+      "evidence": "vdx_hr/controllers/main.py:371; Authentication & System/forgot_password.bru:13",
+      "action": "Do not include in normal smoke flow; fix payload/route contract separately."
+    },
+    {
+      "id": "WARNING-PUBLIC-ATTACHMENT",
+      "severity": "high",
+      "scope": "/recheck/image/<attachment_id>",
+      "finding": "Public auth=none download uses sudo and comments out the public check.",
+      "evidence": "vdx_hr/controllers/main.py:270-290",
+      "action": "Do not use personal attachment IDs in tests."
+    }
+  ]
+}

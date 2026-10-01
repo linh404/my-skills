@@ -1,0 +1,39 @@
+meta {
+  name: update_employee_onboard_time
+  type: http
+  seq: 40
+}
+
+post {
+  url: {{base_url}}/json/2/hr.employee/write
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "ids": [{{employee_id}}],
+    "vals": {
+      "onboard_time": "2020-01-01"
+    }
+  }
+}
+
+script:pre-request {
+  if (!bru.getVar("employee_id")) {
+    throw new Error("employee_context_required: get_employee_infor must run first");
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  const message = typeof body?.message === "string" ? body.message.toLowerCase() : "";
+  if (body?.error || message.includes("error")) {
+    throw new Error(`Failed to update employee onboard_time: ${JSON.stringify(body)}`);
+  }
+  bru.setVar("employee_onboard_time", "2020-01-01");
+}

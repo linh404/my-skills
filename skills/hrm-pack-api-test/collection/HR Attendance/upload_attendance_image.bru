@@ -1,0 +1,20 @@
+meta {
+  name: upload_attendance_image
+  type: http
+  seq: 67
+}
+
+post {
+  url: {{base_url}}/api/models/driver-attendance-log/upload_files/upload_attendance_image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  res_id: {{attendance_log_id}}
+  files: @file(test-upload/placeholder.txt) @contentType(application/octet-stream)
+}
