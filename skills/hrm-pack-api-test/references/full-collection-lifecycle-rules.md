@@ -1,7 +1,10 @@
-# Full-collection lifecycle rules
+# Lifecycle-mode rules
 
-These rules apply when the goal is to exercise the collection broadly, not
-just run the normal non-destructive business smoke paths.
+These rules are the source of truth for `--mode lifecycle`. They apply when
+the goal is to exercise a collection flow broadly, not just run the normal
+reviewed business smoke path. Lifecycle mode is permitted only against a
+disposable local/test Odoo database; never use it against shared, staging, or
+production data.
 
 ## 1. Fresh-resource rule for state-changing APIs
 
@@ -87,7 +90,7 @@ returned a valid record/attachment ID.
 
 ## 4.1 Dependency-first execution (mandatory)
 
-This rule applies to **every** runner mode, including a full-collection sweep.
+This rule applies to **both** API-test modes, including a lifecycle sweep.
 Do not execute the collection as a flat list of independent `.bru` files.
 Before sending any endpoint, resolve its source-backed dependencies and place
 the required producer/setup calls in the same business or lifecycle sequence.

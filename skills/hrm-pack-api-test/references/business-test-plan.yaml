@@ -5,6 +5,10 @@ description: >-
   collection. Each business is executed in its own Bruno process/session.
 collection: /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection
 execution_defaults:
+  api_test_modes:
+    default: business
+    lifecycle: references/full-collection-lifecycle-rules.md
+    local_database_only: true
   auth_step: Authentication & System/login.bru
   stop_on_failure: true
   include_optional: false
@@ -23,7 +27,9 @@ execution_defaults:
     - checks
     - checkpoint
 
-# A step is a collection-relative .bru path. `required` steps are the normal
+# The top-level API-test mode is `business` or `lifecycle`; it is distinct from
+# a step's inclusion metadata below. A step is a collection-relative .bru path.
+# `required` steps are the normal
 # happy path. `optional` steps need explicit opt-in. `manual` steps remain
 # operator-managed only when no runtime producer mapping exists; a canonical
 # manual step with a mapped producer chain is executed by the runner. Alias

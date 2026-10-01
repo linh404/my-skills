@@ -32,12 +32,28 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/check_br
 For a local (non-global) install, point the scripts at the local binary with
 `BRU_BIN=/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/node_modules/.bin/bru`.
 
+## Execution modes
+
+The skill has exactly two API-test modes:
+
+- **business** (default): run one reviewed HRM business flow, with optional
+  steps and destructive cleanup excluded unless the manifest explicitly maps a
+  fresh-resource chain.
+- **lifecycle**: run a dependency-ordered collection flow, including the
+  producer/capture/verify/cleanup rules from
+  `references/full-collection-lifecycle-rules.md`.
+
+Both modes start as a dry-run. **Execute only against a disposable local/test
+database. Never target shared, staging, or production data.** The environment
+file name alone is not proof that the database is safe.
+
 ## Runtime entrypoint
 
 Use the sequence runner:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
+  --mode business \
   --flow leave \
   --env 'KG - local.bru'
 ```
@@ -46,6 +62,7 @@ The command above is a **dry run**. Review the printed ordered steps first. To e
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
+  --mode business \
   --flow leave \
   --env 'KG - local.bru' \
   --execute \
@@ -56,7 +73,22 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_
   --include-error-body
 ```
 
-Do not run the entire 146-request collection as one test. Select one flow at a time:
+For lifecycle coverage, select one flow at a time with `--mode lifecycle`:
+
+```bash
+python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
+  --mode lifecycle \
+  --flow leave \
+  --env 'KG - local.bru'
+```
+
+The equivalent package command is:
+
+```bash
+npm run test:lifecycle -- --flow leave --env 'KG - local.bru'
+```
+
+Do not run the entire collection as one flat test. Select one flow at a time:
 
 - `authentication`
 - `reference_data`
@@ -277,7 +309,7 @@ List the available business groups:
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_business_flows.py --list
 ```
 
-Run one business as a safe dry-run (the runner prints the exact ordered
+Run one business as a dry-run (the runner prints the exact ordered
 requests and reports any missing explicit approvals):
 
 ```bash
@@ -305,9 +337,8 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_bus
 Approval branches are alternatives, not one combined sequence. Use
 `--variant reject` to exercise rejection, or `--variant none` to stop after
 submission/final read checks. Optional uploads and device/attachment steps
-are excluded unless `--include-optional` is supplied. Read-only groups can be
-reviewed together with `--all-read-only`; use `--all` only when every business
-has been intentionally approved. `--continue-on-failure` collects remaining
+are excluded unless `--include-optional` is supplied. Use `--all` only when
+every business has been intentionally approved. `--continue-on-failure` collects remaining
 results instead of stopping at the first failed business.
 
 The aggregate report and one sanitized log per business are written below
@@ -320,8 +351,9 @@ remain explicitly listed for review (the status is
 `passed_transport_review_required`) because response bodies are omitted from
 the persisted report to avoid leaking tokens or PII. Manifest steps marked
 `fixture_required` are blocked until `--allow-hardcoded-fixtures` is supplied.
-The runner never includes destructive cleanup requests in the default business
-paths.
+The business runner never includes arbitrary destructive cleanup in default
+paths; any cleanup that is present must be explicitly mapped to a fresh
+resource in the reviewed manifest.
 
 Use `--include-error-body` when debugging a failed API. It keeps only a
 recursively redacted response body for failed requests; successful response
@@ -329,9 +361,8 @@ bodies and all headers remain removed.
 
 ## Full collection lifecycle rules
 
-The normal business runner intentionally avoids destructive cleanup and
-operator-owned fixtures. When the user asks to test the **full collection**,
-use the source-of-truth lifecycle policy in
+The normal business mode intentionally avoids destructive cleanup and
+operator-owned fixtures. Lifecycle mode uses the source-of-truth policy in
 [`references/full-collection-lifecycle-rules.md`](references/full-collection-lifecycle-rules.md).
 The important rules are:
 
@@ -350,7 +381,7 @@ The important rules are:
   `bru.setVar`, and only then send the consumer request. If the producer does
   not return a valid ID, stop that chain and report `fixture_unavailable` (or
   the concrete backend error); do not fall back to a historical ID.
-- **Every execution mode must resolve dependencies before sending a request.**
+- **Both business and lifecycle modes must resolve dependencies before sending a request.**
   A full sweep is not permission to fire each `.bru` file independently. For
   every endpoint, inspect its source-backed dependency/runtime map and add the
   required producer(s) to the business sequence. If no producer chain exists,
@@ -367,7 +398,7 @@ The important rules are:
 
 ## Safety contract
 
-- Confirm the exact environment/database before `--execute`; the checked-in local environment is `kg-dev-4`, but never assume it is the intended blank/test DB.
+- Confirm the exact environment/database before `--execute`; use only a disposable local/test DB. Never use shared, staging, or production data.
 - Never expose bearer tokens, cookies, passwords, or external API keys.
 - `--allow-mutations` is required for create/update/upload/workflow/delete/preview operations.
 - `--allow-hardcoded-fixtures` is required when standalone collection bodies still contain numeric IDs. Prefer the canonical create-to-detail chains; the runner does not silently rewrite request bodies.

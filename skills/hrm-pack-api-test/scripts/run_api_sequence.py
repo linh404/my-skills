@@ -17,8 +17,9 @@ from pathlib import Path
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
+SKILL_ROOT = HERE.parent
 DEFAULT_PLAN = HERE.parent / "references" / "generated" / "api-execution-order.json"
-DEFAULT_COLLECTION = Path("/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection")
+DEFAULT_COLLECTION = SKILL_ROOT / "collection"
 MUTATING = {"mutate", "upload", "workflow_transition", "delete", "transient_preview", "external_call"}
 SECRET_RE = re.compile(r"(?i)(bearer\s+)[A-Za-z0-9._-]{16,}|(cookie\s*:\s*)[^\n]+|((?:token|password|secret|api[_-]?key)\s*[:=]\s*)[^\s,;]+")
 SENSITIVE_KEY_RE = re.compile(r"(?i)(token|password|secret|api[_-]?key|authorization|cookie|session)")
@@ -189,6 +190,12 @@ def main() -> int:
     parser.add_argument("--collection", type=Path, default=DEFAULT_COLLECTION)
     parser.add_argument("--flow", help="run one named flow; required for --execute unless explicit --request paths are supplied")
     parser.add_argument(
+        "--mode",
+        choices=("business", "lifecycle"),
+        default="business",
+        help="execution policy: reviewed business flow (default) or full dependency/lifecycle flow",
+    )
+    parser.add_argument(
         "--request",
         action="append",
         default=[],
@@ -309,6 +316,7 @@ def main() -> int:
     print(f"plan: {plan_path}")
     print(f"collection: {collection}")
     selector = args.flow or (f"explicit ({len(args.request)} requests)" if args.request else "<not selected>")
+    print(f"mode: {args.mode}")
     print(f"flow: {selector}")
     print(f"steps: {len(selected)}")
     for node in selected:
@@ -323,12 +331,23 @@ def main() -> int:
         print("\nDry run only. Add --execute after reviewing this sequence.")
         return 0
 
+    print(
+        "\nWARNING: execute this skill only against a disposable local/test Odoo database. "
+        "Never target shared, staging, or production data."
+    )
+
     args_env = environment_args(collection, args.env)
     args.report_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_dir = args.report_dir / stamp
     run_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint = {"plan": str(plan_path), "flow": args.flow, "started_at": stamp, "steps": []}
+    checkpoint = {
+        "plan": str(plan_path),
+        "mode": args.mode,
+        "flow": args.flow,
+        "started_at": stamp,
+        "steps": [],
+    }
     checkpoint_path = run_dir / "checkpoint.json"
     # One Bruno process is required: its cookie jar and bru.setVar() runtime
     # variables are process-scoped. Passing all selected request paths in one

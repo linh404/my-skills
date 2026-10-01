@@ -9,6 +9,7 @@
     "check:bruno": "python3 scripts/check_bruno_cli.py",
     "test:api": "python3 scripts/test_bruno_cli.py",
     "test:business": "python3 scripts/test_business_flows.py",
+    "test:lifecycle": "python3 scripts/run_api_sequence.py --mode lifecycle",
     "configure:approval": "python3 scripts/configure_approval.py",
     "configure:calendar": "python3 scripts/configure_calendar.py",
     "configure:leave-allocation": "python3 scripts/configure_leave_allocation.py",

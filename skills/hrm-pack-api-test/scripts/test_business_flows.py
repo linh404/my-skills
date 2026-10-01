@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the HRM API collection as isolated, dependency-ordered business flows.
+"""Run the HRM API collection in business mode.
 
 The business manifest is intentionally separate from the generated API graph:
 the graph describes every endpoint, while this runner selects one reviewed
@@ -23,7 +23,7 @@ HERE = Path(__file__).resolve().parent
 SKILL_ROOT = HERE.parent
 DEFAULT_MANIFEST = SKILL_ROOT / "references" / "business-test-plan.yaml"
 DEFAULT_PLAN = SKILL_ROOT / "references" / "generated" / "api-execution-order.json"
-DEFAULT_COLLECTION = Path("/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection")
+DEFAULT_COLLECTION = SKILL_ROOT / "collection"
 SECRETS_RE = re.compile(
     r"(?i)(bearer\s+)[A-Za-z0-9._-]{16,}|(cookie\s*:\s*)[^\n]+|"
     r"((?:token|password|secret|api[_-]?key)\s*[:=]\s*)[^\s,;]+"
@@ -261,6 +261,8 @@ def command_for_business(
         str(collection),
         "--bru",
         bru,
+        "--mode",
+        "business",
         "--no-dependency-closure",
         "--report-dir",
         str(report_dir),
@@ -300,7 +302,6 @@ def main() -> int:
     parser.add_argument("--collection", type=Path, default=DEFAULT_COLLECTION)
     parser.add_argument("--business", action="append", help="business id to run (repeatable)")
     parser.add_argument("--all", action="store_true", help="run every business, one Bruno process per business")
-    parser.add_argument("--all-read-only", action="store_true", help="run businesses marked safety=read_only")
     parser.add_argument("--list", action="store_true", help="list available business groups")
     parser.add_argument("--variant", default="approve", help="approval variant: approve, reject, or none")
     parser.add_argument("--include-optional", action="store_true", help="include optional/upload steps")
@@ -341,17 +342,12 @@ def main() -> int:
     if args.list:
         list_businesses(businesses)
         return 0
-    if args.all and args.all_read_only:
-        raise SystemExit("choose only one of --all or --all-read-only")
-
     if args.all:
         selected_ids = list(businesses)
-    elif args.all_read_only:
-        selected_ids = [key for key, value in businesses.items() if value.get("safety") == "read_only"]
     elif args.business:
         selected_ids = args.business
     else:
-        raise SystemExit("select --business <id>, --all-read-only, or --all (use --list first)")
+        raise SystemExit("select --business <id> or --all (use --list first)")
 
     unknown = [business_id for business_id in selected_ids if business_id not in businesses]
     if unknown:
@@ -387,6 +383,7 @@ def main() -> int:
         "manifest": str(manifest_path),
         "plan": str(plan_path),
         "collection": str(collection),
+        "mode": "business",
         "started_at": stamp,
         "execute": bool(args.execute),
         "variant": args.variant,
@@ -423,7 +420,7 @@ def main() -> int:
             report_dir=business_report_dir,
             args=args,
         )
-        print(f"\n=== BUSINESS: {business_id} ({business.get('title', business_id)}) ===")
+        print(f"\n=== BUSINESS MODE: {business_id} ({business.get('title', business_id)}) ===")
         print(f"safety: {business.get('safety', 'unspecified')}; steps: {len(steps)}; variant: {args.variant}")
         if excluded:
             print("excluded: " + "; ".join(excluded))
@@ -442,6 +439,11 @@ def main() -> int:
             )
             completed_returncode = 2
         else:
+            if args.execute:
+                print(
+                    "WARNING: execute business mode only against a disposable local/test Odoo database; "
+                    "never shared, staging, or production data."
+                )
             completed = subprocess.run(command, text=True, capture_output=True, check=False)
             output = sanitize(completed.stdout + ("\n" + completed.stderr if completed.stderr else ""))
             completed_returncode = completed.returncode
