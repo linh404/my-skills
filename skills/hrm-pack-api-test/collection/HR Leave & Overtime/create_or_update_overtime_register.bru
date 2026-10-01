@@ -31,7 +31,7 @@ script:pre-request {
   if (!bru.getVar("employee_id") || !bru.getVar("overtime_holiday_status_id")) {
     throw new Error("fixture_unavailable: employee or overtime type lookup returned no usable ID");
   }
-  // Use a fresh future weekday so repeated business runs do not collide with
+  // Use a fresh future weekday so repeated lifecycle runs do not collide with
   // an already approved overtime/leave record on the current date.
   const now = new Date();
   now.setHours(12, 0, 0, 0);

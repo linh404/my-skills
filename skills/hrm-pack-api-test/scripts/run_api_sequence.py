@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Execute an approved HRM Bruno sequence from the prebuilt source-backed plan.
+"""Execute an approved HRM lifecycle from the prebuilt source-backed plan.
 
 The script does not analyze source or edit .bru files. It refuses mutating or
 fixture-dependent execution unless the caller explicitly opts in.
@@ -117,7 +117,7 @@ def report_entry_failed(entry: dict[str, Any]) -> bool:
 
     Bruno can leave the top-level entry status as ``pass`` when the HTTP
     exchange completed but a post-response script failed (for example, an ID
-    capture script receiving HTTP 422). The business runner must not classify
+    capture script receiving HTTP 422). The lifecycle runner must not classify
     that request as passed.
     """
     if str(entry.get("status", "")).lower() in {"fail", "failed", "error"}:
@@ -190,12 +190,6 @@ def main() -> int:
     parser.add_argument("--collection", type=Path, default=DEFAULT_COLLECTION)
     parser.add_argument("--flow", help="run one named flow; required for --execute unless explicit --request paths are supplied")
     parser.add_argument(
-        "--mode",
-        choices=("business", "lifecycle"),
-        default="business",
-        help="execution policy: reviewed business flow (default) or full dependency/lifecycle flow",
-    )
-    parser.add_argument(
         "--request",
         action="append",
         default=[],
@@ -205,7 +199,7 @@ def main() -> int:
     parser.add_argument(
         "--no-dependency-closure",
         action="store_true",
-        help="execute only the explicitly selected requests; use only with a complete, reviewed business sequence",
+        help="execute only the explicitly selected requests; use only with a complete, reviewed lifecycle sequence",
     )
     parser.add_argument("--env", help="Bruno environment name")
     parser.add_argument("--bru", default=os.environ.get("BRU_BIN", "bru"))
@@ -261,7 +255,7 @@ def main() -> int:
     if not args.no_dependency_closure:
         selected = dependency_closure(nodes, selected)
     if args.request:
-        # A business manifest is an explicit, reviewed order.  Preserve that
+        # An explicit, reviewed lifecycle sequence may provide its own order. Preserve that
         # order while still placing any requested node dependencies before it.
         # With --no-dependency-closure the manifest itself is authoritative.
         if args.no_dependency_closure:
@@ -316,7 +310,7 @@ def main() -> int:
     print(f"plan: {plan_path}")
     print(f"collection: {collection}")
     selector = args.flow or (f"explicit ({len(args.request)} requests)" if args.request else "<not selected>")
-    print(f"mode: {args.mode}")
+    print("mode: lifecycle")
     print(f"flow: {selector}")
     print(f"steps: {len(selected)}")
     for node in selected:
@@ -343,7 +337,7 @@ def main() -> int:
     run_dir.mkdir(parents=True, exist_ok=True)
     checkpoint = {
         "plan": str(plan_path),
-        "mode": args.mode,
+        "mode": "lifecycle",
         "flow": args.flow,
         "started_at": stamp,
         "steps": [],

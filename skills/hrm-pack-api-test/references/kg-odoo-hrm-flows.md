@@ -2,9 +2,9 @@
 
 These notes were derived from the current collection/source snapshot. Treat them as a fast starting point, then re-check the files when the collection or backend changes.
 
-Use `business` mode for a reviewed business flow and `lifecycle` mode for a
-fresh-resource collection lifecycle. Execute either mode only against a
-disposable local/test database; never use shared, staging, or production data.
+Use lifecycle mode for fresh-resource collection lifecycles. Execute it only
+against a disposable local/test database; never use shared, staging, or
+production data.
 
 ## Global prerequisites
 

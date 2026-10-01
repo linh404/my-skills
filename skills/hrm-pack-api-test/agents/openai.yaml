@@ -1,4 +1,4 @@
 interface:
   display_name: "HRM Pack API Test"
-  short_description: "Run verified sequential HRM API business flows"
-  default_prompt: "Use $hrm-pack-api-test in business or lifecycle mode to run source-backed HRM API flows in dependency order. Execute only against a disposable local/test database, enforce fixture/session safety, and produce a checkpointed Bruno report."
+  short_description: "Run verified sequential HRM API lifecycles"
+  default_prompt: "Use $hrm-pack-api-test to run source-backed HRM API lifecycles in dependency order. Execute only against a disposable local/test database, enforce fixture/session safety, and produce a checkpointed Bruno report."

@@ -25,7 +25,7 @@
     },
     {
       "order": 4,
-      "id": "business_flows",
+      "id": "lifecycle_flows",
       "purpose": "run one isolated domain flow at a time"
     },
     {

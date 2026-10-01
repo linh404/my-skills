@@ -1,8 +1,8 @@
 # Lifecycle-mode rules
 
-These rules are the source of truth for `--mode lifecycle`. They apply when
+These rules are the source of truth for the lifecycle runner. They apply when
 the goal is to exercise a collection flow broadly, not just run the normal
-reviewed business smoke path. Lifecycle mode is permitted only against a
+reviewed smoke path. Lifecycle execution is permitted only against a
 disposable local/test Odoo database; never use it against shared, staging, or
 production data.
 
@@ -90,10 +90,10 @@ returned a valid record/attachment ID.
 
 ## 4.1 Dependency-first execution (mandatory)
 
-This rule applies to **both** API-test modes, including a lifecycle sweep.
+This rule applies to every lifecycle execution.
 Do not execute the collection as a flat list of independent `.bru` files.
 Before sending any endpoint, resolve its source-backed dependencies and place
-the required producer/setup calls in the same business or lifecycle sequence.
+the required producer/setup calls in the same lifecycle sequence.
 Keep the producer, runtime capture, and consumer in one Bruno process.
 
 If an endpoint has no reviewed producer chain, the correct action is to add the
@@ -103,17 +103,16 @@ prerequisite cannot be produced, classify the endpoint as
 just to obtain an error response.
 
 Standalone probes of runtime-dependent endpoints are diagnostic only. They must
-not be counted as API failures, API passes, or business coverage. The
-authoritative result is the result from the dependency-ordered business or
-lifecycle chain.
+not be counted as API failures or API passes. The authoritative result is the
+result from the dependency-ordered lifecycle chain.
 
 ## 5. Alias rule (deferred)
 
 An alias is a second collection file for the same backend capability or route
 (for example a JSON-2 route alongside a generic route, or a file ending in
-`_2.bru`). It is not a new business capability. **Aliases remain where they
+`_2.bru`). It is not a new lifecycle capability. **Aliases remain where they
 are and are intentionally deferred in this phase.** Do not rename, rewrite,
-map, or execute aliases yet. Do not count them as business coverage. The
+map, or execute aliases yet. Do not count them as lifecycle coverage. The
 canonical route is the source of truth until a separate alias-cleanup phase is
 approved.
 

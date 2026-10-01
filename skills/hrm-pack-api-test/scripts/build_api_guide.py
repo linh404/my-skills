@@ -517,7 +517,7 @@ def main() -> int:
     # runs first without treating aliases as producers.
     for flow, consumers in RUNTIME_PRODUCER_EDGES.items():
         for consumer, producers in consumers.items():
-            # Most producer names are reused across business flows (for
+            # Most producer names are reused across lifecycle flows (for
             # example ``attach_files`` and ``app_approval_submit``).  Keep
             # those edges inside the consumer's flow; otherwise selecting one
             # request would pull unrelated mutations from every flow.  The
@@ -582,7 +582,7 @@ def main() -> int:
             {"order": 1, "id": "authentication", "purpose": "login/session"},
             {"order": 2, "id": "reference_data", "purpose": "read existing reference values"},
             {"order": 3, "id": "employee_context", "purpose": "resolve current employee and contract context"},
-            {"order": 4, "id": "business_flows", "purpose": "run one isolated domain flow at a time"},
+            {"order": 4, "id": "lifecycle_flows", "purpose": "run one dependency-ordered lifecycle flow at a time"},
             {"order": 5, "id": "verification", "purpose": "detail/list/report reads"},
         ],
         "nodes": requests,

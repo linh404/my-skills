@@ -1,9 +1,8 @@
 # Project defaults: KG Odoo HRM Bruno collection
 
-API execution has two modes: `business` (reviewed business flow) and
-`lifecycle` (dependency-ordered fresh-resource lifecycle). Both modes are
-intended only for a disposable local/test database. Never point them at
-shared, staging, or production data.
+API execution uses lifecycle mode only: dependency-ordered fresh-resource
+sequences. Run it only against a disposable local/test database. Never point
+it at shared, staging, or production data.
 
 Use these defaults only when the paths exist; explicit user paths take precedence.
 

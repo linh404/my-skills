@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Run a business or lifecycle HRM flow through Bruno CLI.
+"""Run a lifecycle HRM flow through Bruno CLI.
 
-Dry-run is the default phase for both modes. Execute only against a
+Dry-run is the default phase for lifecycle execution. Execute only against a
 disposable local/test database after reviewing the printed dependency order.
 """
 from __future__ import annotations
@@ -20,7 +20,6 @@ CHECKER = HERE / "check_bruno_cli.py"
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--flow", default="employee_context")
-    parser.add_argument("--mode", choices=("business", "lifecycle"), default="business")
     parser.add_argument("--env", default="KG - local.bru")
     parser.add_argument("--bru", default=os.environ.get("BRU_BIN", "bru"))
     parser.add_argument("--execute", action="store_true", help="send requests; default is dry-run")
@@ -39,8 +38,6 @@ def main() -> int:
         str(RUNNER),
         "--flow",
         args.flow,
-        "--mode",
-        args.mode,
         "--env",
         args.env,
         "--bru",

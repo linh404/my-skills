@@ -32,18 +32,13 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/check_br
 For a local (non-global) install, point the scripts at the local binary with
 `BRU_BIN=/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/node_modules/.bin/bru`.
 
-## Execution modes
+## Lifecycle execution
 
-The skill has exactly two API-test modes:
+This skill exposes one API-test mode: **lifecycle**. It runs a
+dependency-ordered collection flow with producer/capture/verify/cleanup rules
+from `references/full-collection-lifecycle-rules.md`.
 
-- **business** (default): run one reviewed HRM business flow, with optional
-  steps and destructive cleanup excluded unless the manifest explicitly maps a
-  fresh-resource chain.
-- **lifecycle**: run a dependency-ordered collection flow, including the
-  producer/capture/verify/cleanup rules from
-  `references/full-collection-lifecycle-rules.md`.
-
-Both modes start as a dry-run. **Execute only against a disposable local/test
+Execution starts as a dry-run. **Execute only against a disposable local/test
 database. Never target shared, staging, or production data.** The environment
 file name alone is not proof that the database is safe.
 
@@ -53,7 +48,6 @@ Use the sequence runner:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
-  --mode business \
   --flow leave \
   --env 'KG - local.bru'
 ```
@@ -62,7 +56,6 @@ The command above is a **dry run**. Review the printed ordered steps first. To e
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
-  --mode business \
   --flow leave \
   --env 'KG - local.bru' \
   --execute \
@@ -73,22 +66,13 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_
   --include-error-body
 ```
 
-For lifecycle coverage, select one flow at a time with `--mode lifecycle`:
-
-```bash
-python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
-  --mode lifecycle \
-  --flow leave \
-  --env 'KG - local.bru'
-```
-
 The equivalent package command is:
 
 ```bash
 npm run test:lifecycle -- --flow leave --env 'KG - local.bru'
 ```
 
-Do not run the entire collection as one flat test. Select one flow at a time:
+Do not run the entire collection as one flat test. Select one lifecycle flow at a time:
 
 - `authentication`
 - `reference_data`
@@ -259,31 +243,23 @@ application source or mask backend errors such as the resignation
 `onboard_time=False` comparison. Review the dry-run first on another DB.
 
 The runner resolves dependency closure, prints the exact order, runs the
-selected `.bru` requests in **one Bruno CLI process** (required for cookie
-session and `bru.setVar` ID chaining), writes body/header-free JSON reports,
-and stops at the first failure. Checkpoints are written under
+selected `.bru` requests in one Bruno CLI process (required for cookie session
+and `bru.setVar` ID chaining), writes body/header-free JSON reports, and stops
+at the first failure. Checkpoints are written under
 `/tmp/hrm-pack-api-test/<timestamp>/`.
 
-When testing all APIs, use the reviewed business/lifecycle sequences rather
-than a flat per-file scan. `--all` on `test_business_flows.py` means one
-dependency-ordered Bruno process per business; it does not mean that every
-collection file is sent independently. A request omitted from a business
-sequence is a mapping/coverage gap to resolve, not an invitation to execute it
-standalone.
+When testing APIs, use the reviewed lifecycle sequence rather than a flat
+per-file scan. The runner recursively inserts each canonical producer before
+its consumer. A request omitted from the generated lifecycle chain is a
+mapping/coverage gap, not an invitation to execute it standalone. Aliases are
+never inserted into these chains.
 
-The business runner reads `runtime_producers` from
-`references/business-test-plan.yaml` and recursively inserts each canonical
-producer before its consumer. Therefore a request such as a detail, workflow,
-attachment, or cleanup endpoint is tested as a real chain (`lookup/create or
-upload -> capture runtime ID -> consumer`), not skipped merely because it
-needs runtime data. Aliases are never inserted into these chains.
+The canonical create-to-detail/upload/workflow branches use Bruno response
+scripts (`bru.setVar`) to chain IDs at runtime. The runner does **not** rewrite
+request bodies or infer IDs for standalone fixture requests; those requests
+remain operator-managed and require explicit fixture confirmation.
 
-The canonical create-to-detail/upload/workflow branches now use Bruno response
-scripts (`bru.setVar`) to chain IDs at runtime. The runner still does **not**
-rewrite request bodies or infer IDs for standalone fixture requests; those
-requests remain operator-managed and require explicit fixture confirmation.
-
-Quick CLI smoke test (dry-run by default):
+Quick lifecycle dry-run:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_bruno_cli.py \
@@ -291,79 +267,14 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_bru
   --env 'KG - local.bru'
 ```
 
-Add `--execute` and the required approval flags only when you intentionally
+Add `--execute` and the required confirmation flags only when you intentionally
 want to send requests.
 
-## Test theo từng nghiệp vụ
+## Lifecycle rules
 
-Use the business runner when the goal is to verify an HRM nghiệp vụ end to
-end, rather than execute an arbitrary API flow. The source-backed manifest is
-[`references/business-test-plan.yaml`](references/business-test-plan.yaml). It
-keeps each business in a reviewed order, prepends login once, selects one
-approval variant, and starts a separate Bruno process/session for every
-business so cookies and runtime IDs cannot leak across transactions.
+The lifecycle runner uses the source-of-truth policy in
+`references/full-collection-lifecycle-rules.md`.
 
-List the available business groups:
-
-```bash
-python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_business_flows.py --list
-```
-
-Run one business as a dry-run (the runner prints the exact ordered
-requests and reports any missing explicit approvals):
-
-```bash
-python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_business_flows.py \
-  --business leave \
-  --variant approve
-```
-
-Execute one stateful business only after confirming the target database and
-fixtures. `--allow-mutations`, `--allow-hardcoded-fixtures`,
-`--allow-db-binding`, and `--allow-generic-session` are independent safety
-confirmations; add only the ones that apply:
-
-```bash
-python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_business_flows.py \
-  --business leave \
-  --variant approve \
-  --execute \
-  --allow-mutations \
-  --allow-hardcoded-fixtures \
-  --allow-db-binding \
-  --allow-generic-session
-```
-
-Approval branches are alternatives, not one combined sequence. Use
-`--variant reject` to exercise rejection, or `--variant none` to stop after
-submission/final read checks. Optional uploads and device/attachment steps
-are excluded unless `--include-optional` is supplied. Use `--all` only when
-every business has been intentionally approved. `--continue-on-failure` collects remaining
-results instead of stopping at the first failed business.
-
-The aggregate report and one sanitized log per business are written below
-`/tmp/hrm-pack-api-test/business-<timestamp>/`. A business is successful only
-when Bruno reports every selected request as passing and the declared
-preconditions/response checks have been reviewed; an HTTP 2xx by itself is
-not a business assertion. The report automatically verifies checkpoint
-request status and declared HTTP-status ranges; body-field/state assertions
-remain explicitly listed for review (the status is
-`passed_transport_review_required`) because response bodies are omitted from
-the persisted report to avoid leaking tokens or PII. Manifest steps marked
-`fixture_required` are blocked until `--allow-hardcoded-fixtures` is supplied.
-The business runner never includes arbitrary destructive cleanup in default
-paths; any cleanup that is present must be explicitly mapped to a fresh
-resource in the reviewed manifest.
-
-Use `--include-error-body` when debugging a failed API. It keeps only a
-recursively redacted response body for failed requests; successful response
-bodies and all headers remain removed.
-
-## Full collection lifecycle rules
-
-The normal business mode intentionally avoids destructive cleanup and
-operator-owned fixtures. Lifecycle mode uses the source-of-truth policy in
-[`references/full-collection-lifecycle-rules.md`](references/full-collection-lifecycle-rules.md).
 The important rules are:
 
 - Delete/cancel/reset/reject requests must run only against a fresh record
@@ -381,14 +292,14 @@ The important rules are:
   `bru.setVar`, and only then send the consumer request. If the producer does
   not return a valid ID, stop that chain and report `fixture_unavailable` (or
   the concrete backend error); do not fall back to a historical ID.
-- **Both business and lifecycle modes must resolve dependencies before sending a request.**
+- **Lifecycle mode must resolve dependencies before sending a request.**
   A full sweep is not permission to fire each `.bru` file independently. For
   every endpoint, inspect its source-backed dependency/runtime map and add the
-  required producer(s) to the business sequence. If no producer chain exists,
+  required producer(s) to the lifecycle sequence. If no producer chain exists,
   fix the mapping or classify the endpoint as `fixture_unavailable`; do not run
   it merely to collect an error response.
 - Results from a standalone probe of a runtime-dependent endpoint must never
-  be counted as a backend failure or a passed API. Only the same-business
+  be counted as a backend failure or a passed API. Only the same-lifecycle
   producer -> capture -> consumer chain is authoritative for that endpoint.
 - `_2`/other duplicate route files are aliases, not new capabilities. Leave
   aliases untouched and deferred in this phase; do not rename, rewrite, map, or
@@ -416,7 +327,7 @@ The important rules are:
   such as `*_2` and the generic staff-transfer variant with
   `default_execution: false`; they are deferred, not silently treated as
   tested coverage.
-- Do not claim business success from HTTP `2xx` alone. Verify returned `id`, `state`, approval progress, and the Bruno report. This collection currently has no meaningful request assertions beyond login's token script.
+- Do not claim lifecycle success from HTTP `2xx` alone. Verify returned `id`, `state`, approval progress, and the Bruno report. This collection currently has no meaningful request assertions beyond login's token script.
 - No Docker/service start or restart is performed by this skill.
 
 ## Built-in flow order
@@ -426,7 +337,7 @@ The baked guide uses a common prefix and independent domain branches:
 ```text
 login
   -> current employee/reference context
-  -> one selected business flow
+  -> one selected lifecycle flow
   -> capture/verify record id/state (manual or response-script dependent)
   -> detail/list verification
   -> optional upload
@@ -440,10 +351,10 @@ Canonical branches are documented in [references/kg-odoo-hrm-flows.md](reference
 ## Important baked constraints
 
 - Login creates a 30-day API key and stores it as Bruno secret `token`.
-- Most business APIs require the authenticated user to map to `hr.employee`.
+- Most lifecycle APIs require the authenticated user to map to `hr.employee`.
 - Canonical create responses are chained into later IDs using flow-scoped variables (`leave_id`, `overtime_id`, `explanation_id`, `resignation_id`, `staff_transfer_id`, `ticket_id`, `attendance_log_id`); remaining standalone numeric IDs are manual fixtures, not automatically inferred.
 - Leave requires a valid employee, leave type, quota/date validity, and approval configuration.
-- Leave business tests no longer use a fixed historical date: the canonical
+- Leave lifecycle tests no longer use a fixed historical date: the canonical
   availability request generates one random weekday 3–45 days in the future
   and stores it in runtime variables reused by leave creation. The generated
   date is process-scoped and is not persisted to the environment file.
@@ -467,11 +378,6 @@ Canonical branches are documented in [references/kg-odoo-hrm-flows.md](reference
 
 ## Generated build artifacts
 
-- `references/business-test-plan.yaml` — reviewed per-business sequences,
-  preconditions, expected checks, fixtures, safety levels, and approval
-  alternatives.
-- `scripts/test_business_flows.py` — executes one isolated business at a time
-  and writes an aggregate checkpoint/report.
 - `references/generated/api-execution-order.json` — 147 executable request nodes, deterministic dependency order, operation/alias/evidence metadata.
 - `references/generated/api-execution-order.yaml` — same plan in the skill's YAML-named artifact format.
 - `references/generated/api-dependency-graph.yaml` — dependency edges.
