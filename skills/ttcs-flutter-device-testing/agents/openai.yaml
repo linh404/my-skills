@@ -1,0 +1,4 @@
+interface:
+  display_name: "TTCS Flutter Device Testing"
+  short_description: "Build, install, and test the TTCS Flutter app"
+  default_prompt: "Use $ttcs-flutter-device-testing to build, install, and verify the TTCS Flutter app on a real Android device."
