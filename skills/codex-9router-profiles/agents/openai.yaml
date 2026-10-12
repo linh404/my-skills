@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex 9router Profiles"
+  short_description: "Separate 9Router from the normal Codex login"
+  default_prompt: "Use $codex-9router-profiles to check or safely adjust my separated Codex and 9Router profiles."
