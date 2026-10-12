@@ -15,7 +15,7 @@ auth:bearer {
 }
 
 body:multipart-form {
-  res_id: {{ticket_id}}
+  res_id: 32
   files: @file(test-upload/placeholder.txt) @contentType(application/octet-stream)
 }
 

@@ -7,7 +7,7 @@ description: Execute the prebuilt, source-backed HRM Bruno API sequences in depe
 
 This skill is the **built artifact** for the KG/Odoo HRM API collection. The skill-owned runtime collection is `collection/`; the separate `/home/linh/vdx/kg-odoo-hrm-api` collection is kept human-readable for manual Bruno testing. Backend analysis is baked into the generated plan, per-API documents, constraints, aliases, and unknowns under `references/generated/`. Runtime use executes the approved sequence; it does not perform a new analysis mode.
 
-Bruno runtime assumptions are explicit: the login request selects `db_name`, returns the bearer API key, and establishes the Odoo session. Bruno's default cookie settings (`storeCookies: true`, `sendCookies: true`) persist the `session_id` cookie and send it to later requests in the same collection/environment. Do not hardcode a cookie or force an `X-Odoo-Database` header alongside that session; verify the environment database before execution instead.
+Bruno runtime assumptions are explicit: the login request selects `db_name`, returns the bearer API key, and establishes the Odoo session. Bruno's default cookie settings (`storeCookies: true`, `sendCookies: true`) persist the `session_id` cookie and send it to later requests in the same collection/environment. Do not hardcode a cookie or force an `X-Odoo-Database` header alongside that session. The target database must be selected explicitly with the runner's `--db` option; the Bruno environment is only for host/credentials and must never silently choose the database.
 
 ## Runtime dependency
 
@@ -38,27 +38,24 @@ This skill exposes one API-test mode: **lifecycle**. It runs a
 dependency-ordered collection flow with producer/capture/verify/cleanup rules
 from `references/full-collection-lifecycle-rules.md`.
 
-Execution starts as a dry-run. **Execute only against a disposable local/test
-database. Never target shared, staging, or production data.** The environment
-file name alone is not proof that the database is safe.
+Execution is immediate. **Run only against a disposable local/test database.
+Never target shared, staging, or production data.** Every run must receive an
+explicit `--db <database-name>`; do not infer the target
+database from the selected environment file. The environment file supplies
+connection and credential variables only, while the runner overrides
+`db_name` in-memory for that invocation. The environment file name alone is
+not proof that the database is safe.
 
 ## Runtime entrypoint
 
-Use the sequence runner:
-
-```bash
-python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
-  --flow leave \
-  --env 'KG - local.bru'
-```
-
-The command above is a **dry run**. Review the printed ordered steps first. To execute, add `--execute`; to run state-changing or fixture-dependent requests, also add the explicit flags:
+Use the sequence runner. It executes immediately; select one lifecycle flow
+and pass the explicit safety flags required for state-changing requests:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_sequence.py \
   --flow leave \
   --env 'KG - local.bru' \
-  --execute \
+  --db kg-dev-4 \
   --allow-mutations \
   --allow-hardcoded-fixtures \
   --allow-db-binding \
@@ -69,7 +66,7 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/run_api_
 The equivalent package command is:
 
 ```bash
-npm run test:lifecycle -- --flow leave --env 'KG - local.bru'
+npm run test:lifecycle -- --flow leave --env 'KG - local.bru' --db kg-dev-4
 ```
 
 Do not run the entire collection as one flat test. Select one lifecycle flow at a time:
@@ -85,7 +82,6 @@ Do not run the entire collection as one flat test. Select one lifecycle flow at 
 - `staff_transfer`
 - `helpdesk`
 - `read_only_reports`
-- `external_services`
 
 ## Auto-configure approval on a new database
 
@@ -96,7 +92,7 @@ model. It is idempotent for records owned by this skill (the records carry the
 marker `[hrm-pack-api-test:approval-config:v1]`) and does not touch
 `hr.overtime.request`, which has a separate workflow.
 
-The command is **dry-run/rollback by default**:
+The command commits the idempotent fixture configuration:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configure_approval.py \
@@ -109,8 +105,7 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configur
 ```
 
 Review the JSON report under `/tmp/hrm-pack-api-test/approval-config-*.json`.
-Only after confirming the target database, selected users, and the preview,
-run the same command with `--apply`. If an existing non-empty state mapping
+If an existing non-empty state mapping
 does not match the source-backed mapping, the script stops safely; add
 `--force` only when intentionally replacing that mapping. `--originator`
 defaults to `--approver`, but separate users can be supplied.
@@ -122,8 +117,8 @@ approval registry update and verifies the dynamic fields/methods. It does not
 restart Odoo or mutate module source code; a long-running HTTP worker may need
 an operator-controlled reload before API requests see the new registry.
 
-`--apply` is a database write: templates use `create_check=True`, so records
-created by the selected originator enter the approval flow. Use an explicit
+Templates use `create_check=True`, so records created by the selected
+originator enter the approval flow. Use an explicit
 test user on test databases such as `kg-dev-5`; do not use this default setup
 for production without reviewing the stage/approver policy.
 
@@ -145,9 +140,8 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configur
   --config /home/linh/odoo/config/kg.conf
 ```
 
-The command is **dry-run/rollback by default**. Review the report under
-`/tmp/hrm-pack-api-test/calendar-config-*.json`, then repeat with `--apply`
-only after confirming the database and API user. The operation is idempotent
+The command commits the fixture and writes a report under
+`/tmp/hrm-pack-api-test/calendar-config-*.json`. The operation is idempotent
 for records marked `[hrm-pack-api-test:calendar-fixture:v1]`; it never uses a
 hardcoded calendar ID and does not modify Odoo source code. After apply, run
 the attendance-explanation flow so `get_infor_calendar` captures the new
@@ -169,9 +163,8 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configur
   --config /home/linh/odoo/config/kg.conf
 ```
 
-The command is **dry-run/rollback by default**. Review the JSON report under
-`/tmp/hrm-pack-api-test/leave-allocation-config-*.json`, then repeat with
-`--apply` for the explicitly selected test database. By default it targets the
+The command commits the fixture and writes a JSON report under
+`/tmp/hrm-pack-api-test/leave-allocation-config-*.json`. By default it targets the
 first active non-overtime leave type requiring allocation (normally `Paid Time
 Off`) and allocates 30 days from today with no end date. Use `--leave-type` and
 `--days` when the API flow intentionally selects another quota-based type.
@@ -197,8 +190,7 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configur
   --config /home/linh/odoo/config/kg.conf
 ```
 
-The wrapper is dry-run/rollback by default; add `--apply` only for the
-explicitly selected test database. The fixture stores the owned marker
+The wrapper commits only in the explicitly selected test database. The fixture stores the owned marker
 `[hrm-pack-api-test:reward-fixture:v1]` in `reward.discipline.content`,
 resolves the selected API user's employee and a reward-capable
 `type.reward.discipline`, and creates/updates only that owned record. It is
@@ -222,8 +214,7 @@ python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configur
   --config /home/linh/odoo/config/kg.conf
 ```
 
-Review the dry-run report, then repeat with `--apply` to write the DB. The
-operation is idempotent: it creates `res.lang` only when missing, otherwise
+The operation is idempotent: it creates `res.lang` only when missing, otherwise
 activates the existing row. It does not restart Odoo or set all users to
 Vietnamese automatically.
 
@@ -234,13 +225,13 @@ idempotent step:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/configure_group_a_fixtures.py \
-  --db kg-dev-4 --user admin --apply
+  --db kg-dev-4 --user admin
 ```
 
 This owns only marked test records for an area category, an overtime leave
 type, and the employee's validated overtime allocation. It does not change
 application source or mask backend errors such as the resignation
-`onboard_time=False` comparison. Review the dry-run first on another DB.
+`onboard_time=False` comparison.
 
 The runner resolves dependency closure, prints the exact order, runs the
 selected `.bru` requests in one Bruno CLI process (required for cookie session
@@ -259,16 +250,17 @@ scripts (`bru.setVar`) to chain IDs at runtime. The runner does **not** rewrite
 request bodies or infer IDs for standalone fixture requests; those requests
 remain operator-managed and require explicit fixture confirmation.
 
-Quick lifecycle dry-run:
+Quick lifecycle execution:
 
 ```bash
 python3 /home/linh/Workspace/my-skills/skills/hrm-pack-api-test/scripts/test_bruno_cli.py \
   --flow employee_context \
-  --env 'KG - local.bru'
+  --env 'KG - local.bru' \
+  --db kg-dev-4
 ```
 
-Add `--execute` and the required confirmation flags only when you intentionally
-want to send requests.
+The command sends requests immediately. Use only a disposable database and
+keep the mutation/session safety flags enabled for flows that need them.
 
 ## Lifecycle rules
 
@@ -306,14 +298,19 @@ The important rules are:
   execute them. The canonical route remains the source of truth.
 - `manual`/`fixture_required` steps must be converted to a reviewed setup chain
   for a full sweep; never guess a historical numeric ID.
+- **The target database must be chosen explicitly for every executed test.**
+  Pass `--db <database-name>` to the runner and verify that it is a disposable
+  local/test database. Do not use the Bruno environment file's `db_name` as the
+  database selector; the environment is only a source of host/credential
+  variables.
 
 ## Safety contract
 
-- Confirm the exact environment/database before `--execute`; use only a disposable local/test DB. Never use shared, staging, or production data.
+- Confirm the exact explicit `--db` target before execution; use only a disposable local/test DB. Never use shared, staging, or production data. The `--env` file does not select the database.
 - Never expose bearer tokens, cookies, passwords, or external API keys.
 - `--allow-mutations` is required for create/update/upload/workflow/delete/preview operations.
 - `--allow-hardcoded-fixtures` is required when standalone collection bodies still contain numeric IDs. Prefer the canonical create-to-detail chains; the runner does not silently rewrite request bodies.
-- `--allow-db-binding` is required for execution after verifying that login/session and database selection target the intended database. This is an operator confirmation, not an unresolved code blocker.
+- `--allow-db-binding` is required for execution after verifying that login/session and the explicit `--db` selection target the intended database. This is an operator confirmation, not an unresolved code blocker.
 - `--allow-generic-session` is required for `/api/models/*` generic/upload routes because their backend declaration uses `auth="user"` and needs the persisted Odoo session cookie that Bruno carries after login, not only a bearer token. This is an accepted runtime constraint.
 - `Staff Transfer/create_or_update_staff_transfer_2.bru` is a non-default alias. Literal bearer/Cookie headers were removed; prefer the canonical JSON-2 request.
 - Do not run destructive APIs as standalone smoke requests. In a full sweep,
@@ -378,7 +375,7 @@ Canonical branches are documented in [references/kg-odoo-hrm-flows.md](reference
 
 ## Generated build artifacts
 
-- `references/generated/api-execution-order.json` — 147 executable request nodes, deterministic dependency order, operation/alias/evidence metadata.
+- `references/generated/api-execution-order.json` — 122 executable request nodes, deterministic dependency order, operation/alias/evidence metadata.
 - `references/generated/api-execution-order.yaml` — same plan in the skill's YAML-named artifact format.
 - `references/generated/api-dependency-graph.yaml` — dependency edges.
 - `references/generated/api-constraints.yaml` — constraints, fixture risks, and side effects.

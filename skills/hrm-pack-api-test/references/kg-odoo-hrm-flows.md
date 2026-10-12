@@ -11,7 +11,7 @@ production data.
 1. Use `Authentication & System/login.bru` first. It calls `/api/login`, stores `access_token` in the secret Bruno variable `token`, and lets Bruno's default cookie jar retain the Odoo `session_id` for later generic/upload routes.
 2. Most endpoints require bearer auth. The authenticated user must usually be linked to an employee; leave, resignation, transfer, helpdesk, attendance, and employee-profile flows may fail otherwise.
 3. Canonical create/upload branches capture flow-scoped IDs (`leave_id`, `overtime_id`, `explanation_id`, `resignation_id`, `staff_transfer_id`, `ticket_id`, `attendance_log_id`) with Bruno response scripts. Standalone requests may still contain operator-managed fixture IDs (`id`, `employee_id`, `res_id`); verify those against the selected database.
-4. Verify the selected database before any mutation. The checked-in local environment names `kg-dev-4`; do not assume it is the intended blank/test database.
+4. Select and verify the target database explicitly before any execution or mutation. Pass it as the runner's `--db <database-name>`; the checked-in environment file is only for host/credentials, and its `db_name` must not be trusted as the test selector. Do not assume `kg-dev-4` (or any other checked-in value) is the intended blank/test database.
 5. `Staff Transfer/create_or_update_staff_transfer_2.bru` is a non-default alias. Literal bearer/Cookie headers were removed; prefer the canonical JSON-2 request and keep the alias excluded unless explicitly needed.
 6. Approval APIs also require a matching approval template, originator permission, configured approval stage, and an approver assigned to the current stage (`approval/models/approval.py`); a valid record state alone is not enough.
 

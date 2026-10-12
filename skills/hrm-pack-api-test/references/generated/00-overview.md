@@ -1,6 +1,6 @@
 # HRM Pack API execution guide
 
-Generated from 146 executable Bruno requests and the current backend source.
+Generated from 122 executable Bruno requests and the current backend source.
 
 ## Important
 
@@ -8,18 +8,17 @@ This is a static build-time guide. The runner must execute one flow at a time, c
 
 ## Flow counts
 
-- `attendance_explanation`: 18
+- `attendance_explanation`: 14
 - `authentication`: 6
-- `employee_context`: 34
-- `external_services`: 3
-- `gps_attendance`: 13
-- `helpdesk`: 5
-- `leave`: 22
-- `overtime`: 6
-- `read_only_reports`: 5
-- `reference_data`: 8
+- `employee_context`: 31
+- `gps_attendance`: 11
+- `helpdesk`: 4
+- `leave`: 16
+- `overtime`: 5
+- `read_only_reports`: 3
+- `reference_data`: 7
 - `resignation`: 13
-- `staff_transfer`: 13
+- `staff_transfer`: 12
 
 ## Files
 

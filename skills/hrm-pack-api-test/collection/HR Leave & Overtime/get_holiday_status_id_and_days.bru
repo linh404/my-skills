@@ -16,29 +16,8 @@ auth:bearer {
 
 body:json {
   { 
-      "request_date_from": "{{leave_request_date_from}}"
+      "request_date_from": "2026-06-25"
   }
-}
-
-script:pre-request {
-  // Generate a fresh weekday in the future for every leave lifecycle run.
-  // Runtime variables remain process-scoped and are reused by the create API.
-  const start = new Date();
-  start.setHours(12, 0, 0, 0);
-  // Keep repeated runs outside the current year's existing fixtures. A short
-  // random window collides on a reused DB after a few lifecycle runs.
-  start.setDate(start.getDate() + 365 + Math.floor(Math.random() * 365));
-  while (start.getDay() === 0 || start.getDay() === 6) {
-    start.setDate(start.getDate() + 1);
-  }
-
-  const pad = (value) => String(value).padStart(2, "0");
-  const date = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
-  bru.setVar("leave_request_date_from", date);
-  bru.setVar("leave_request_date_to", date);
-  bru.setVar("leave_request_date_from_period", "am");
-  bru.setVar("leave_request_unit_half", false);
-  console.log(`Generated leave test date: ${date}`);
 }
 
 script:post-response {

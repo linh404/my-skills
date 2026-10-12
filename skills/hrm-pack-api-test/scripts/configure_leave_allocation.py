@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Create an idempotent employee leave-allocation fixture for API runs.
 
-The script executes an ORM payload in an isolated Odoo shell. It is a dry-run
-by default; ``--apply`` is required before writing the selected database.
+The script executes and commits an ORM payload in the explicitly selected
+database.
 """
 from __future__ import annotations
 
@@ -62,11 +62,6 @@ def main() -> int:
         type=Path,
         default=Path(os.environ.get("ODOO_CONFIG", DEFAULT_CONFIG)),
     )
-    parser.add_argument(
-        "--apply",
-        action="store_true",
-        help="commit ORM changes; default is dry-run/rollback",
-    )
     args = parser.parse_args()
 
     if args.days <= 0:
@@ -84,7 +79,7 @@ def main() -> int:
         f"leave-allocation-config-{args.db}-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     )
     prelude = (
-        f"APPLY = {bool(args.apply)!r}\n"
+        "APPLY = True\n"
         f"USER_SELECTOR = {args.user!r}\n"
         f"LEAVE_TYPE_SELECTOR = {args.leave_type!r}\n"
         f"MIN_DAYS = {float(args.days)!r}\n"
@@ -106,7 +101,7 @@ def main() -> int:
     print(f"leave type: {args.leave_type or '<first requires-allocation type>'}")
     print(f"minimum days: {args.days}")
     print(f"report: {report}")
-    print(f"mode: {'APPLY/COMMIT' if args.apply else 'DRY-RUN/ROLLBACK'}")
+    print("mode: APPLY/COMMIT")
     completed = subprocess.run(
         command,
         input=prelude + PAYLOAD.read_text(encoding="utf-8"),

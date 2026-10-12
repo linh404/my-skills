@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Execute an approved HRM lifecycle from the prebuilt source-backed plan.
 
-The script does not analyze source or edit .bru files. It refuses mutating or
-fixture-dependent execution unless the caller explicitly opts in.
+The script does not analyze source or edit .bru files. Every invocation sends
+the selected sequence to Bruno; mutating or fixture-dependent requests still
+require explicit safety flags, and every run must name its target database with
+``--db`` rather than inheriting the environment file's ``db_name``.
 """
 from __future__ import annotations
 
@@ -188,7 +190,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
     parser.add_argument("--collection", type=Path, default=DEFAULT_COLLECTION)
-    parser.add_argument("--flow", help="run one named flow; required for --execute unless explicit --request paths are supplied")
+    parser.add_argument("--flow", help="run one named flow; required unless explicit --request paths are supplied")
     parser.add_argument(
         "--request",
         action="append",
@@ -201,9 +203,17 @@ def main() -> int:
         action="store_true",
         help="execute only the explicitly selected requests; use only with a complete, reviewed lifecycle sequence",
     )
-    parser.add_argument("--env", help="Bruno environment name")
+    parser.add_argument("--env", help="Bruno environment name/file for host and credentials (never the database selector)")
+    parser.add_argument(
+        "--db",
+        help="explicit target Odoo database name; required for every run and overrides env db_name",
+    )
     parser.add_argument("--bru", default=os.environ.get("BRU_BIN", "bru"))
-    parser.add_argument("--execute", action="store_true", help="actually invoke Bruno; otherwise print the sequence")
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
     parser.add_argument("--allow-mutations", action="store_true", help="allow create/update/upload/workflow/delete requests")
     parser.add_argument("--allow-hardcoded-fixtures", action="store_true", help="allow requests containing hardcoded IDs or credentials")
     parser.add_argument("--allow-db-binding", action="store_true", help="confirm that the Bruno session/DB selection is configured for the target database")
@@ -228,8 +238,8 @@ def main() -> int:
     known_findings = load_known_findings(plan_path)
     if args.flow and args.request:
         raise SystemExit("choose either --flow or --request; do not mix the two selectors")
-    if args.execute and not args.flow and not args.request:
-        raise SystemExit("refusing full-collection execution: pass --flow <name> or explicit --request paths and review the generated sequence")
+    if not args.flow and not args.request:
+        raise SystemExit("refusing full-collection execution: pass --flow <name> or explicit --request paths")
 
     available = [node for node in nodes if args.include_aliases or node.get("default_execution", True)]
     requested_nodes: list[dict[str, Any]] = []
@@ -285,6 +295,8 @@ def main() -> int:
         selected = selected[: args.max_steps]
 
     blocked: list[str] = []
+    if not args.db:
+        blocked.append("every run requires an explicit --db target; do not infer the database from --env")
     finding_by_scope = {item.get("scope"): item for item in known_findings}
     for node in selected:
         if node.get("operation") in MUTATING and not args.allow_mutations:
@@ -296,9 +308,9 @@ def main() -> int:
         # stale credentials to another database.
         if any("hardcoded auth/cookie" in risk for risk in node.get("risks", [])):
             blocked.append(f"{node['order']}: {node['bruno_path']} contains hardcoded credential material; sanitize the request before execution")
-        if args.execute and node.get("url", "").startswith("{{base_url}}") and node.get("name") != "login" and not args.allow_db_binding:
+        if node.get("url", "").startswith("{{base_url}}") and node.get("name") != "login" and not args.allow_db_binding:
             blocked.append(f"{node['order']}: {node['bruno_path']} requires explicit DB/session binding; pass --allow-db-binding after verifying the target database")
-        if args.execute and node.get("route_kind") in {"generic", "upload"} and not args.allow_generic_session:
+        if node.get("route_kind") in {"generic", "upload"} and not args.allow_generic_session:
             blocked.append(f"{node['order']}: {node['bruno_path']} uses auth=\"user\" generic routing; pass --allow-generic-session after verifying the persisted Odoo session cookie")
 
         # Request-scoped build findings are hard blockers, even when mutation
@@ -312,6 +324,7 @@ def main() -> int:
     selector = args.flow or (f"explicit ({len(args.request)} requests)" if args.request else "<not selected>")
     print("mode: lifecycle")
     print(f"flow: {selector}")
+    print(f"database: {args.db or '<not selected; --db is required>'}")
     print(f"steps: {len(selected)}")
     for node in selected:
         deps = ", ".join(node.get("depends_on", [])) or "none"
@@ -321,16 +334,16 @@ def main() -> int:
         for item in blocked:
             print(f"- {item}")
         return 2
-    if not args.execute:
-        print("\nDry run only. Add --execute after reviewing this sequence.")
-        return 0
-
     print(
         "\nWARNING: execute this skill only against a disposable local/test Odoo database. "
         "Never target shared, staging, or production data."
     )
 
     args_env = environment_args(collection, args.env)
+    # Keep the database selection independent from the Bruno environment file.
+    # Bruno applies --env-var overrides in-memory for this invocation only, so
+    # the checked-in env file cannot silently redirect a run to another DB.
+    args_db = ["--env-var", f"db_name={args.db}"]
     args.report_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_dir = args.report_dir / stamp
@@ -339,6 +352,7 @@ def main() -> int:
         "plan": str(plan_path),
         "mode": "lifecycle",
         "flow": args.flow,
+        "database": args.db,
         "started_at": stamp,
         "steps": [],
     }
@@ -352,6 +366,7 @@ def main() -> int:
         "run",
         *(node["bruno_path"] for node in selected),
         *args_env,
+        *args_db,
         "--reporter-json",
         str(report),
         "--reporter-skip-all-headers",

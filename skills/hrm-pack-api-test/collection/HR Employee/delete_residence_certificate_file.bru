@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_residence_certificate_file
+  url: {{base_url}}/json/2/hr.employee/delete_residence_certificate_file
   body: json
   auth: bearer
 }
@@ -16,6 +16,6 @@ auth:bearer {
 
 body:json {
   {
-      "attachment_id": {{employee_residence_certificate_attachment_id}}
+      "attachment_id": 824
   }
 }

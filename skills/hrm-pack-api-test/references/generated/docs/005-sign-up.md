@@ -3,11 +3,11 @@
 - Bruno: `Authentication & System/sign_up.bru`
 - Flow: `authentication`
 - Operation: `mutate`
-- Endpoint: `POST {{base_url}}/json/2/app/signup/user`
-- Backend model: `app`
-- Backend method: `signup`
-- Source: unknown
-- Evidence: **COLLECTION_VERIFIED**
+- Endpoint: `POST {{base_url}}/app/signup/user`
+- Backend model: `unresolved`
+- Backend method: `app_signup_user`
+- Source: `/home/linh/vdx/hrm-package/vdx_hr/controllers/main.py:299`
+- Evidence: **SOURCE_VERIFIED**
 
 ## Must run after
 - none

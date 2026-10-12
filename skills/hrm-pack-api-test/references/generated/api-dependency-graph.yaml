@@ -7,11 +7,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "Company & Users/login_logo.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "HR Contract & Job/get_contract_infor.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -38,11 +33,6 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Contract & Job/get_infor_job.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Employee/1.bru",
       "evidence": "SOURCE_VERIFIED"
     },
     {
@@ -102,26 +92,11 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Employee/get_org_chart.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "HR Employee/get_pending_approvals_count_only.bru",
       "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Employee/update_employee_onboard_time.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Employee/get_employee_infor.bru",
-      "to": "HR Employee/update_employee_onboard_time.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "HR Employee/upload_birth_certificate.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -133,17 +108,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_birth_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_birth_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_birth_certificate.bru",
       "to": "HR Employee/delete_birth_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -158,17 +133,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_citizen_id_card_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_citizen_id_card_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_citizen_id.bru",
       "to": "HR Employee/delete_citizen_id_card_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -183,17 +158,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_curriculum_vitae_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_curriculum_vitae_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_curriculum_vitae.bru",
       "to": "HR Employee/delete_curriculum_vitae_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -208,17 +183,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_cv_file_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_cv_file_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_cv_file.bru",
       "to": "HR Employee/delete_cv_file_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -233,17 +208,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_diploma_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_diploma_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_diploma.bru",
       "to": "HR Employee/delete_diploma_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -258,17 +233,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_employee_other_document_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_employee_other_document_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_employee_other_document.bru",
       "to": "HR Employee/delete_employee_other_document_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -283,17 +258,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_health_check_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_health_check_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_health_check.bru",
       "to": "HR Employee/delete_health_check_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -308,17 +283,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_personnel_guarantee_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_personnel_guarantee_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_personnel_guarantee_letter.bru",
       "to": "HR Employee/delete_personnel_guarantee_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -333,17 +308,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_residence_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_residence_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_residence_certificate.bru",
       "to": "HR Employee/delete_residence_certificate_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -358,17 +333,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "HR Employee/delete_staff_confirmation_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/get_employee_infor.bru",
       "to": "HR Employee/delete_staff_confirmation_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "HR Employee/upload_staff_confirmation_letter.bru",
       "to": "HR Employee/delete_staff_confirmation_letter_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -389,11 +364,6 @@
       "from": "Authentication & System/login.bru",
       "to": "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru",
       "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "Staff Transfer/create_or_update_staff_transfer_2.bru",
-      "evidence": "COLLECTION_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -433,11 +403,6 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "Blog Post/get_blog_posts_api.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Attendance Explanation/69445.bru",
       "evidence": "SOURCE_VERIFIED"
     },
     {
@@ -457,36 +422,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Attendance Explanation/get_infor_day_type.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Attendance Explanation/get_infor_explanation_reason.bru",
-      "to": "HR Attendance Explanation/get_infor_day_type.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Attendance Explanation/get_infor_allocation.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Attendance Explanation/get_infor_day_type.bru",
-      "to": "HR Attendance Explanation/get_infor_allocation.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Attendance Explanation/create_or_update_explanation.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Attendance Explanation/get_infor_allocation.bru",
-      "to": "HR Attendance Explanation/create_or_update_explanation.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Attendance Explanation/get_infor_day_type.bru",
       "to": "HR Attendance Explanation/create_or_update_explanation.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -503,16 +438,6 @@
     {
       "from": "HR Attendance Explanation/create_or_update_explanation.bru",
       "to": "HR Attendance Explanation/attach_files.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Attendance Explanation/app_cancel.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Attendance Explanation/create_or_update_explanation.bru",
-      "to": "HR Attendance Explanation/app_cancel.bru",
       "evidence": "SOURCE_VERIFIED"
     },
     {
@@ -692,18 +617,8 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Attendance/get_top_violations.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "HR Attendance/get_total_work_in_month.bru",
       "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Attendance/search_read.bru",
-      "evidence": "COLLECTION_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -772,101 +687,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_approval_submit.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/app_approval_submit.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/get_list_leaves.bru",
-      "to": "HR Leave & Overtime/app_approval_submit.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_submit.bru",
-      "to": "HR Leave & Overtime/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_accept.bru",
-      "to": "HR Leave & Overtime/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_submit.bru",
-      "to": "HR Leave & Overtime/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_submit.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_submit.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/app_approval_set_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_reject.bru",
-      "to": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_hr_leave.bru",
-      "to": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "HR Leave & Overtime/get_list_overtime_register.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -927,11 +747,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "Resignation Letter/create_or_update_resignation_letter.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Employee/update_employee_onboard_time.bru",
       "to": "Resignation Letter/create_or_update_resignation_letter.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -1008,77 +823,67 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/app_approval_submit.bru",
       "to": "Resignation Letter/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/create_or_update_resignation_letter.bru",
       "to": "Resignation Letter/app_approval_accept.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/app_approval_accept.bru",
       "to": "Resignation Letter/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/app_approval_submit.bru",
       "to": "Resignation Letter/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/create_or_update_resignation_letter.bru",
       "to": "Resignation Letter/app_approval_reject.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/app_btn_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/app_approval_submit.bru",
       "to": "Resignation Letter/app_btn_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/create_or_update_resignation_letter.bru",
       "to": "Resignation Letter/app_btn_cancel.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/app_btn_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/app_approval_submit.bru",
       "to": "Resignation Letter/app_btn_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/create_or_update_resignation_letter.bru",
       "to": "Resignation Letter/app_btn_to_draft.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "Reward & Discipline/get_infor_reward_discipline.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "Reward & Discipline/get_infor_reward_discipline_divide.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",
@@ -1277,21 +1082,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/app_delete_overtime_register.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/create_or_update_overtime_register.bru",
-      "to": "HR Leave & Overtime/app_delete_overtime_register.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
-      "to": "HR Leave & Overtime/delete_att_file.bru",
-      "evidence": "SOURCE_VERIFIED"
-    },
-    {
-      "from": "HR Leave & Overtime/app_approval_submit.bru",
       "to": "HR Leave & Overtime/delete_att_file.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -1307,21 +1097,6 @@
     },
     {
       "from": "Authentication & System/login.bru",
-      "to": "Helpdesk Ticket/delete_att_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Helpdesk Ticket/attach_files.bru",
-      "to": "Helpdesk Ticket/delete_att_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru",
-      "to": "Helpdesk Ticket/delete_att_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
-    },
-    {
-      "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/app_delete_resignation_letter.bru",
       "evidence": "SOURCE_VERIFIED"
     },
@@ -1333,17 +1108,17 @@
     {
       "from": "Authentication & System/login.bru",
       "to": "Resignation Letter/delete_attachment_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/create_or_update_resignation_letter.bru",
       "to": "Resignation Letter/delete_attachment_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Resignation Letter/upload_attachment_file.bru",
       "to": "Resignation Letter/delete_attachment_file.bru",
-      "evidence": "COLLECTION_VERIFIED"
+      "evidence": "SOURCE_VERIFIED"
     },
     {
       "from": "Authentication & System/login.bru",

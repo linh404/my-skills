@@ -2,7 +2,7 @@
 
 The wrapper script injects ``APPLY``, ``USER_SELECTOR``, ``CALENDAR_NAME``,
 ``JOB_NAME`` and ``REPORT_PATH`` before this file is evaluated.  The payload
-uses ORM only and rolls back the transaction on dry-run or any error.
+uses ORM only and rolls back the transaction only when an error occurs.
 """
 import json
 import os

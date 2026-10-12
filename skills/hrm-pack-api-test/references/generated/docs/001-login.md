@@ -3,8 +3,8 @@
 - Bruno: `Authentication & System/login.bru`
 - Flow: `authentication`
 - Operation: `auth`
-- Endpoint: `POST {{base_url}}/json/2/api/login`
-- Backend model: `api`
+- Endpoint: `POST {{base_url}}/json/2/auth/login`
+- Backend model: `auth`
 - Backend method: `login`
 - Source: unknown
 - Evidence: **COLLECTION_VERIFIED**
@@ -13,7 +13,7 @@
 - none
 
 ## Inputs
-`db`, `password`, `username`
+`db`, `login`, `password`
 
 ## Captures
 `token`

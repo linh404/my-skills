@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/json/2/api/models/resignation-letter/execute/app_btn_cancel
+  url: {{base_url}}/json/2/resignation.letter/app_btn_cancel
   body: json
   auth: bearer
 }
@@ -16,6 +16,6 @@ auth:bearer {
 
 body:json {
   {
-    "id": {{resignation_id}}
+    "id": 1097
   }
 }

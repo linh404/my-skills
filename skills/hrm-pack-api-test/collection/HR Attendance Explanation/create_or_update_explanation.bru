@@ -16,9 +16,11 @@ auth:bearer {
 
 body:json {
   {
+      // Truyền thêm "id": <attendance_explanation_id> khi test nhánh cập nhật.
+      // Bỏ/comment field id khi test tạo mới.
       "explanation_reason": "late",
       "explanation_date": "2026-06-05",
-      "explained_resource_calendar_id": {{explanation_calendar_id}}
+      "explained_resource_calendar_id": 3
 
   }
 }

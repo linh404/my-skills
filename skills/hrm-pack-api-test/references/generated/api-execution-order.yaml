@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "collection_root": "/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection",
+    "collection_root": "/home/linh/vdx/skills/skills/hrm-pack-api-test/collection",
     "source_root": "/home/linh/vdx/hrm-package",
-    "request_count": 146,
+    "request_count": 122,
     "generated_by": "hrm-pack-api-test build_api_guide.py",
     "http_execution_performed": false,
     "evidence_policy": "source-backed where mapped; unknowns are not guessed"
@@ -26,7 +26,7 @@
     {
       "order": 4,
       "id": "lifecycle_flows",
-      "purpose": "run one isolated domain flow at a time"
+      "purpose": "run one dependency-ordered lifecycle flow at a time"
     },
     {
       "order": 5,
@@ -42,9 +42,9 @@
       "bruno_path": "Authentication & System/login.bru",
       "name": "login",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/login",
+      "url": "{{base_url}}/json/2/auth/login",
       "route_kind": "json2",
-      "model": "api",
+      "model": "auth",
       "backend_method": "login",
       "source": {},
       "operation": "auth",
@@ -56,8 +56,8 @@
       ],
       "body_keys": [
         "db",
-        "password",
-        "username"
+        "login",
+        "password"
       ],
       "hardcoded_ids": [],
       "constraints": [],
@@ -150,11 +150,14 @@
       "bruno_path": "Authentication & System/forgot_password.bru",
       "name": "forgot_password",
       "method": "POST",
-      "url": "{{base_url}}/json/2/app/forgot-password",
-      "route_kind": "json2",
-      "model": "app",
-      "backend_method": "forgot-password",
-      "source": {},
+      "url": "{{base_url}}/app/forgot-password",
+      "route_kind": "custom",
+      "model": null,
+      "backend_method": "app_forgot_password",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/controllers/main.py",
+        "line": 384
+      },
       "operation": "mutate",
       "variables": [
         "base_url"
@@ -167,7 +170,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [],
       "alias_of": null,
       "default_execution": true,
@@ -184,11 +187,14 @@
       "bruno_path": "Authentication & System/sign_up.bru",
       "name": "sign_up",
       "method": "POST",
-      "url": "{{base_url}}/json/2/app/signup/user",
-      "route_kind": "json2",
-      "model": "app",
-      "backend_method": "signup",
-      "source": {},
+      "url": "{{base_url}}/app/signup/user",
+      "route_kind": "custom",
+      "model": null,
+      "backend_method": "app_signup_user",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/controllers/main.py",
+        "line": 299
+      },
       "operation": "mutate",
       "variables": [
         "base_url",
@@ -210,7 +216,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [],
       "alias_of": null,
       "default_execution": true,
@@ -227,11 +233,14 @@
       "bruno_path": "Authentication & System/update_device_token.bru",
       "name": "update_device_token",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/update-device-token",
+      "url": "{{base_url}}/json/2/hr.employee/update_device_token",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "update-device-token",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "update_device_token",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 891
+      },
       "operation": "mutate",
       "variables": [
         "base_url",
@@ -239,21 +248,14 @@
         "token"
       ],
       "body_keys": [
-        "employee_id",
         "fcm_token"
       ],
-      "hardcoded_ids": [
-        {
-          "field": "employee_id",
-          "value": "2"
-        }
-      ],
+      "hardcoded_ids": [],
       "constraints": [],
       "risks": [
-        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [],
       "alias_of": null,
       "default_execution": true,
@@ -297,34 +299,6 @@
     },
     {
       "order": 8,
-      "id": "Company & Users/login_logo.bru",
-      "flow": "reference_data",
-      "bruno_path": "Company & Users/login_logo.bru",
-      "name": "login_logo",
-      "method": "GET",
-      "url": "{{base_url}}/json/2/api/app/login-logo",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "app",
-      "source": {},
-      "operation": "read",
-      "variables": [
-        "base_url"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 9,
       "id": "HR Contract & Job/get_contract_infor.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_contract_infor.bru",
@@ -356,7 +330,7 @@
       "captures": []
     },
     {
-      "order": 10,
+      "order": 9,
       "id": "HR Contract & Job/get_infor_calendar.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_infor_calendar.bru",
@@ -388,7 +362,7 @@
       "captures": []
     },
     {
-      "order": 11,
+      "order": 10,
       "id": "HR Contract & Job/get_infor_employee_department.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_infor_employee_department.bru",
@@ -420,7 +394,7 @@
       "captures": []
     },
     {
-      "order": 12,
+      "order": 11,
       "id": "HR Contract & Job/get_infor_employee_division.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_infor_employee_division.bru",
@@ -452,7 +426,7 @@
       "captures": []
     },
     {
-      "order": 13,
+      "order": 12,
       "id": "HR Contract & Job/get_infor_employee_group.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_infor_employee_group.bru",
@@ -484,7 +458,7 @@
       "captures": []
     },
     {
-      "order": 14,
+      "order": 13,
       "id": "HR Contract & Job/get_infor_job.bru",
       "flow": "reference_data",
       "bruno_path": "HR Contract & Job/get_infor_job.bru",
@@ -516,116 +490,7 @@
       "captures": []
     },
     {
-      "order": 15,
-      "id": "Driver Attendance/matrix.bru",
-      "flow": "external_services",
-      "bruno_path": "Driver Attendance/matrix.bru",
-      "name": "matrix",
-      "method": "GET",
-      "url": "https://maps.vietmap.vn/api/matrix?apikey={{vietmap_api_key}}&point=16.0493450233663,108.24789022531482&point=16.06181672131283,108.24695910164495&vehicle=motorcycle",
-      "route_kind": "external",
-      "model": null,
-      "backend_method": null,
-      "source": {},
-      "operation": "external_call",
-      "variables": [
-        "vietmap_api_key"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 16,
-      "id": "Driver Attendance/v4.bru",
-      "flow": "external_services",
-      "bruno_path": "Driver Attendance/v4.bru",
-      "name": "v4",
-      "method": "GET",
-      "url": "https://maps.vietmap.vn/api/reverse/v4?apikey={{vietmap_api_key}}&lat=16.0608501&lng=108.2457261&display_type=4",
-      "route_kind": "external",
-      "model": null,
-      "backend_method": null,
-      "source": {},
-      "operation": "external_call",
-      "variables": [
-        "vietmap_api_key"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 17,
-      "id": "External Services/https_maps_googleapis_com_maps_api_geocode_json.bru",
-      "flow": "external_services",
-      "bruno_path": "External Services/https_maps_googleapis_com_maps_api_geocode_json.bru",
-      "name": "https_maps_googleapis_com_maps_api_geocode_json",
-      "method": "GET",
-      "url": "https://maps.googleapis.com/maps/api/geocode/json?address=Hanoi&key={{google_maps_api_key}}",
-      "route_kind": "external",
-      "model": null,
-      "backend_method": null,
-      "source": {},
-      "operation": "external_call",
-      "variables": [
-        "google_maps_api_key"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 18,
-      "id": "HR Employee/1.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/1.bru",
-      "name": "1",
-      "method": "GET",
-      "url": "{{base_url}}/json/2/employee/avatar/1",
-      "route_kind": "json2",
-      "model": "employee",
-      "backend_method": "employee_avatar",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/controllers/employee.py",
-        "line": 10
-      },
-      "operation": "read",
-      "variables": [
-        "base_url"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 19,
+      "order": 14,
       "id": "HR Employee/get_all_pending_approvals_mobile.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_all_pending_approvals_mobile.bru",
@@ -657,7 +522,7 @@
       "captures": []
     },
     {
-      "order": 20,
+      "order": 15,
       "id": "HR Employee/get_approval_infor.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_approval_infor.bru",
@@ -669,7 +534,7 @@
       "backend_method": "get_approval_infor",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1227
+        "line": 1244
       },
       "operation": "read",
       "variables": [
@@ -689,7 +554,7 @@
       "captures": []
     },
     {
-      "order": 21,
+      "order": 16,
       "id": "HR Employee/get_company_profile_attachments.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_company_profile_attachments.bru",
@@ -701,7 +566,7 @@
       "backend_method": "get_company_profile_attachments",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1117
+        "line": 1134
       },
       "operation": "read",
       "variables": [
@@ -721,7 +586,7 @@
       "captures": []
     },
     {
-      "order": 22,
+      "order": 17,
       "id": "HR Employee/get_employee_health_insurance.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_employee_health_insurance.bru",
@@ -753,7 +618,7 @@
       "captures": []
     },
     {
-      "order": 23,
+      "order": 18,
       "id": "HR Employee/get_employee_infor.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_employee_infor.bru",
@@ -765,7 +630,7 @@
       "backend_method": "get_employee_infor",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 940
+        "line": 957
       },
       "operation": "read",
       "variables": [
@@ -785,7 +650,7 @@
       "captures": []
     },
     {
-      "order": 24,
+      "order": 19,
       "id": "HR Employee/change_avatar.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/change_avatar.bru",
@@ -797,7 +662,7 @@
       "backend_method": "change_avatar",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 920
+        "line": 937
       },
       "operation": "upload",
       "variables": [
@@ -824,7 +689,7 @@
       ]
     },
     {
-      "order": 25,
+      "order": 20,
       "id": "HR Employee/get_employee_profile_attachments.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_employee_profile_attachments.bru",
@@ -836,7 +701,7 @@
       "backend_method": "get_employee_profile_attachments",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1068
+        "line": 1085
       },
       "operation": "read",
       "variables": [
@@ -856,7 +721,7 @@
       "captures": []
     },
     {
-      "order": 26,
+      "order": 21,
       "id": "HR Employee/get_employee_social_insurance.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_employee_social_insurance.bru",
@@ -888,7 +753,7 @@
       "captures": []
     },
     {
-      "order": 27,
+      "order": 22,
       "id": "HR Employee/get_employee_taxes.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_employee_taxes.bru",
@@ -920,7 +785,7 @@
       "captures": []
     },
     {
-      "order": 28,
+      "order": 23,
       "id": "HR Employee/get_list_employee_infor.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_list_employee_infor.bru",
@@ -932,7 +797,7 @@
       "backend_method": "get_list_employee_infor",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 901
+        "line": 918
       },
       "operation": "read",
       "variables": [
@@ -952,39 +817,7 @@
       "captures": []
     },
     {
-      "order": 29,
-      "id": "HR Employee/get_org_chart.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/get_org_chart.bru",
-      "name": "get_org_chart",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.employee/get_org_chart",
-      "route_kind": "json2",
-      "model": "hr.employee",
-      "backend_method": "get_org_chart",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1160
-      },
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 30,
+      "order": 24,
       "id": "HR Employee/get_pending_approvals_count_only.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/get_pending_approvals_count_only.bru",
@@ -1016,31 +849,275 @@
       "captures": []
     },
     {
-      "order": 31,
-      "id": "HR Employee/update_employee_onboard_time.bru",
+      "order": 25,
+      "id": "HR Employee/upload_birth_certificate.bru",
       "flow": "employee_context",
-      "bruno_path": "HR Employee/update_employee_onboard_time.bru",
-      "name": "update_employee_onboard_time",
+      "bruno_path": "HR Employee/upload_birth_certificate.bru",
+      "name": "upload_birth_certificate",
       "method": "POST",
-      "url": "{{base_url}}/json/2/hr.employee/write",
-      "route_kind": "json2",
+      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_birth_certificate",
+      "route_kind": "upload",
       "model": "hr.employee",
-      "backend_method": "write",
+      "backend_method": "upload_birth_certificate",
       "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/hr_employee.py",
-        "line": 411
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1521
       },
-      "operation": "mutate",
+      "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
+        "token"
+      ],
+      "body_keys": [],
+      "hardcoded_ids": [],
+      "constraints": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": [
+        "id",
+        "res_id",
+        "state"
+      ]
+    },
+    {
+      "order": 26,
+      "id": "HR Employee/delete_birth_certificate_file.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/delete_birth_certificate_file.bru",
+      "name": "delete_birth_certificate_file",
+      "method": "POST",
+      "url": "{{base_url}}/json/2/hr.employee/delete_birth_certificate_file",
+      "route_kind": "json2",
+      "model": "hr.employee",
+      "backend_method": "delete_birth_certificate_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1568
+      },
+      "operation": "delete",
+      "variables": [
+        "base_url",
         "token"
       ],
       "body_keys": [
-        "ids",
-        "onboard_time",
-        "vals"
+        "attachment_id"
       ],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "819"
+        }
+      ],
+      "constraints": [],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru",
+        "HR Employee/upload_birth_certificate.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": []
+    },
+    {
+      "order": 27,
+      "id": "HR Employee/upload_citizen_id.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/upload_citizen_id.bru",
+      "name": "upload_citizen_id",
+      "method": "POST",
+      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_citizen_id",
+      "route_kind": "upload",
+      "model": "hr.employee",
+      "backend_method": "upload_citizen_id",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1358
+      },
+      "operation": "upload",
+      "variables": [
+        "base_url",
+        "token"
+      ],
+      "body_keys": [],
+      "hardcoded_ids": [],
+      "constraints": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": [
+        "id",
+        "res_id",
+        "state"
+      ]
+    },
+    {
+      "order": 28,
+      "id": "HR Employee/delete_citizen_id_card_file.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/delete_citizen_id_card_file.bru",
+      "name": "delete_citizen_id_card_file",
+      "method": "POST",
+      "url": "{{base_url}}/json/2/hr.employee/delete_citizen_id_card_file",
+      "route_kind": "json2",
+      "model": "hr.employee",
+      "backend_method": "delete_citizen_id_card_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1407
+      },
+      "operation": "delete",
+      "variables": [
+        "base_url",
+        "token"
+      ],
+      "body_keys": [
+        "attachment_id"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "1013"
+        }
+      ],
+      "constraints": [],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru",
+        "HR Employee/upload_citizen_id.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": []
+    },
+    {
+      "order": 29,
+      "id": "HR Employee/upload_curriculum_vitae.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/upload_curriculum_vitae.bru",
+      "name": "upload_curriculum_vitae",
+      "method": "POST",
+      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_curriculum_vitae",
+      "route_kind": "upload",
+      "model": "hr.employee",
+      "backend_method": "upload_curriculum_vitae",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1440
+      },
+      "operation": "upload",
+      "variables": [
+        "base_url",
+        "token"
+      ],
+      "body_keys": [],
+      "hardcoded_ids": [],
+      "constraints": [],
+      "risks": [
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": [
+        "id",
+        "res_id",
+        "state"
+      ]
+    },
+    {
+      "order": 30,
+      "id": "HR Employee/delete_curriculum_vitae_file.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/delete_curriculum_vitae_file.bru",
+      "name": "delete_curriculum_vitae_file",
+      "method": "POST",
+      "url": "{{base_url}}/json/2/hr.employee/delete_curriculum_vitae_file",
+      "route_kind": "json2",
+      "model": "hr.employee",
+      "backend_method": "delete_curriculum_vitae_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1488
+      },
+      "operation": "delete",
+      "variables": [
+        "base_url",
+        "token"
+      ],
+      "body_keys": [
+        "attachment_id"
+      ],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "819"
+        }
+      ],
+      "constraints": [],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
+        "state-changing request; explicit execution approval required"
+      ],
+      "evidence": "SOURCE_VERIFIED",
+      "depends_on": [
+        "Authentication & System/login.bru",
+        "HR Employee/get_employee_infor.bru",
+        "HR Employee/upload_curriculum_vitae.bru"
+      ],
+      "alias_of": null,
+      "default_execution": true,
+      "captures": []
+    },
+    {
+      "order": 31,
+      "id": "HR Employee/upload_cv_file.bru",
+      "flow": "employee_context",
+      "bruno_path": "HR Employee/upload_cv_file.bru",
+      "name": "upload_cv_file",
+      "method": "POST",
+      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_cv_file",
+      "route_kind": "upload",
+      "model": "hr.employee",
+      "backend_method": "upload_cv_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1281
+      },
+      "operation": "upload",
+      "variables": [
+        "base_url",
+        "token"
+      ],
+      "body_keys": [],
       "hardcoded_ids": [],
       "constraints": [],
       "risks": [
@@ -1061,297 +1138,39 @@
     },
     {
       "order": 32,
-      "id": "HR Employee/upload_birth_certificate.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/upload_birth_certificate.bru",
-      "name": "upload_birth_certificate",
-      "method": "POST",
-      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_birth_certificate",
-      "route_kind": "upload",
-      "model": "hr.employee",
-      "backend_method": "upload_birth_certificate",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1504
-      },
-      "operation": "upload",
-      "variables": [
-        "base_url",
-        "employee_id",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": [
-        "id",
-        "res_id",
-        "state"
-      ]
-    },
-    {
-      "order": 33,
-      "id": "HR Employee/delete_birth_certificate_file.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/delete_birth_certificate_file.bru",
-      "name": "delete_birth_certificate_file",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_birth_certificate_file",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "delete",
-      "variables": [
-        "base_url",
-        "employee_birth_certificate_attachment_id",
-        "token"
-      ],
-      "body_keys": [
-        "attachment_id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru",
-        "HR Employee/upload_birth_certificate.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 34,
-      "id": "HR Employee/upload_citizen_id.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/upload_citizen_id.bru",
-      "name": "upload_citizen_id",
-      "method": "POST",
-      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_citizen_id",
-      "route_kind": "upload",
-      "model": "hr.employee",
-      "backend_method": "upload_citizen_id",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1341
-      },
-      "operation": "upload",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": [
-        "id",
-        "res_id",
-        "state"
-      ]
-    },
-    {
-      "order": 35,
-      "id": "HR Employee/delete_citizen_id_card_file.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/delete_citizen_id_card_file.bru",
-      "name": "delete_citizen_id_card_file",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_citizen_id_card_file",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "delete",
-      "variables": [
-        "base_url",
-        "employee_citizen_id_attachment_id",
-        "token"
-      ],
-      "body_keys": [
-        "attachment_id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru",
-        "HR Employee/upload_citizen_id.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 36,
-      "id": "HR Employee/upload_curriculum_vitae.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/upload_curriculum_vitae.bru",
-      "name": "upload_curriculum_vitae",
-      "method": "POST",
-      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_curriculum_vitae",
-      "route_kind": "upload",
-      "model": "hr.employee",
-      "backend_method": "upload_curriculum_vitae",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1423
-      },
-      "operation": "upload",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": [
-        "id",
-        "res_id",
-        "state"
-      ]
-    },
-    {
-      "order": 37,
-      "id": "HR Employee/delete_curriculum_vitae_file.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/delete_curriculum_vitae_file.bru",
-      "name": "delete_curriculum_vitae_file",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_curriculum_vitae_file",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "delete",
-      "variables": [
-        "base_url",
-        "employee_curriculum_vitae_attachment_id",
-        "token"
-      ],
-      "body_keys": [
-        "attachment_id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru",
-        "HR Employee/upload_curriculum_vitae.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 38,
-      "id": "HR Employee/upload_cv_file.bru",
-      "flow": "employee_context",
-      "bruno_path": "HR Employee/upload_cv_file.bru",
-      "name": "upload_cv_file",
-      "method": "POST",
-      "url": "{{base_url}}/api/models/hr-employee/upload_files/upload_cv_file",
-      "route_kind": "upload",
-      "model": "hr.employee",
-      "backend_method": "upload_cv_file",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1264
-      },
-      "operation": "upload",
-      "variables": [
-        "base_url",
-        "employee_id",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Employee/get_employee_infor.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": [
-        "id",
-        "res_id",
-        "state"
-      ]
-    },
-    {
-      "order": 39,
       "id": "HR Employee/delete_cv_file_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_cv_file_file.bru",
       "name": "delete_cv_file_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_cv_file_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_cv_file_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_cv_file_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1326
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_cv_file_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "829"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1362,7 +1181,7 @@
       "captures": []
     },
     {
-      "order": 40,
+      "order": 33,
       "id": "HR Employee/upload_diploma.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_diploma.bru",
@@ -1374,12 +1193,11 @@
       "backend_method": "upload_diploma",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1746
+        "line": 1763
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1402,32 +1220,40 @@
       ]
     },
     {
-      "order": 41,
+      "order": 34,
       "id": "HR Employee/delete_diploma_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_diploma_file.bru",
       "name": "delete_diploma_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_diploma_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_diploma_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_diploma_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1806
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_diploma_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "826"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1438,7 +1264,7 @@
       "captures": []
     },
     {
-      "order": 42,
+      "order": 35,
       "id": "HR Employee/upload_employee_other_document.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_employee_other_document.bru",
@@ -1450,12 +1276,11 @@
       "backend_method": "upload_employee_other_document",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1987
+        "line": 2004
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1478,32 +1303,40 @@
       ]
     },
     {
-      "order": 43,
+      "order": 36,
       "id": "HR Employee/delete_employee_other_document_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_employee_other_document_file.bru",
       "name": "delete_employee_other_document_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_employee_other_document_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_employee_other_document_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_employee_other_document_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 2055
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_employee_other_document_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "828"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1514,7 +1347,7 @@
       "captures": []
     },
     {
-      "order": 44,
+      "order": 37,
       "id": "HR Employee/upload_health_check.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_health_check.bru",
@@ -1526,12 +1359,11 @@
       "backend_method": "upload_health_check",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1584
+        "line": 1601
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1554,32 +1386,40 @@
       ]
     },
     {
-      "order": 45,
+      "order": 38,
       "id": "HR Employee/delete_health_check_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_health_check_file.bru",
       "name": "delete_health_check_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_health_check_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_health_check_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_health_check_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1648
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_health_check_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "823"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1590,7 +1430,7 @@
       "captures": []
     },
     {
-      "order": 46,
+      "order": 39,
       "id": "HR Employee/upload_personnel_guarantee_letter.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_personnel_guarantee_letter.bru",
@@ -1602,12 +1442,11 @@
       "backend_method": "upload_personnel_guarantee_letter",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1904
+        "line": 1921
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1630,32 +1469,40 @@
       ]
     },
     {
-      "order": 47,
+      "order": 40,
       "id": "HR Employee/delete_personnel_guarantee_letter_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_personnel_guarantee_letter_file.bru",
       "name": "delete_personnel_guarantee_letter_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_personnel_guarantee_letter_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_personnel_guarantee_letter_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_personnel_guarantee_letter_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1972
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_personnel_guarantee_letter_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "827"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1666,7 +1513,7 @@
       "captures": []
     },
     {
-      "order": 48,
+      "order": 41,
       "id": "HR Employee/upload_residence_certificate.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_residence_certificate.bru",
@@ -1678,12 +1525,11 @@
       "backend_method": "upload_residence_certificate",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1663
+        "line": 1680
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1706,32 +1552,40 @@
       ]
     },
     {
-      "order": 49,
+      "order": 42,
       "id": "HR Employee/delete_residence_certificate_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_residence_certificate_file.bru",
       "name": "delete_residence_certificate_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_residence_certificate_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_residence_certificate_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_residence_certificate_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1731
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_residence_certificate_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "824"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1742,7 +1596,7 @@
       "captures": []
     },
     {
-      "order": 50,
+      "order": 43,
       "id": "HR Employee/upload_staff_confirmation_letter.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/upload_staff_confirmation_letter.bru",
@@ -1754,12 +1608,11 @@
       "backend_method": "upload_staff_confirmation_letter",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
-        "line": 1821
+        "line": 1838
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "employee_id",
         "token"
       ],
       "body_keys": [],
@@ -1782,32 +1635,40 @@
       ]
     },
     {
-      "order": 51,
+      "order": 44,
       "id": "HR Employee/delete_staff_confirmation_letter_file.bru",
       "flow": "employee_context",
       "bruno_path": "HR Employee/delete_staff_confirmation_letter_file.bru",
       "name": "delete_staff_confirmation_letter_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-employee/execute/delete_staff_confirmation_letter_file",
+      "url": "{{base_url}}/json/2/hr.employee/delete_staff_confirmation_letter_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "hr.employee",
+      "backend_method": "delete_staff_confirmation_letter_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr/models/hr_employee.py",
+        "line": 1889
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "employee_staff_confirmation_letter_attachment_id",
         "token"
       ],
       "body_keys": [
         "attachment_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "824"
+        }
+      ],
       "constraints": [],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "HR Employee/get_employee_infor.bru",
@@ -1818,7 +1679,7 @@
       "captures": []
     },
     {
-      "order": 52,
+      "order": 45,
       "id": "HR Attendance Explanation/get_attendance_explanation_2.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_attendance_explanation_2.bru",
@@ -1874,7 +1735,7 @@
       "captures": []
     },
     {
-      "order": 53,
+      "order": 46,
       "id": "HR Leave & Overtime/get_hr_leave_details_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_hr_leave_details_2.bru",
@@ -1924,7 +1785,7 @@
       "captures": []
     },
     {
-      "order": 54,
+      "order": 47,
       "id": "HR Leave & Overtime/get_overtime_register_details_2.bru",
       "flow": "overtime",
       "bruno_path": "HR Leave & Overtime/get_overtime_register_details_2.bru",
@@ -1972,7 +1833,7 @@
       "captures": []
     },
     {
-      "order": 55,
+      "order": 48,
       "id": "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru",
       "flow": "helpdesk",
       "bruno_path": "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru",
@@ -2018,85 +1879,7 @@
       ]
     },
     {
-      "order": 56,
-      "id": "Staff Transfer/create_or_update_staff_transfer_2.bru",
-      "flow": "staff_transfer",
-      "bruno_path": "Staff Transfer/create_or_update_staff_transfer_2.bru",
-      "name": "create_or_update_staff_transfer_2",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/staff-transfer/execute/create_or_update_staff_transfer",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "mutate",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [
-        "area_category_id",
-        "concurrent_allowance",
-        "content",
-        "department_id",
-        "division",
-        "employee_id",
-        "group_id",
-        "is_challenge",
-        "job_id",
-        "job_title_id",
-        "salary",
-        "suggested_allowance",
-        "type"
-      ],
-      "hardcoded_ids": [
-        {
-          "field": "employee_id",
-          "value": "3273"
-        },
-        {
-          "field": "area_category_id",
-          "value": "7"
-        },
-        {
-          "field": "department_id",
-          "value": "131"
-        },
-        {
-          "field": "group_id",
-          "value": "110"
-        },
-        {
-          "field": "job_id",
-          "value": "110"
-        },
-        {
-          "field": "job_title_id",
-          "value": "9"
-        }
-      ],
-      "constraints": [
-        "type/employee/effective date required",
-        "duplicate employee/type/date rejected unless cancelled"
-      ],
-      "risks": [
-        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": "create_or_update_staff_transfer",
-      "default_execution": false,
-      "captures": [
-        "id",
-        "res_id",
-        "state"
-      ]
-    },
-    {
-      "order": 57,
+      "order": 49,
       "id": "Helpdesk Ticket/attach_files.bru",
       "flow": "helpdesk",
       "bruno_path": "Helpdesk Ticket/attach_files.bru",
@@ -2113,7 +1896,6 @@
       "operation": "upload",
       "variables": [
         "base_url",
-        "ticket_id",
         "token"
       ],
       "body_keys": [],
@@ -2140,7 +1922,7 @@
       ]
     },
     {
-      "order": 58,
+      "order": 50,
       "id": "HR Leave & Overtime/app_approval_accept_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_approval_accept_2.bru",
@@ -2180,7 +1962,7 @@
       "captures": []
     },
     {
-      "order": 59,
+      "order": 51,
       "id": "HR Leave & Overtime/app_approval_reject_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_approval_reject_2.bru",
@@ -2220,7 +2002,7 @@
       "captures": []
     },
     {
-      "order": 60,
+      "order": 52,
       "id": "HR Leave & Overtime/app_approval_set_to_cancel_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_approval_set_to_cancel_2.bru",
@@ -2260,7 +2042,7 @@
       "captures": []
     },
     {
-      "order": 61,
+      "order": 53,
       "id": "HR Leave & Overtime/app_approval_set_to_draft_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_approval_set_to_draft_2.bru",
@@ -2300,7 +2082,7 @@
       "captures": []
     },
     {
-      "order": 62,
+      "order": 54,
       "id": "HR Leave & Overtime/app_approval_submit_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_approval_submit_2.bru",
@@ -2340,17 +2122,20 @@
       "captures": []
     },
     {
-      "order": 63,
+      "order": 55,
       "id": "Blog Post/get_blog_posts_api.bru",
       "flow": "read_only_reports",
       "bruno_path": "Blog Post/get_blog_posts_api.bru",
       "name": "get_blog_posts_api",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/blog-post/execute/get_blog_posts_api",
+      "url": "{{base_url}}/json/2/blog.post/get_blog_posts_api",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "blog.post",
+      "backend_method": "get_blog_posts_api",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/blog_post.py",
+        "line": 53
+      },
       "operation": "read",
       "variables": [
         "base_url",
@@ -2359,41 +2144,6 @@
       "body_keys": [],
       "hardcoded_ids": [],
       "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 64,
-      "id": "HR Attendance Explanation/69445.bru",
-      "flow": "attendance_explanation",
-      "bruno_path": "HR Attendance Explanation/69445.bru",
-      "name": "69445",
-      "method": "GET",
-      "url": "{{base_url}}/json/2/recheck/image/69445",
-      "route_kind": "json2",
-      "model": "recheck",
-      "backend_method": "get_recheck_image",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr/controllers/main.py",
-        "line": 270
-      },
-      "operation": "read",
-      "variables": [
-        "base_url"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee/date/reason/calendar required",
-        "unique employee/date",
-        "time interval validation"
-      ],
       "risks": [],
       "evidence": "SOURCE_VERIFIED",
       "depends_on": [
@@ -2404,7 +2154,7 @@
       "captures": []
     },
     {
-      "order": 65,
+      "order": 56,
       "id": "HR Attendance Explanation/get_attendance_explanation.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_attendance_explanation.bru",
@@ -2444,7 +2194,7 @@
       "captures": []
     },
     {
-      "order": 66,
+      "order": 57,
       "id": "HR Attendance Explanation/get_create_date_infor.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_create_date_infor.bru",
@@ -2489,7 +2239,7 @@
       "captures": []
     },
     {
-      "order": 67,
+      "order": 58,
       "id": "HR Attendance Explanation/get_infor_explanation_reason.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_infor_explanation_reason.bru",
@@ -2525,81 +2275,7 @@
       "captures": []
     },
     {
-      "order": 68,
-      "id": "HR Attendance Explanation/get_infor_day_type.bru",
-      "flow": "attendance_explanation",
-      "bruno_path": "HR Attendance Explanation/get_infor_day_type.bru",
-      "name": "get_infor_day_type",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.attendance.explanation/get_infor_day_type",
-      "route_kind": "json2",
-      "model": "hr.attendance.explanation",
-      "backend_method": "get_infor_day_type",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance_explain.py",
-        "line": 2176
-      },
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee/date/reason/calendar required",
-        "unique employee/date",
-        "time interval validation"
-      ],
-      "risks": [],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Attendance Explanation/get_infor_explanation_reason.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 69,
-      "id": "HR Attendance Explanation/get_infor_allocation.bru",
-      "flow": "attendance_explanation",
-      "bruno_path": "HR Attendance Explanation/get_infor_allocation.bru",
-      "name": "get_infor_allocation",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.attendance.explanation/get_infor_allocation",
-      "route_kind": "json2",
-      "model": "hr.attendance.explanation",
-      "backend_method": "get_infor_allocation",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance_explain.py",
-        "line": 2190
-      },
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee/date/reason/calendar required",
-        "unique employee/date",
-        "time interval validation"
-      ],
-      "risks": [],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Attendance Explanation/get_infor_day_type.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 70,
+      "order": 59,
       "id": "HR Attendance Explanation/create_or_update_explanation.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/create_or_update_explanation.bru",
@@ -2616,28 +2292,32 @@
       "operation": "mutate",
       "variables": [
         "base_url",
-        "explanation_calendar_id",
         "token"
       ],
       "body_keys": [
         "explained_resource_calendar_id",
         "explanation_date",
-        "explanation_reason"
+        "explanation_reason",
+        "id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "explained_resource_calendar_id",
+          "value": "3"
+        }
+      ],
       "constraints": [
         "employee/date/reason/calendar required",
         "unique employee/date",
         "time interval validation"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
-        "HR Attendance Explanation/get_infor_allocation.bru",
-        "HR Attendance Explanation/get_infor_day_type.bru",
         "HR Attendance Explanation/get_infor_explanation_reason.bru"
       ],
       "alias_of": null,
@@ -2649,7 +2329,7 @@
       ]
     },
     {
-      "order": 71,
+      "order": 60,
       "id": "HR Attendance Explanation/attach_files.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/attach_files.bru",
@@ -2666,7 +2346,6 @@
       "operation": "upload",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [],
@@ -2693,49 +2372,7 @@
       ]
     },
     {
-      "order": 72,
-      "id": "HR Attendance Explanation/app_cancel.bru",
-      "flow": "attendance_explanation",
-      "bruno_path": "HR Attendance Explanation/app_cancel.bru",
-      "name": "app_cancel",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.attendance.explanation/app_cancel",
-      "route_kind": "json2",
-      "model": "hr.attendance.explanation",
-      "backend_method": "app_cancel",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance_explain.py",
-        "line": 2344
-      },
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "explanation_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee/date/reason/calendar required",
-        "unique employee/date",
-        "time interval validation"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Attendance Explanation/create_or_update_explanation.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 73,
+      "order": 61,
       "id": "HR Attendance Explanation/get_attendance_explanation_details.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_attendance_explanation_details.bru",
@@ -2752,19 +2389,25 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
         "explanation_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "explanation_id",
+          "value": "2"
+        }
+      ],
       "constraints": [
         "employee/date/reason/calendar required",
         "unique employee/date",
         "time interval validation"
       ],
-      "risks": [],
+      "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution"
+      ],
       "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
@@ -2775,7 +2418,7 @@
       "captures": []
     },
     {
-      "order": 74,
+      "order": 62,
       "id": "HR Attendance Explanation/app_approval_submit.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/app_approval_submit.bru",
@@ -2792,7 +2435,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -2818,7 +2460,7 @@
       "captures": []
     },
     {
-      "order": 75,
+      "order": 63,
       "id": "HR Attendance Explanation/app_approval_accept.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/app_approval_accept.bru",
@@ -2835,7 +2477,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -2861,7 +2502,7 @@
       "captures": []
     },
     {
-      "order": 76,
+      "order": 64,
       "id": "HR Attendance Explanation/app_approval_reject.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/app_approval_reject.bru",
@@ -2878,7 +2519,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -2905,7 +2545,7 @@
       "captures": []
     },
     {
-      "order": 77,
+      "order": 65,
       "id": "HR Attendance Explanation/app_draft.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/app_draft.bru",
@@ -2922,7 +2562,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -2948,7 +2587,7 @@
       "captures": []
     },
     {
-      "order": 78,
+      "order": 66,
       "id": "HR Attendance Explanation/get_attendance_explanation_approval_progress.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/get_attendance_explanation_approval_progress.bru",
@@ -2965,7 +2604,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -2989,7 +2627,7 @@
       "captures": []
     },
     {
-      "order": 79,
+      "order": 67,
       "id": "HR Attendance/app_get_address_from_coords.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/app_get_address_from_coords.bru",
@@ -3027,7 +2665,7 @@
       "captures": []
     },
     {
-      "order": 80,
+      "order": 68,
       "id": "HR Attendance/create_attendance_gps.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/create_attendance_gps.bru",
@@ -3073,7 +2711,7 @@
       ]
     },
     {
-      "order": 81,
+      "order": 69,
       "id": "HR Attendance/get_attendance_today.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_attendance_today.bru",
@@ -3109,7 +2747,7 @@
       "captures": []
     },
     {
-      "order": 82,
+      "order": 70,
       "id": "HR Attendance/get_attendance_in_month.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_attendance_in_month.bru",
@@ -3148,7 +2786,7 @@
       "captures": []
     },
     {
-      "order": 83,
+      "order": 71,
       "id": "HR Attendance/get_attendance_for_one_employee.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_attendance_for_one_employee.bru",
@@ -3188,7 +2826,7 @@
       "captures": []
     },
     {
-      "order": 84,
+      "order": 72,
       "id": "HR Attendance/get_attendance_violation_details.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_attendance_violation_details.bru",
@@ -3235,7 +2873,7 @@
       "captures": []
     },
     {
-      "order": 85,
+      "order": 73,
       "id": "HR Attendance/get_attendance_violation_report.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_attendance_violation_report.bru",
@@ -3277,7 +2915,7 @@
       "captures": []
     },
     {
-      "order": 86,
+      "order": 74,
       "id": "HR Attendance/upload_attendance_image.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/upload_attendance_image.bru",
@@ -3293,7 +2931,6 @@
       },
       "operation": "upload",
       "variables": [
-        "attendance_log_id",
         "base_url",
         "token"
       ],
@@ -3320,7 +2957,7 @@
       ]
     },
     {
-      "order": 87,
+      "order": 75,
       "id": "HR Attendance/get_employee_total_work_in_month.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_employee_total_work_in_month.bru",
@@ -3359,7 +2996,7 @@
       "captures": []
     },
     {
-      "order": 88,
+      "order": 76,
       "id": "HR Attendance/get_list_driver_attendance_log.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_list_driver_attendance_log.bru",
@@ -3399,46 +3036,7 @@
       "captures": []
     },
     {
-      "order": 89,
-      "id": "HR Attendance/get_top_violations.bru",
-      "flow": "gps_attendance",
-      "bruno_path": "HR Attendance/get_top_violations.bru",
-      "name": "get_top_violations",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.attendance/get_top_violations",
-      "route_kind": "json2",
-      "model": "hr.attendance",
-      "backend_method": "get_top_violations",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-        "line": 2972
-      },
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [
-        "month",
-        "type",
-        "year"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "job.allow_gps_attendance must be true",
-        "second create can toggle check-in/check-out"
-      ],
-      "risks": [],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 90,
+      "order": 77,
       "id": "HR Attendance/get_total_work_in_month.bru",
       "flow": "gps_attendance",
       "bruno_path": "HR Attendance/get_total_work_in_month.bru",
@@ -3476,251 +3074,7 @@
       "captures": []
     },
     {
-      "order": 91,
-      "id": "HR Attendance/search_read.bru",
-      "flow": "gps_attendance",
-      "bruno_path": "HR Attendance/search_read.bru",
-      "name": "search_read",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.attendance/search_read",
-      "route_kind": "json2",
-      "model": "hr.attendance",
-      "backend_method": "search_read",
-      "source": {
-        "model": "hr.attendance",
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-        "line": 15,
-        "methods": {
-          "_compute_has_gps_log": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 312
-          },
-          "_compute_is_missing_check": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 323
-          },
-          "recompute_is_missing_check_batch": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 355
-          },
-          "compute_late_early": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 373
-          },
-          "compute_unpaid_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 424
-          },
-          "compute_off_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 443
-          },
-          "compute_leave_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 464
-          },
-          "compute_leave_work": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 499
-          },
-          "_compute_standard_work": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 518
-          },
-          "_compute_compensation_work_normal": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 538
-          },
-          "_compute_has_explanation": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 545
-          },
-          "_compute_check_in_time": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 554
-          },
-          "_compute_check_out_time": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 563
-          },
-          "compute_sick_maternity_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 572
-          },
-          "_compute_work_business": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 593
-          },
-          "_compute_is_trial_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 604
-          },
-          "compute_coefficient": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 658
-          },
-          "compute_day_type": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 703
-          },
-          "compute_is_holiday": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 757
-          },
-          "compute_late_early_minutes": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 810
-          },
-          "_calculate_late_early_per_ca": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 883
-          },
-          "_subtract_leave_minutes": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 917
-          },
-          "compute_work_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 957
-          },
-          "compute_move_overtime_hours": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1330
-          },
-          "compute_recog_overtime_hours": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1352
-          },
-          "_compute_attendance_date": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1484
-          },
-          "_check_unique_attendance_per_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1494
-          },
-          "compute_work_time_range": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1514
-          },
-          "compute_actual_resource_calendar_id": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1537
-          },
-          "_check_validity": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1642
-          },
-          "convert_time_to_float": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1704
-          },
-          "_compute_time_compare": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1715
-          },
-          "_compute_day_of_week": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1830
-          },
-          "_compute_overtime": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1839
-          },
-          "cron_create_full_attendance": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1858
-          },
-          "backfill_full_attendance": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1896
-          },
-          "_action_recompute_fields": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1945
-          },
-          "get_attendance_in_month": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 1963
-          },
-          "get_attendance_for_one_employee": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2173
-          },
-          "get_total_work_in_month": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2363
-          },
-          "get_employee_total_work_in_month": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2452
-          },
-          "get_attendance_today": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2541
-          },
-          "fix_seconds_attendance_from_date": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2611
-          },
-          "_get_hours_per_day": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2665
-          },
-          "_update_leave_allocation": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2682
-          },
-          "write": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2735
-          },
-          "action_reconcile_nb_allocation_by_today_contract": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2746
-          },
-          "get_attendance_violation_report": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2832
-          },
-          "get_attendance_violation_details": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2913
-          },
-          "get_top_violations": {
-            "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_attendance.py",
-            "line": 2972
-          }
-        }
-      },
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [
-        "domain",
-        "fields",
-        "limit",
-        "offset",
-        "order"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "job.allow_gps_attendance must be true",
-        "second create can toggle check-in/check-out"
-      ],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 92,
+      "order": 78,
       "id": "HR Leave & Overtime/get_create_date_infor.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_create_date_infor.bru",
@@ -3765,7 +3119,7 @@
       "captures": []
     },
     {
-      "order": 93,
+      "order": 79,
       "id": "HR Leave & Overtime/get_holiday_details_by_type.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_holiday_details_by_type.bru",
@@ -3801,7 +3155,7 @@
       "captures": []
     },
     {
-      "order": 94,
+      "order": 80,
       "id": "HR Leave & Overtime/get_holiday_status_id_and_days.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_holiday_status_id_and_days.bru",
@@ -3818,7 +3172,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "leave_request_date_from",
         "token"
       ],
       "body_keys": [
@@ -3840,7 +3193,7 @@
       "captures": []
     },
     {
-      "order": 95,
+      "order": 81,
       "id": "HR Leave & Overtime/create_or_update_hr_leave.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/create_or_update_hr_leave.bru",
@@ -3857,11 +3210,6 @@
       "operation": "mutate",
       "variables": [
         "base_url",
-        "leave_holiday_status_id",
-        "leave_request_date_from",
-        "leave_request_date_from_period",
-        "leave_request_date_to",
-        "leave_request_unit_half",
         "token"
       ],
       "body_keys": [
@@ -3872,13 +3220,19 @@
         "request_date_to",
         "request_unit_half"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "holiday_status_id",
+          "value": "2"
+        }
+      ],
       "constraints": [
         "employee context required",
         "holiday_status_id must exist",
         "quota/date validity enforced"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
@@ -3895,7 +3249,7 @@
       ]
     },
     {
-      "order": 96,
+      "order": 82,
       "id": "HR Leave & Overtime/attach_files.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/attach_files.bru",
@@ -3912,7 +3266,6 @@
       "operation": "upload",
       "variables": [
         "base_url",
-        "leave_id",
         "token"
       ],
       "body_keys": [],
@@ -3939,7 +3292,7 @@
       ]
     },
     {
-      "order": 97,
+      "order": 83,
       "id": "HR Leave & Overtime/get_hr_leave_approval_progress_2.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_hr_leave_approval_progress_2.bru",
@@ -3977,7 +3330,7 @@
       "captures": []
     },
     {
-      "order": 98,
+      "order": 84,
       "id": "HR Leave & Overtime/get_hr_leave_details.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_hr_leave_details.bru",
@@ -3994,7 +3347,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "leave_id",
         "token"
       ],
       "body_keys": [
@@ -4017,7 +3369,7 @@
       "captures": []
     },
     {
-      "order": 99,
+      "order": 85,
       "id": "HR Leave & Overtime/get_list_leaves.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/get_list_leaves.bru",
@@ -4059,246 +3411,7 @@
       "captures": []
     },
     {
-      "order": 100,
-      "id": "HR Leave & Overtime/app_approval_submit.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/app_approval_submit.bru",
-      "name": "app_approval_submit",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/app_approval_submit",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru",
-        "HR Leave & Overtime/get_list_leaves.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 101,
-      "id": "HR Leave & Overtime/app_approval_accept.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/app_approval_accept.bru",
-      "name": "app_approval_accept",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/app_approval_accept",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_submit.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 102,
-      "id": "HR Leave & Overtime/app_approval_reject.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/app_approval_reject.bru",
-      "name": "app_approval_reject",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/app_approval_reject",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_accept.bru",
-        "HR Leave & Overtime/app_approval_submit.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 103,
-      "id": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/app_approval_set_to_cancel.bru",
-      "name": "app_approval_set_to_cancel",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/app_approval_set_to_cancel",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_submit.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 104,
-      "id": "HR Leave & Overtime/app_approval_set_to_draft.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/app_approval_set_to_draft.bru",
-      "name": "app_approval_set_to_draft",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/app_approval_set_to_draft",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "workflow_transition",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_submit.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 105,
-      "id": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
-      "flow": "leave",
-      "bruno_path": "HR Leave & Overtime/get_hr_leave_approval_progress.bru",
-      "name": "get_hr_leave_approval_progress",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/hr-leave/execute/get_hr_leave_approval_progress",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "leave_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "employee context required",
-        "holiday_status_id must exist",
-        "quota/date validity enforced"
-      ],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_reject.bru",
-        "HR Leave & Overtime/create_or_update_hr_leave.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 106,
+      "order": 86,
       "id": "HR Leave & Overtime/get_list_overtime_register.bru",
       "flow": "overtime",
       "bruno_path": "HR Leave & Overtime/get_list_overtime_register.bru",
@@ -4336,7 +3449,7 @@
       "captures": []
     },
     {
-      "order": 107,
+      "order": 87,
       "id": "HR Leave & Overtime/get_overtime_holiday_status_id.bru",
       "flow": "overtime",
       "bruno_path": "HR Leave & Overtime/get_overtime_holiday_status_id.bru",
@@ -4370,7 +3483,7 @@
       "captures": []
     },
     {
-      "order": 108,
+      "order": 88,
       "id": "HR Leave & Overtime/create_or_update_overtime_register.bru",
       "flow": "overtime",
       "bruno_path": "HR Leave & Overtime/create_or_update_overtime_register.bru",
@@ -4387,9 +3500,6 @@
       "operation": "mutate",
       "variables": [
         "base_url",
-        "employee_id",
-        "overtime_holiday_status_id",
-        "overtime_request_date",
         "token"
       ],
       "body_keys": [
@@ -4402,11 +3512,21 @@
         "request_date_to",
         "type"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "employee_id",
+          "value": "1"
+        },
+        {
+          "field": "holiday_status_id",
+          "value": "1"
+        }
+      ],
       "constraints": [
         "overtime dates must satisfy same-day source constraint"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
@@ -4423,7 +3543,7 @@
       ]
     },
     {
-      "order": 109,
+      "order": 89,
       "id": "HR Leave & Overtime/get_overtime_register_details.bru",
       "flow": "overtime",
       "bruno_path": "HR Leave & Overtime/get_overtime_register_details.bru",
@@ -4440,7 +3560,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "overtime_id",
         "token"
       ],
       "body_keys": [
@@ -4461,7 +3580,7 @@
       "captures": []
     },
     {
-      "order": 110,
+      "order": 90,
       "id": "Helpdesk Ticket/get_helpdesk_ticket_details.bru",
       "flow": "helpdesk",
       "bruno_path": "Helpdesk Ticket/get_helpdesk_ticket_details.bru",
@@ -4478,7 +3597,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "ticket_id",
         "token"
       ],
       "body_keys": [
@@ -4501,7 +3619,7 @@
       "captures": []
     },
     {
-      "order": 111,
+      "order": 91,
       "id": "Helpdesk Ticket/get_list_helpdesk_ticket.bru",
       "flow": "helpdesk",
       "bruno_path": "Helpdesk Ticket/get_list_helpdesk_ticket.bru",
@@ -4542,7 +3660,7 @@
       "captures": []
     },
     {
-      "order": 112,
+      "order": 92,
       "id": "Resignation Letter/get_infor_departure_reason.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/get_infor_departure_reason.bru",
@@ -4578,7 +3696,7 @@
       "captures": []
     },
     {
-      "order": 113,
+      "order": 93,
       "id": "Resignation Letter/create_or_update_resignation_letter.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/create_or_update_resignation_letter.bru",
@@ -4590,14 +3708,11 @@
       "backend_method": "create_or_update_resignation_letter",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 369
+        "line": 325
       },
       "operation": "mutate",
       "variables": [
         "base_url",
-        "departure_reason_id",
-        "resignation_day_off",
-        "resignation_request_date",
         "token"
       ],
       "body_keys": [
@@ -4609,19 +3724,24 @@
         "receiver",
         "resignation_date"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "departure_reason_id",
+          "value": "2"
+        }
+      ],
       "constraints": [
         "employee/resignation date/day-off/departure reason required",
         "employee.onboard_time must be configured before create",
         "duplicate active records rejected"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
-        "HR Employee/update_employee_onboard_time.bru",
         "Resignation Letter/get_infor_departure_reason.bru"
       ],
       "alias_of": null,
@@ -4633,7 +3753,7 @@
       ]
     },
     {
-      "order": 114,
+      "order": 94,
       "id": "Resignation Letter/upload_attachment_file.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/upload_attachment_file.bru",
@@ -4645,12 +3765,11 @@
       "backend_method": "upload_attachment_file",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 774
+        "line": 730
       },
       "operation": "upload",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [],
@@ -4677,7 +3796,7 @@
       ]
     },
     {
-      "order": 115,
+      "order": 95,
       "id": "Resignation Letter/get_resignation_letter.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/get_resignation_letter.bru",
@@ -4689,7 +3808,7 @@
       "backend_method": "get_resignation_letter",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 414
+        "line": 370
       },
       "operation": "read",
       "variables": [
@@ -4728,7 +3847,7 @@
       "captures": []
     },
     {
-      "order": 116,
+      "order": 96,
       "id": "Resignation Letter/get_resignation_letter_details.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/get_resignation_letter_details.bru",
@@ -4740,12 +3859,11 @@
       "backend_method": "get_resignation_letter_details",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 553
+        "line": 509
       },
       "operation": "read",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4769,7 +3887,7 @@
       "captures": []
     },
     {
-      "order": 117,
+      "order": 97,
       "id": "Resignation Letter/get_resignation_letter_approval_progress.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/get_resignation_letter_approval_progress.bru",
@@ -4781,12 +3899,11 @@
       "backend_method": "get_resignation_letter_approval_progress",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 530
+        "line": 486
       },
       "operation": "read",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4810,7 +3927,7 @@
       "captures": []
     },
     {
-      "order": 118,
+      "order": 98,
       "id": "Resignation Letter/app_approval_submit.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_approval_submit.bru",
@@ -4822,12 +3939,11 @@
       "backend_method": "app_approval_submit",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 663
+        "line": 619
       },
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4853,21 +3969,23 @@
       "captures": []
     },
     {
-      "order": 119,
+      "order": 99,
       "id": "Resignation Letter/app_approval_accept.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_approval_accept.bru",
       "name": "app_approval_accept",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/resignation-letter/execute/app_approval_accept",
+      "url": "{{base_url}}/json/2/resignation.letter/app_approval_accept",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "resignation.letter",
+      "backend_method": "app_approval_accept",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
+        "line": 643
+      },
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4882,7 +4000,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "Resignation Letter/app_approval_submit.bru",
@@ -4893,21 +4011,23 @@
       "captures": []
     },
     {
-      "order": 120,
+      "order": 100,
       "id": "Resignation Letter/app_approval_reject.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_approval_reject.bru",
       "name": "app_approval_reject",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/resignation-letter/execute/app_approval_reject",
+      "url": "{{base_url}}/json/2/resignation.letter/app_approval_reject",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "resignation.letter",
+      "backend_method": "app_approval_reject",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
+        "line": 709
+      },
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4922,7 +4042,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "Resignation Letter/app_approval_accept.bru",
@@ -4934,21 +4054,23 @@
       "captures": []
     },
     {
-      "order": 121,
+      "order": 101,
       "id": "Resignation Letter/app_btn_cancel.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_btn_cancel.bru",
       "name": "app_btn_cancel",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/resignation-letter/execute/app_btn_cancel",
+      "url": "{{base_url}}/json/2/resignation.letter/app_btn_cancel",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "resignation.letter",
+      "backend_method": "app_btn_cancel",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
+        "line": 688
+      },
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -4963,7 +4085,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "Resignation Letter/app_approval_submit.bru",
@@ -4974,21 +4096,23 @@
       "captures": []
     },
     {
-      "order": 122,
+      "order": 102,
       "id": "Resignation Letter/app_btn_to_draft.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_btn_to_draft.bru",
       "name": "app_btn_to_draft",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/resignation-letter/execute/app_btn_to_draft",
+      "url": "{{base_url}}/json/2/resignation.letter/app_btn_to_draft",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "resignation.letter",
+      "backend_method": "app_btn_to_draft",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
+        "line": 667
+      },
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -5003,7 +4127,7 @@
       "risks": [
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "Resignation Letter/app_approval_submit.bru",
@@ -5014,65 +4138,7 @@
       "captures": []
     },
     {
-      "order": 123,
-      "id": "Reward & Discipline/get_infor_reward_discipline.bru",
-      "flow": "read_only_reports",
-      "bruno_path": "Reward & Discipline/get_infor_reward_discipline.bru",
-      "name": "get_infor_reward_discipline",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/type-reward-discipline/execute/get_infor_reward_discipline",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 124,
-      "id": "Reward & Discipline/get_infor_reward_discipline_divide.bru",
-      "flow": "read_only_reports",
-      "bruno_path": "Reward & Discipline/get_infor_reward_discipline_divide.bru",
-      "name": "get_infor_reward_discipline_divide",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/reward-discipline-divide/execute/get_infor_reward_discipline_divide",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "read",
-      "variables": [
-        "base_url",
-        "token"
-      ],
-      "body_keys": [],
-      "hardcoded_ids": [],
-      "constraints": [],
-      "risks": [],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 125,
+      "order": 103,
       "id": "Reward & Discipline/get_list_reward_discipline.bru",
       "flow": "read_only_reports",
       "bruno_path": "Reward & Discipline/get_list_reward_discipline.bru",
@@ -5084,7 +4150,7 @@
       "backend_method": "get_list_reward_discipline",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/reward_discipline.py",
-        "line": 173
+        "line": 162
       },
       "operation": "read",
       "variables": [
@@ -5108,7 +4174,7 @@
       "captures": []
     },
     {
-      "order": 126,
+      "order": 104,
       "id": "Reward & Discipline/get_reward_discipline_details.bru",
       "flow": "read_only_reports",
       "bruno_path": "Reward & Discipline/get_reward_discipline_details.bru",
@@ -5120,12 +4186,11 @@
       "backend_method": "get_reward_discipline_details",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/reward_discipline.py",
-        "line": 264
+        "line": 253
       },
       "operation": "read",
       "variables": [
         "base_url",
-        "reward_id",
         "token"
       ],
       "body_keys": [
@@ -5144,7 +4209,7 @@
       "captures": []
     },
     {
-      "order": 127,
+      "order": 105,
       "id": "Staff Transfer/get_infor_area_category.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/get_infor_area_category.bru",
@@ -5179,7 +4244,7 @@
       "captures": []
     },
     {
-      "order": 128,
+      "order": 106,
       "id": "Staff Transfer/get_infor_job_title.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/get_infor_job_title.bru",
@@ -5215,7 +4280,7 @@
       "captures": []
     },
     {
-      "order": 129,
+      "order": 107,
       "id": "Staff Transfer/create_or_update_staff_transfer.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/create_or_update_staff_transfer.bru",
@@ -5231,23 +4296,26 @@
       },
       "operation": "mutate",
       "variables": [
-        "area_category_id",
         "base_url",
-        "staff_transfer_effective_date",
         "token"
       ],
       "body_keys": [
         "area_category_id",
         "content",
-        "effective_date",
         "type"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "area_category_id",
+          "value": "1"
+        }
+      ],
       "constraints": [
         "type/employee/effective date required",
         "duplicate employee/type/date rejected unless cancelled"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
@@ -5264,7 +4332,7 @@
       ]
     },
     {
-      "order": 130,
+      "order": 108,
       "id": "Staff Transfer/get_staff_transfer.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/get_staff_transfer.bru",
@@ -5304,7 +4372,7 @@
       "captures": []
     },
     {
-      "order": 131,
+      "order": 109,
       "id": "Staff Transfer/get_staff_transfer_details.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/get_staff_transfer_details.bru",
@@ -5321,7 +4389,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5344,7 +4411,7 @@
       "captures": []
     },
     {
-      "order": 132,
+      "order": 110,
       "id": "Staff Transfer/get_staff_transfer_approval_progress.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/get_staff_transfer_approval_progress.bru",
@@ -5361,7 +4428,6 @@
       "operation": "read",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5384,7 +4450,7 @@
       "captures": []
     },
     {
-      "order": 133,
+      "order": 111,
       "id": "Staff Transfer/app_approval_submit.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_approval_submit.bru",
@@ -5401,7 +4467,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5426,7 +4491,7 @@
       "captures": []
     },
     {
-      "order": 134,
+      "order": 112,
       "id": "Staff Transfer/app_approval_accept.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_approval_accept.bru",
@@ -5443,7 +4508,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5468,7 +4532,7 @@
       "captures": []
     },
     {
-      "order": 135,
+      "order": 113,
       "id": "Staff Transfer/app_approval_reject.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_approval_reject.bru",
@@ -5485,7 +4549,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5511,7 +4574,7 @@
       "captures": []
     },
     {
-      "order": 136,
+      "order": 114,
       "id": "Staff Transfer/app_cancel.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_cancel.bru",
@@ -5528,7 +4591,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5553,7 +4615,7 @@
       "captures": []
     },
     {
-      "order": 137,
+      "order": 115,
       "id": "Staff Transfer/app_draft.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_draft.bru",
@@ -5570,7 +4632,6 @@
       "operation": "workflow_transition",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [
@@ -5595,7 +4656,7 @@
       "captures": []
     },
     {
-      "order": 138,
+      "order": 116,
       "id": "HR Attendance Explanation/app_delete_hr_attendance_explanation.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/app_delete_hr_attendance_explanation.bru",
@@ -5612,7 +4673,6 @@
       "operation": "delete",
       "variables": [
         "base_url",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
@@ -5637,7 +4697,7 @@
       "captures": []
     },
     {
-      "order": 139,
+      "order": 117,
       "id": "HR Attendance Explanation/delete_explanation_file.bru",
       "flow": "attendance_explanation",
       "bruno_path": "HR Attendance Explanation/delete_explanation_file.bru",
@@ -5654,21 +4714,29 @@
       "operation": "delete",
       "variables": [
         "base_url",
-        "explanation_attachment_id",
-        "explanation_id",
         "token"
       ],
       "body_keys": [
         "attachment_id",
         "explanation_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "explanation_id",
+          "value": "14"
+        },
+        {
+          "field": "attachment_id",
+          "value": "69445"
+        }
+      ],
       "constraints": [
         "employee/date/reason/calendar required",
         "unique employee/date",
         "time interval validation"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
@@ -5682,7 +4750,7 @@
       "captures": []
     },
     {
-      "order": 140,
+      "order": 118,
       "id": "HR Leave & Overtime/app_delete_hr_leave.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/app_delete_hr_leave.bru",
@@ -5699,7 +4767,6 @@
       "operation": "delete",
       "variables": [
         "base_url",
-        "leave_id",
         "token"
       ],
       "body_keys": [
@@ -5724,47 +4791,7 @@
       "captures": []
     },
     {
-      "order": 141,
-      "id": "HR Leave & Overtime/app_delete_overtime_register.bru",
-      "flow": "overtime",
-      "bruno_path": "HR Leave & Overtime/app_delete_overtime_register.bru",
-      "name": "app_delete_overtime_register",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/hr.leave/app_delete_overtime_register",
-      "route_kind": "json2",
-      "model": "hr.leave",
-      "backend_method": "app_delete_overtime_register",
-      "source": {
-        "source": "/home/linh/vdx/hrm-package/vdx_hr_attendance/models/hr_leave.py",
-        "line": 1429
-      },
-      "operation": "delete",
-      "variables": [
-        "base_url",
-        "overtime_id",
-        "token"
-      ],
-      "body_keys": [
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "overtime dates must satisfy same-day source constraint"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "SOURCE_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "HR Leave & Overtime/create_or_update_overtime_register.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 142,
+      "order": 119,
       "id": "HR Leave & Overtime/delete_att_file.bru",
       "flow": "leave",
       "bruno_path": "HR Leave & Overtime/delete_att_file.bru",
@@ -5781,27 +4808,30 @@
       "operation": "delete",
       "variables": [
         "base_url",
-        "leave_attachment_id",
-        "leave_id",
         "token"
       ],
       "body_keys": [
         "attachment_id",
         "id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "69445"
+        }
+      ],
       "constraints": [
         "employee context required",
         "holiday_status_id must exist",
         "quota/date validity enforced"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
       "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
-        "HR Leave & Overtime/app_approval_submit.bru",
         "HR Leave & Overtime/attach_files.bru",
         "HR Leave & Overtime/create_or_update_hr_leave.bru"
       ],
@@ -5810,49 +4840,7 @@
       "captures": []
     },
     {
-      "order": 143,
-      "id": "Helpdesk Ticket/delete_att_file.bru",
-      "flow": "helpdesk",
-      "bruno_path": "Helpdesk Ticket/delete_att_file.bru",
-      "name": "delete_att_file",
-      "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/helpdesk-ticket/execute/delete_att_file",
-      "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
-      "operation": "delete",
-      "variables": [
-        "base_url",
-        "ticket_attachment_id",
-        "ticket_id",
-        "token"
-      ],
-      "body_keys": [
-        "attachment_id",
-        "id"
-      ],
-      "hardcoded_ids": [],
-      "constraints": [
-        "authenticated user must link to employee",
-        "type is feedback or propose",
-        "upload requires ticket res_id"
-      ],
-      "risks": [
-        "state-changing request; explicit execution approval required"
-      ],
-      "evidence": "COLLECTION_VERIFIED",
-      "depends_on": [
-        "Authentication & System/login.bru",
-        "Helpdesk Ticket/attach_files.bru",
-        "Helpdesk Ticket/create_or_update_helpdesk_ticket.bru"
-      ],
-      "alias_of": null,
-      "default_execution": true,
-      "captures": []
-    },
-    {
-      "order": 144,
+      "order": 120,
       "id": "Resignation Letter/app_delete_resignation_letter.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/app_delete_resignation_letter.bru",
@@ -5864,12 +4852,11 @@
       "backend_method": "app_delete_resignation_letter",
       "source": {
         "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
-        "line": 646
+        "line": 602
       },
       "operation": "delete",
       "variables": [
         "base_url",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
@@ -5894,38 +4881,49 @@
       "captures": []
     },
     {
-      "order": 145,
+      "order": 121,
       "id": "Resignation Letter/delete_attachment_file.bru",
       "flow": "resignation",
       "bruno_path": "Resignation Letter/delete_attachment_file.bru",
       "name": "delete_attachment_file",
       "method": "POST",
-      "url": "{{base_url}}/json/2/api/models/resignation-letter/execute/delete_attachment_file",
+      "url": "{{base_url}}/json/2/resignation.letter/delete_attachment_file",
       "route_kind": "json2",
-      "model": "api",
-      "backend_method": "models",
-      "source": {},
+      "model": "resignation.letter",
+      "backend_method": "delete_attachment_file",
+      "source": {
+        "source": "/home/linh/vdx/hrm-package/vdx_hr_custom/models/resignation_letter.py",
+        "line": 777
+      },
       "operation": "delete",
       "variables": [
         "base_url",
-        "resignation_attachment_id",
-        "resignation_id",
         "token"
       ],
       "body_keys": [
         "attachment_id",
         "letter_id"
       ],
-      "hardcoded_ids": [],
+      "hardcoded_ids": [
+        {
+          "field": "attachment_id",
+          "value": "70068"
+        },
+        {
+          "field": "letter_id",
+          "value": "1"
+        }
+      ],
       "constraints": [
         "employee/resignation date/day-off/departure reason required",
         "employee.onboard_time must be configured before create",
         "duplicate active records rejected"
       ],
       "risks": [
+        "request contains hardcoded numeric ID; replace with isolated fixture ID before execution",
         "state-changing request; explicit execution approval required"
       ],
-      "evidence": "COLLECTION_VERIFIED",
+      "evidence": "SOURCE_VERIFIED",
       "depends_on": [
         "Authentication & System/login.bru",
         "Resignation Letter/create_or_update_resignation_letter.bru",
@@ -5936,7 +4934,7 @@
       "captures": []
     },
     {
-      "order": 146,
+      "order": 122,
       "id": "Staff Transfer/app_delete_staff_transfer.bru",
       "flow": "staff_transfer",
       "bruno_path": "Staff Transfer/app_delete_staff_transfer.bru",
@@ -5953,7 +4951,6 @@
       "operation": "delete",
       "variables": [
         "base_url",
-        "staff_transfer_id",
         "token"
       ],
       "body_keys": [

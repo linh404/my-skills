@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Create an idempotent ``resource.calendar`` fixture for HRM API runs.
 
-The script launches ``odoo-bin shell`` and executes the ORM payload in
-``configure_calendar_orm.py``.  It is a dry-run by default; pass
-``--apply`` only for an explicitly selected test database.  The fixture is
-owned by this skill, linked to the selected employee's job, and therefore
-appears in ``resource.calendar/get_infor_calendar`` for that API user.
+The script launches ``odoo-bin shell`` and commits the ORM payload in the
+explicitly selected database. The fixture is owned by this skill, linked to
+the selected employee's job, and therefore appears in
+``resource.calendar/get_infor_calendar`` for that API user.
 """
 from __future__ import annotations
 
@@ -59,11 +58,6 @@ def main() -> int:
         type=Path,
         default=Path(os.environ.get("ODOO_CONFIG", DEFAULT_CONFIG)),
     )
-    parser.add_argument(
-        "--apply",
-        action="store_true",
-        help="commit ORM changes; default is dry-run/rollback",
-    )
     args = parser.parse_args()
 
     for path, label in (
@@ -79,7 +73,7 @@ def main() -> int:
         f"calendar-config-{args.db}-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     )
     prelude = (
-        f"APPLY = {bool(args.apply)!r}\n"
+        "APPLY = True\n"
         f"USER_SELECTOR = {args.user!r}\n"
         f"CALENDAR_NAME = {args.calendar_name!r}\n"
         f"JOB_NAME = {args.job_name!r}\n"
@@ -98,7 +92,7 @@ def main() -> int:
     print(f"database: {args.db}")
     print(f"user: {args.user}")
     print(f"report: {report}")
-    print(f"mode: {'APPLY/COMMIT' if args.apply else 'DRY-RUN/ROLLBACK'}")
+    print("mode: APPLY/COMMIT")
     completed = subprocess.run(
         command,
         input=prelude + PAYLOAD.read_text(encoding="utf-8"),

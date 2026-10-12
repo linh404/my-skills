@@ -11,8 +11,8 @@ Use these defaults only when the paths exist; explicit user paths take precedenc
 | Bruno collection | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection` |
 | Custom/backend source | `/home/linh/vdx/hrm-package` |
 | Bruno runner skill | `/home/linh/Workspace/my-skills/skills/bruno-test-runner` |
-| Local environment | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/environments/KG - local.bru` |
-| Shared/test environment | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/environments/KG.bru` |
+| Local environment (host/credentials only) | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/environments/KG - local.bru` |
+| Shared/test environment (host/credentials only) | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/environments/KG.bru` |
 | Login request | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/Authentication & System/login.bru` |
 | Upload fixture placeholder | `/home/linh/Workspace/my-skills/skills/hrm-pack-api-test/collection/test-upload/placeholder.txt` |
 | Bruno CLI dependency | `@usebruno/cli@4.2.0` (`bru`) |
@@ -21,7 +21,7 @@ Use these defaults only when the paths exist; explicit user paths take precedenc
 
 - The collection currently contains 146 executable `.bru` requests after removing the obsolete Salary Payslip requests.
 - Login is expected to store an access token in secret variable `token`.
-- Environment files contain placeholders for host, database, credentials, and external API keys; values are sensitive.
+- Environment files contain placeholders for host, database, credentials, and external API keys; values are sensitive. For lifecycle execution, select the database explicitly with `--db`; never rely on an environment file's `db_name`.
 - Multipart requests may require replacing `test-upload/placeholder.txt` with an approved fixture.
 - The sequence runner passes all selected requests to one Bruno CLI process so the cookie jar and `bru.setVar` chaining remain available.
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Ensure an Odoo language (default: ``vi_VN``) is installed and active.
 
-The wrapper runs an ORM payload in an isolated Odoo shell. It is a dry-run by
-default; ``--apply`` is required before any database write. The script only
-installs/activates the requested language. It does not silently change every
-user's preferred language.
+The wrapper runs and commits an ORM payload in the explicitly selected
+database. It only installs/activates the requested language and does not
+silently change every user's preferred language.
 """
 from __future__ import annotations
 
@@ -30,7 +29,6 @@ def main() -> int:
     parser.add_argument("--odoo-bin", type=Path, default=Path(os.environ.get("ODOO_BIN", DEFAULT_ODOO_BIN)))
     parser.add_argument("--odoo-python", type=Path, default=Path(os.environ.get("ODOO_PYTHON", DEFAULT_ODOO_PYTHON)))
     parser.add_argument("--config", type=Path, default=Path(os.environ.get("ODOO_CONFIG", DEFAULT_CONFIG)))
-    parser.add_argument("--apply", action="store_true", help="commit ORM changes; default is dry-run/rollback")
     parser.add_argument("--report", type=Path, help="JSON report path")
     args = parser.parse_args()
 
@@ -45,7 +43,7 @@ def main() -> int:
     )
     payload = PAYLOAD.read_text(encoding="utf-8")
     prelude = (
-        f"APPLY = {bool(args.apply)!r}\n"
+        "APPLY = True\n"
         f"LANGUAGE_CODE = {args.language.strip()!r}\n"
         f"LANGUAGE_NAME = {args.name!r}\n"
         f"REPORT_PATH = {str(report)!r}\n"
@@ -56,7 +54,7 @@ def main() -> int:
     ]
     print(f"database: {args.db}")
     print(f"language: {args.language}")
-    print(f"mode: {'APPLY/COMMIT' if args.apply else 'DRY-RUN/ROLLBACK'}")
+    print("mode: APPLY/COMMIT")
     print(f"report: {report}")
     completed = subprocess.run(command, input=prelude + payload, text=True, capture_output=True, check=False)
     sys.stdout.write(completed.stdout)

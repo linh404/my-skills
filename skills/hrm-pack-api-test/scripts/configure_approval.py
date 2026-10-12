@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Idempotently configure the repository's dynamic approval framework.
 
-The script launches ``odoo-bin shell`` and performs ORM configuration in the
-selected database. It is a dry-run by default. Use ``--apply`` only after
-reviewing the planned changes and explicitly selecting an approver.
+The script launches ``odoo-bin shell`` and commits ORM configuration in the
+explicitly selected database.
 """
 from __future__ import annotations
 
@@ -42,7 +41,6 @@ def main() -> int:
     parser.add_argument("--odoo-bin", type=Path, default=Path(os.environ.get("ODOO_BIN", DEFAULT_ODOO_BIN)))
     parser.add_argument("--odoo-python", type=Path, default=Path(os.environ.get("ODOO_PYTHON", DEFAULT_ODOO_PYTHON)))
     parser.add_argument("--config", type=Path, default=Path(os.environ.get("ODOO_CONFIG", DEFAULT_CONFIG)))
-    parser.add_argument("--apply", action="store_true", help="commit ORM changes; default is dry-run/rollback")
     args = parser.parse_args()
 
     if not PAYLOAD.is_file():
@@ -58,7 +56,7 @@ def main() -> int:
         "/tmp/hrm-pack-api-test"
     ) / f"approval-config-{args.db}-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     prelude = (
-        f"APPLY = {bool(args.apply)!r}\n"
+        "APPLY = True\n"
         f"APPROVER_SELECTOR = {args.approver!r}\n"
         f"ORIGINATOR_SELECTOR = {(args.originator or args.approver)!r}\n"
         f"FORCE = {bool(args.force)!r}\n"
@@ -79,7 +77,7 @@ def main() -> int:
     print(f"originator: {args.originator or args.approver}")
     print(f"report: {report}")
     print(f"force: {args.force}")
-    print(f"mode: {'APPLY/COMMIT' if args.apply else 'DRY-RUN/ROLLBACK'}")
+    print("mode: APPLY/COMMIT")
     completed = subprocess.run(
         command,
         input=prelude + payload,

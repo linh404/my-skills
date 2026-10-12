@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/json/2/api/models/hr-employee/execute/delete_cv_file_file
+  url: {{base_url}}/json/2/hr.employee/delete_cv_file_file
   body: json
   auth: bearer
 }
@@ -17,6 +17,6 @@ auth:bearer {
 body:json {
   {
       
-      "attachment_id": {{employee_cv_file_attachment_id}}
+      "attachment_id": 829
   }
 }

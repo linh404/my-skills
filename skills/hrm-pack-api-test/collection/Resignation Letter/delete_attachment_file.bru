@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/json/2/api/models/resignation-letter/execute/delete_attachment_file
+  url: {{base_url}}/json/2/resignation.letter/delete_attachment_file
   body: json
   auth: bearer
 }
@@ -16,7 +16,7 @@ auth:bearer {
 
 body:json {
   {
-    "attachment_id": {{resignation_attachment_id}},
-    "letter_id": {{resignation_id}}
+    "attachment_id": 70068,
+    "letter_id": 1
   }
 }

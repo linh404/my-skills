@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Create an owned approved reward fixture for read-only report APIs.
 
-The collection exposes only read-only Reward & Discipline routes.  This
-wrapper creates the prerequisite transaction through the Odoo ORM instead of
-inventing a production API endpoint.  It is dry-run/rollback by default;
-pass ``--apply`` only for the explicitly selected test database.
+The collection exposes only read-only Reward & Discipline routes. This
+wrapper creates and commits the prerequisite transaction through the Odoo ORM
+in the explicitly selected database instead of inventing a production API
+endpoint.
 """
 from __future__ import annotations
 
@@ -54,11 +54,6 @@ def main() -> int:
         type=Path,
         default=Path(os.environ.get("ODOO_CONFIG", DEFAULT_CONFIG)),
     )
-    parser.add_argument(
-        "--apply",
-        action="store_true",
-        help="commit ORM changes; default is dry-run/rollback",
-    )
     args = parser.parse_args()
 
     for path, label in (
@@ -74,7 +69,7 @@ def main() -> int:
         f"reward-fixture-{args.db}-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     )
     prelude = (
-        f"APPLY = {bool(args.apply)!r}\n"
+        "APPLY = True\n"
         f"USER_SELECTOR = {args.user!r}\n"
         f"REWARD_TYPE_SELECTOR = {args.reward_type!r}\n"
         f"REPORT_PATH = {str(report)!r}\n"
@@ -93,7 +88,7 @@ def main() -> int:
     print(f"user: {args.user}")
     print(f"reward type: {args.reward_type or '<first active reward type>'}")
     print(f"report: {report}")
-    print(f"mode: {'APPLY/COMMIT' if args.apply else 'DRY-RUN/ROLLBACK'}")
+    print("mode: APPLY/COMMIT")
     completed = subprocess.run(
         command,
         input=prelude + PAYLOAD.read_text(encoding="utf-8"),

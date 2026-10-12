@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/json/2/api/update-device-token
+  url: {{base_url}}/json/2/hr.employee/update_device_token
   body: json
   auth: bearer
 }
@@ -16,7 +16,6 @@ auth:bearer {
 
 body:json {
   {
-      "fcm_token": "{{fcm_token}}",
-      "employee_id": 2
+      "fcm_token": "{{fcm_token}}"
   }
 }

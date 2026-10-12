@@ -3,11 +3,11 @@
 - Bruno: `Authentication & System/forgot_password.bru`
 - Flow: `authentication`
 - Operation: `mutate`
-- Endpoint: `POST {{base_url}}/json/2/app/forgot-password`
-- Backend model: `app`
-- Backend method: `forgot-password`
-- Source: unknown
-- Evidence: **COLLECTION_VERIFIED**
+- Endpoint: `POST {{base_url}}/app/forgot-password`
+- Backend model: `unresolved`
+- Backend method: `app_forgot_password`
+- Source: `/home/linh/vdx/hrm-package/vdx_hr/controllers/main.py:384`
+- Evidence: **SOURCE_VERIFIED**
 
 ## Must run after
 - none
