@@ -32,9 +32,11 @@ feature specification (FS), issue, or acceptance criteria.
 ## Implementation discipline
 
 - Inspect relevant source, existing module patterns, and tests before editing.
+- Avoid introducing implicit backend behavior, especially in `create` and `write`. Add such logic only when explicitly requested. If you judge it necessary but it was not requested, explain why and wait for the user’s confirmation before implementing it.
 - Prefer existing real fields and relations over proxy or duplicate fields.
 - Do not expand a direct field mapping into unrelated UI domains, business rules, reports, or model redesign.
 - Match actual technical values in source selections; do not filter by translated labels.
 - Add or update focused tests for changed behavior. Do not change unrelated tests or behavior.
 - For FS work, distinguish fields used for output values, user-entered filters, UI domain/validation, and fields outside scope.
+- Treat an FS as implementation guidance, not unquestionable authority. Check its requirements for consistency with the source, technical constraints, and coherent behavior. If an FS requirement is unreasonable or conflicts with those, report it to the user immediately with evidence; do not silently implement it as written.
 - When source and FS disagree, report the exact conflict and avoid silently choosing a rule unless the task authorizes that decision.
