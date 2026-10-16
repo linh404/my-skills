@@ -1,18 +1,15 @@
 ---
 name: odoo-code
-description: Code, debug, test, refactor, and review scoped Odoo changes in the SCA repository using source-first implementation rules.
+description: Code, debug, test, refactor, and review scoped Odoo changes in any Odoo project using source-first implementation rules.
 ---
 
 # Odoo Code
 
-Use this skill for coding, debugging, testing, refactoring, or code review work in:
-
-```text
-/home/linh/vdx/sca
-```
-
-The repository is an Odoo codebase. Keep changes focused on the requested module,
-FS, issue, or acceptance criteria.
+Use this skill for coding, debugging, testing, refactoring, or code review work in
+any Odoo project. Determine the active repository and project conventions from
+the user's context and the checked-out source; do not assume a fixed repository
+path or product-specific structure. Keep changes focused on the requested module,
+feature specification (FS), issue, or acceptance criteria.
 
 ## Source of truth
 
