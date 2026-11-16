@@ -45,7 +45,10 @@ into a project repo, and both must work unmodified.
 2. Weblate auth: `~/.weblate` (`[keys]` section, option name == `[weblate] url` exactly,
    url ends in `/api/`) or `WLC_URL`+`WLC_KEY`. Verify: `"$WLC" show <project>`.
    Auth is per-machine, not per-skill-copy — any Weblate server works, not a fixed one.
-3. Project slug: read `config/project.json` key `weblate_project`; fallback: ask user.
+3. Project slug: read `config/project.json` key `weblate_project` first, then a
+   slug passed in the skill arguments. If both are absent and the Odoo project
+   root is `barett-odoo-erp`, use the Weblate slug `barett-odoo-erp`; otherwise
+   ask the user.
 4. GitLab auth (only needed for step 9's `find-mr` fallback): `~/.gitlab`, `[gitlab]` section,
    one `<host-url> = <token>` line per GitLab host (matched against each component's `repo`
    host). Not checked upfront — only surfaces as an error if/when step 9 needs it.

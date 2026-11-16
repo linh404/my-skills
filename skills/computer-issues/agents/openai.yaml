@@ -1,0 +1,4 @@
+interface:
+  display_name: "Computer Issues"
+  short_description: "Record and retrieve fixes for recurring computer problems"
+  default_prompt: "Record or look up a computer issue in ~/Documents/computer-issues."

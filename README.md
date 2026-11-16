@@ -7,9 +7,21 @@ A personal collection of reusable skills for Codex and related coding workflows.
 ```text
 my-skills/
 ├── skills/
-│   ├── configure-weblate-gitlab-v2/
+│   ├── barett-automation-test/
 │   ├── bruno-test-runner/
+│   ├── codex-9router-profiles/
+│   ├── codex-vscode-cache-repair/
+│   ├── computer-issues/
+│   ├── configure-weblate-gitlab-v2/
+│   ├── facebook-room-finder/
+│   ├── flutter-wind-ui/
+│   ├── hrm-pack-api-test/
+│   ├── odoo-code/
+│   ├── odoo-commit/
+│   ├── odoo-quality-checks/
 │   ├── odoo-wlc/
+│   ├── presentation-skill/
+│   ├── ttcs-flutter-device-testing/
 │   └── uml-mdj-drawing/
 ├── scripts/
 ├── tests/
