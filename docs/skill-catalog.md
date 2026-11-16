@@ -20,6 +20,7 @@
 | `presentation-skill` | Imported from the local Codex skill collection; runtime, cache, and telemetry excluded |
 | `ttcs-flutter-device-testing` | Imported from the local Codex skill collection |
 | `uml-mdj-drawing` | Imported from the local Codex skill collection |
+| `weblate-gitlab` | Condensed from `configure-weblate-gitlab-v2` for Claude Code; includes a read-only POT/PO sync check |
 
 Additional skills can be added as directories directly under `skills/`.
 Run `scripts/inventory-skills.sh` after each import to refresh the entrypoint list.
