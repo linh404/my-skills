@@ -24,7 +24,8 @@ my-skills/
 │   ├── odoo-wlc/
 │   ├── presentation-skill/
 │   ├── ttcs-flutter-device-testing/
-│   └── uml-mdj-drawing/
+│   ├── uml-mdj-drawing/
+│   └── weblate-gitlab/
 ├── scripts/
 ├── tests/
 ├── docs/
