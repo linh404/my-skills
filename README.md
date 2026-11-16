@@ -8,6 +8,7 @@ A personal collection of reusable skills for Codex and related coding workflows.
 my-skills/
 ├── skills/
 │   ├── barett-automation-test/
+│   ├── barett-retest-dev/
 │   ├── bruno-test-runner/
 │   ├── codex-9router-profiles/
 │   ├── codex-vscode-cache-repair/
@@ -19,6 +20,7 @@ my-skills/
 │   ├── odoo-code/
 │   ├── odoo-commit/
 │   ├── odoo-quality-checks/
+│   ├── odoo-ui-guide/
 │   ├── odoo-wlc/
 │   ├── presentation-skill/
 │   ├── ttcs-flutter-device-testing/
