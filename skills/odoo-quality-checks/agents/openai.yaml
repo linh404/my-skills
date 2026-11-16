@@ -1,0 +1,3 @@
+interface:
+  display_name: "Odoo Quality Checks"
+  short_description: "Run Barett Ruff and Odoo tests"

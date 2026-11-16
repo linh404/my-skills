@@ -18,7 +18,7 @@ while IFS= read -r -d '' skill_file; do
         printf 'ERROR: %s has no recognizable heading or name field\n' "$relative_path" >&2
         errors=$((errors + 1))
     fi
-done < <(find "$SKILLS_DIR" -type f -name SKILL.md -print0 | sort -z)
+done < <(find "$SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name SKILL.md -print0 | sort -z)
 
 printf 'Validated %d skill(s).\n' "$found"
 if (( errors > 0 )); then
