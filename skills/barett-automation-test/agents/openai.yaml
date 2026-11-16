@@ -1,0 +1,3 @@
+interface:
+  display_name: "Automation Test Barett Odoo"
+  short_description: "Test the Barett Odoo project through dedicated browser automation"
